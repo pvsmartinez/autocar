@@ -7,9 +7,9 @@ var obj = {
 	__name : "user",
 	__primaryKey : "id",
 	__weak : true,
-	id : "auto:key",
-	name : "string:255",
-	age : "int"
+	id : "int(11) auto_increment",
+	name : "varchar(255)",
+	age : "int(11)"
 }
 
 var objs = [

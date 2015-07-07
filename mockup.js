@@ -14,26 +14,17 @@ var connection = mysql.createConnection({
 });
 
 connection.connect(function(err, results) {
-    if (err) {
-        console.log("ERROR: " + err.message);
-        throw err;
-    }
+    error(err);
     console.log("connected.");
     Connected();
 });
 
 Connected = function() {
     connection.query("set autocommit = 0", function(err, results) {
-        if (err) {
-            console.log("ERROR: " + err.message);
-            throw err;
-        }
+        error(err)
     });
     connection.query("set foreign_key_checks = 0", function(err, results) {
-        if (err) {
-            console.log("ERROR: " + err.message);
-            throw err;
-        }
+        error(err);
         console.log("mockup starting...");
         populate();
     });
@@ -47,22 +38,13 @@ populate = function() {
         model = require("./models/" + name);
         entity = model.ent();
         objs = model.populate();
-        if (entity.__weak) {
-            connection.query("truncate " + entity.__name, function(err, results) {
-                if (err && err.number != connection.ERROR_TABLE_EXISTS_ERROR) {
-                    console.log("ERROR: " + err.message);
-                    throw err;
-                }
-                console.log(entity.__name + " entity ready for populating");
-            });
-        }
-        
+        connection.query("truncate " + entity.__name, function(err, results) {
+            error(err);
+            console.log(entity.__name + " entity ready for populating");
+        });
         objs.forEach(function(obj) {
             connection.query(createRow(entity.__name, obj), function(err, results) {
-                if (err && err.number != connection.ERROR_TABLE_EXISTS_ERROR) {
-                    console.log("ERROR: " + err.message);
-                    throw err;
-                }
+                error(err);
                 console.log("1 row inserted");
             });
         });
@@ -74,16 +56,10 @@ populate = function() {
 
 finish = function() {
     connection.query("set foreign_key_checks = 1", function(err, results) {
-        if (err) {
-            console.log("ERROR: " + err.message);
-            throw err;
-        }
+        error(err);
     });
     connection.query("commit", function(err, results) {
-        if (err) {
-            console.log("ERROR: " + err.message);
-            throw err;
-        }
+        error(err);
         console.log("mockup concluido!");
     });
     connection.end();
@@ -111,3 +87,10 @@ createRow = function(entity, obj) {
     console.log(row);
     return row;
 }
+
+error = function(err) {
+    if (err) {
+        console.log("ERROR: " + err.message);
+        throw err;
+    }
+};

@@ -4,10 +4,10 @@ Projeto de Labsoft - 2015
 ---------------------
 Grupo:
 ---------------------
-Eduardo Levy		- xxxxxxx
-Filipe Arena		- xxxxxxx
-Mayer Levy			- xxxxxxx
-Pedro Martinez		- 7630826
+Eduardo Levy
+Filipe Arena
+Mayer Levy
+Pedro Martinez
 
 ---------------------
 Como rodar o sistema:
