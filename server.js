@@ -1,6 +1,6 @@
 // server.js
 
-// requirements ========================
+// requirements ================================================================
 console.log("node: starting...");
 var express = require('express');
 var app = express(); // create our app w/ express
@@ -11,7 +11,7 @@ var mysql = require('mysql');
 var router = require('./router.js');
 var port = 8080;
 
-// mysql configuration =================
+// mysql configuration =========================================================
 console.log("mySQL: connecting...");
 var connection = mysql.createConnection({
     host: 'localhost',
@@ -22,20 +22,12 @@ var connection = mysql.createConnection({
 connection.connect();
 console.log("mySQL: connected!");
 
-// backend to frontend configuration
+// backend to frontend configuration ===========================================
 console.log("express: configuring...");
 app.set('views', __dirname + '/public/views/pages');
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public')); // set the static files location /public/img will be /img for users
 app.use(morgan('dev')); // log every request to the console
-// app.use(bodyParser.urlencoded({
-//     'extended': 'true'
-// })); // parse application/x-www-form-urlencoded
-// app.use(bodyParser.json()); // parse application/json
-// app.use(bodyParser.json({
-//     type: 'application/vnd.api+json'
-// })); // parse application/vnd.api+json as json
-// app.use(methodOverride());
 console.log("express: configured!");
 
 // routes ======================================================================
@@ -48,4 +40,4 @@ console.log("node: opening port...");
 app.listen(port);
 console.log("node: listening on port " + port);
 
-// pronto! está rodando
+// pronto! está rodando ========================================================
