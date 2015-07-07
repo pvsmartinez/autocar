@@ -108,5 +108,6 @@ createRow = function(entity, obj) {
     });
     row = row.slice(0, -1) + ")";
 
+    console.log(row);
     return row;
 }

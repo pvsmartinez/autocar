@@ -63,27 +63,11 @@ createTable = function(entity) {
     for (var field in entity) {
         if (entity.hasOwnProperty(field) && field.indexOf("__") === -1) {
             query += field + ' ';
-            query += getType(entity[field]) + ', ';
+            query += entity[field] + ', ';
         }
     }
     query += 'primary key (' + entity['__primaryKey'] + '))';
 
+    console.log(query);
     return query;
-
-    function getType(data) {
-        var tp;
-        data = data.split(":");
-        switch (data[0]) {
-            case 'auto':
-                tp = 'INT(11) AUTO_INCREMENT';
-                break;
-            case 'string':
-                tp = 'varchar(' + data[1] + ')';
-                break;
-            case 'int':
-                tp = 'integer';
-                break;
-        }
-        return tp;
-    }
 };
