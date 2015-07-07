@@ -35,13 +35,10 @@ Connected = function() {
 }
 
 populate = function() {
-    var model;
-    var entity;
-    var objs;
     fileModels.forEach(function(name) {
-        model = require("./models/" + name);
-        entity = model.ent();
-        objs = model.populate();
+        var model = require("./models/" + name);
+        var entity = model.ent();
+        var objs = model.populate();
         text += "truncate " + entity.__name + ";\n";
         connection.query("truncate " + entity.__name, function(err, results) {
             error(err);

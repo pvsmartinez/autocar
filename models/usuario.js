@@ -16,6 +16,7 @@ var obj = {
 }
 
 var objs = [
+	{email: "teste@usp.br", senha : "123456", nome : "teste", telefone : "12345678"}
 ];
 
 function ent() {
