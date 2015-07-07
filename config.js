@@ -17,44 +17,40 @@ var connection = mysql.createConnection({
 var foreingKeys = [];
 
 connection.connect(function(err, results) {
-    if (err) {
-        console.log("ERROR: " + err.message);
-        throw err;
-    }
+    error(err);
     console.log("connected.");
-    Connected();
+    removeDb();
 });
 
-Connected = function() {
-    connection.query('create database if not exists autocar', function(err, results) {
-        if (err && err.number != connection.ERROR_DB_CREATE_EXISTS) {
-            console.log("ERROR: " + err.message);
-            throw err;
-        }
+removeDb = function() {
+    connection.query('drop database if exists autocar', function(err, results) {
+        error(err);
+        console.log("database deleted.");
+        createDb();
+    });
+}
+
+createDb = function() {
+    connection.query('create database autocar', function(err, results) {
+        error(err);
         console.log("database created OR already exists.");
-        dbCreated();
+        useDb();
     });
 };
-dbCreated = function() {
+useDb = function() {
     connection.query('use autocar', function(err, results) {
-        if (err) {
-            console.log("ERROR: " + err.message);
-            throw err;
-        }
+        error(err);
         console.log("database connected");
-        useOk();
+        createTables();
     });
 };
-useOk = function() {
+createTables = function() {
     var entity;
     fileModels.forEach(function(name) {
 		entity = require("./models/" + name).ent();
         console.log(entity.__name + " entity loaded");
         connection.query(createTable(entity), function(err, results) {
-            if (err && err.number != connection.ERROR_TABLE_EXISTS_ERROR) {
-                console.log("ERROR: " + err.message);
-                throw err;
-            }
+            error(err);
             console.log("table " + entity.__name + " ready");
         });
     });
@@ -101,4 +97,11 @@ makeForeingKeys = function(table,fk) {
      var query = "ALTER TABLE " + table + " " + fk;
      console.log(query);
      return query;
+};
+
+error = function(err) {
+    if (err) {
+        console.log("ERROR: " + err.message);
+        throw err;
+    }
 };
