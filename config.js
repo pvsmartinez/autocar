@@ -5,6 +5,7 @@ var mysql = require('mysql');
 var fs = require('fs');
 var pathModels = require("path").join(__dirname, "models");
 var fileModels = fs.readdirSync(pathModels);
+var text;
 
 // connect
 console.log("connecting...");
@@ -23,47 +24,50 @@ connection.connect(function(err, results) {
 });
 
 removeDb = function() {
+    text = 'drop database if exists autocar;\n';
     connection.query('drop database if exists autocar', function(err, results) {
         error(err);
-        console.log("database deleted.");
+        console.log("database deleted...");
         createDb();
     });
 }
 
 createDb = function() {
+    text += 'create database autocar;\n';
     connection.query('create database autocar', function(err, results) {
         error(err);
-        console.log("database created OR already exists.");
+        console.log("database created...");
         useDb();
     });
 };
 useDb = function() {
+    text += 'use autocar;\n';
     connection.query('use autocar', function(err, results) {
         error(err);
-        console.log("database connected");
+        console.log("database connected!");
         createTables();
     });
 };
 createTables = function() {
     var entity;
     fileModels.forEach(function(name) {
-		entity = require("./models/" + name).ent();
+        entity = require("./models/" + name).ent();
         console.log(entity.__name + " entity loaded");
         connection.query(createTable(entity), function(err, results) {
             error(err);
-            console.log("table " + entity.__name + " ready");
         });
     });
     for (var tb in foreingKeys) {
-        connection.query(makeForeingKeys(tb,foreingKeys[tb]), function(err, results) {
-            if (err) {
-                console.log("ERROR: " + err.message);
-                throw err;
-            }
-            console.log("foreign keys for " + tb + " created");
+        connection.query(makeForeingKeys(tb, foreingKeys[tb]), function(err, results) {
+            error(err);
         });
     }
     connection.end();
+    console.log("writing sql file...");
+    fs.writeFile("config.sql", text, function(err) {
+        error(err);
+        console.log("sql file complete!");
+    });
 };
 createTable = function(entity) {
     var query = "CREATE TABLE " + entity.__name + '(';
@@ -81,22 +85,23 @@ createTable = function(entity) {
                 match = regEx.exec(entity["__foreignKeys"][fk]);
                 foreingKeys[entity.__name] += "ADD INDEX " + match[0] + ",";
                 foreingKeys[entity.__name] += "ADD FOREIGN KEY ";
-                foreingKeys[entity.__name] += entity["__foreignKeys"][fk] + ','; 
+                foreingKeys[entity.__name] += entity["__foreignKeys"][fk] + ',';
             }
-            
         }
         foreingKeys[entity.__name] = foreingKeys[entity.__name].slice(0, -1);
     }
     query += 'primary key (' + entity['__primaryKey'] + '))';
 
     console.log(query);
+    text += query + ';\n';
     return query;
 };
 
-makeForeingKeys = function(table,fk) {
-     var query = "ALTER TABLE " + table + " " + fk;
-     console.log(query);
-     return query;
+makeForeingKeys = function(table, fk) {
+    var query = "ALTER TABLE " + table + " " + fk;
+    console.log(query);
+    text += query + ';\n';
+    return query;
 };
 
 error = function(err) {
