@@ -1,7 +1,8 @@
 module.exports = {
 	findById : findById,
 	createUser : createUser,
-	countByEmailAndPassword : countByEmailAndPassword
+	countByEmailAndPassword : countByEmailAndPassword,
+	findByEmailAndPassword : findByEmailAndPassword
 }
 
 
@@ -15,4 +16,8 @@ function createUser(email, senha, nome, telefone, permissao, especialidade) {
 
 function countByEmailAndPassword(email, senha) {
 	return "select count(*) from usuario where email = '"+email+"' and senha = '"+senha+"'";
+}
+
+function findByEmailAndPassword(email, senha) {
+	return "select id from usuario where email = '" + email + "' and senha = '"+ senha;
 }
