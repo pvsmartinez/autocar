@@ -4,6 +4,8 @@
 console.log("node: starting...");
 var express = require('express');
 global.app = express(); // create our app w/ express
+var session = require('express-session');
+var bodyParser = require('body-parser')
 var morgan = require('morgan'); // log requests to the console (express4)
 var bodyParser = require('body-parser'); // pull information from HTML POST (express4)
 var methodOverride = require('method-override'); // simulate DELETE and PUT (express4)
@@ -36,6 +38,11 @@ global.app.set('views', __dirname + '/public/views/pages');
 global.app.set('view engine', 'ejs');
 global.app.use(express.static(__dirname + '/public')); // set the static files location /public/img will be /img for users
 global.app.use(morgan('dev')); // log every request to the console
+global.app.use( bodyParser.json() );       // to support JSON-encoded bodies
+global.app.use( bodyParser.urlencoded({     // to support URL-encoded bodies
+  extended: true
+})); 
+global.app.use(session({secret:'autocarsecret',saveUninitialized:false,resave:false}));
 console.log("express: configured!");
 
 // routes ======================================================================
