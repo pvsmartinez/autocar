@@ -4,9 +4,16 @@ module.exports = {
 
 function map() {
 	// index page 
+
     global.app.get('/', function(req, res) {
 
             res.render('index');
+
+    });
+
+    global.app.post('/', function(req, res) {
+
+            res.render('index', {errorMsg: req.body.errorMsg});
 
     });
 
