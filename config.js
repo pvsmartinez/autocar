@@ -14,6 +14,8 @@ var connection = mysql.createConnection({
     password: 'root'
 });
 
+var foreingKeys = [];
+
 connection.connect(function(err, results) {
     if (err) {
         console.log("ERROR: " + err.message);
@@ -54,9 +56,18 @@ useOk = function() {
                 throw err;
             }
             console.log("table " + entity.__name + " ready");
-            connection.end();
         });
     });
+    for (var tb in foreingKeys) {
+        connection.query(makeForeingKeys(tb,foreingKeys[tb]), function(err, results) {
+            if (err) {
+                console.log("ERROR: " + err.message);
+                throw err;
+            }
+            console.log("foreign keys for " + tb + " created");
+        });
+    }
+    connection.end();
 };
 createTable = function(entity) {
     var query = "CREATE TABLE " + entity.__name + '(';
@@ -66,8 +77,28 @@ createTable = function(entity) {
             query += entity[field] + ', ';
         }
     }
+    var regEx = new RegExp(/\((\w*)\)\s/);
+    if (entity.hasOwnProperty("__foreignKeys")) {
+        foreingKeys[entity.__name] = "";
+        for (var fk in entity["__foreignKeys"]) {
+            if (entity["__foreignKeys"].hasOwnProperty(fk)) {
+                match = regEx.exec(entity["__foreignKeys"][fk]);
+                foreingKeys[entity.__name] += "ADD INDEX " + match[0] + ",";
+                foreingKeys[entity.__name] += "ADD FOREIGN KEY ";
+                foreingKeys[entity.__name] += entity["__foreignKeys"][fk] + ','; 
+            }
+            
+        }
+        foreingKeys[entity.__name] = foreingKeys[entity.__name].slice(0, -1);
+    }
     query += 'primary key (' + entity['__primaryKey'] + '))';
 
     console.log(query);
     return query;
+};
+
+makeForeingKeys = function(table,fk) {
+     var query = "ALTER TABLE " + table + " " + fk;
+     console.log(query);
+     return query;
 };
