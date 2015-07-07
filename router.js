@@ -22,17 +22,7 @@ function map(app, db) {
     // index page 
     app.get('/', function(req, res) {
     
-        db.query(services.user.getAll(), function(err, rows) {
-            if (err) {
-                console.log("ERROR: " + err.message);
-                throw err;
-            }
-            //return rows;
-            res.render('index', {
-                users: rows
-            });
-        });
-
+            res.render('index');
 
     });
 
