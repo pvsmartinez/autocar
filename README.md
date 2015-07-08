@@ -12,7 +12,7 @@ Pedro Martinez
 ---------------------
 Como rodar o sistema:
 ---------------------
-1 - Instalar o Node (https://nodejs.org/)
+1 - Instalar o Node (https://nodejs.org/)\n
 2 - Instalar um servidor mysql (sugerimos o mamp - https://www.mamp.info/en/)
 3 - Entrar na pasta do projeto
 4 - $ npm install
