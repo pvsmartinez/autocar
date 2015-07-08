@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+</head>
+<body class="container">
+<main>
+    <div class="row">
+        <div class="col-sm-6 col-md-4 col-md-offset-4">
+            <div class="account-wall">
+                <h1 class="text-center login-title">Preencha os campos abaixo:</h1>
+                <form class="form-signin">
+                <!--<form class="form-signin" method="post" action="/signUp">-->
+                    <input type="text" class="form-control" placeholder="Nome" name="nome" required autofocus>
+                    <!--<input type="password" class="form-control" placeholder="Telefone" name="telefone" required>-->
+                    <br>
+                    <input type="text" class="form-control" placeholder="E-mail" name="email" required>
+                    <br>
+                    <input type="password" class="form-control" placeholder="Senha" name="senha" required>
+                    <br>
+                    <!--CRIAR METODO DE CADASTRO APOS CLIQUE DE BOTAO-->
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">
+                        Cadastrar
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

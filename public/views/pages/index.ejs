@@ -14,11 +14,9 @@
 
             <div class="account-wall">
                 <h1 class="text-center login-title">Bem-Vindo ao AutoCar</h1>
-                <div class="text-center">
-                    <i class="fa fa-sign-in fa-4x"></i>
-                </div>
                 <form class="form-signin" method="post" action="/login">
                     <input type="text" class="form-control" placeholder="E-mail" name="email" required autofocus>
+                    <br>
                     <input type="password" class="form-control" placeholder="Senha" name="senha" required>
                     <br>
                     <div class="alert alert-danger" role="alert" style="display:<%= (typeof errorMsg !== 'undefined' && errorMsg) ? "block" : "none" %>">
@@ -26,12 +24,10 @@
                       <span class="sr-only">Error:</span>
                       <%= (typeof errorMsg !== 'undefined' && errorMsg) ? errorMsg : "" %>
                     </div>
-                    <br>
                     <button class="btn btn-lg btn-primary btn-block" type="submit">
                         Entrar
                     </button>
-
-                    <a href="#" class="text-center new-account">Crie sua conta </a>
+                    <a href="/cadastro" class="text-center new-account">Crie sua conta </a>
                 </form>
             </div>
         </div>

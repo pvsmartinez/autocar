@@ -11,6 +11,7 @@ CREATE TABLE os_x_tipo_de_servico(os_id int(11), tipo_id int(11), primary key (o
 CREATE TABLE peca(id int(11) auto_increment, valor decimal(6,2), nome varchar(100), quantidade_em_estoque int(10) default 0, primary key (id));
 CREATE TABLE revisao(id int(11) auto_increment, preco decimal(6,2), modelo int(1) not null, quilometragem int(10) default 0, primary key (id));
 CREATE TABLE revisao_x_peca(revisao_id int(11), peca_id int(11), primary key (revisao_id, peca_id));
+CREATE TABLE teste(id int (11), client_id int (11), primary key (id));
 CREATE TABLE tipo_de_servico(id int(11) auto_increment, nome varchar(50), preco decimal(6,2), primary key (id));
 CREATE TABLE usuario(id int(11) auto_increment, email varchar(255) unique not null, senha varchar(255) not null, nome varchar(255) not null, telefone varchar(255), permissao int(1) not null default 0, especialidade int(2) null, primary key (id));
 ALTER TABLE atendimento ADD INDEX (horario_id) ,ADD FOREIGN KEY (horario_id) REFERENCES horario_atendimento(id),ADD INDEX (automovel_id) ,ADD FOREIGN KEY (automovel_id) REFERENCES automovel(id);
