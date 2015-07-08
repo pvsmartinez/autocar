@@ -19,10 +19,5 @@ function map() {
             }
         });
     });
-
-    global.app.get('/cadastro', function(req, res) {
-        res.render('cadastro');
-    });
-
     
 }
