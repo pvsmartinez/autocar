@@ -25,15 +25,15 @@
   * server.js 			// conecta ao servidor mySQL e gera o servidor localhost:8080
   * tests.js 			// realiza os testes do backend para controle de qualidade
   * models/
-    * <entity>.js 		// define uma classe do banco de dados
+   * entity.js 		// define uma classe do banco de dados
   * services/
-    * <dao>.js 		// define um DAO (Objeto de manipulação do bd)
+   * dao.js 		// define um DAO (Objeto de manipulação do bd)
   * controller/
-    * <router>.js 		// mapeia todas as rotas do sistema
+   * router.js 		// mapeia todas as rotas do sistema
   * public/
-    * views/
-      * <view>.jade 	// view escrita em jade que será compilada e convertida em html
-    * css/
-      * styles.css 	// css customizado do próprio sistema
-    * libs/
-    * <lib>/		// libs que forem necessárias, como bootstrap
+   * views/
+    * view.jade 	// view escrita em jade que será compilada e convertida em html
+   * css/
+    * styles.css 	// css customizado do próprio sistema
+   * libs/
+    * lib/		// libs que forem necessárias, como bootstrap
