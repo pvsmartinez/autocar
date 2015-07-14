@@ -19,5 +19,9 @@ function map() {
             }
         });
     });
-    
+
+    global.app.post('/logout', function (req, res) {
+        req.session.destroy();
+        res.redirect('/');
+    });
 }

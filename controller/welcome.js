@@ -15,7 +15,7 @@ function map() {
 function checkAuth(req, res, next) {
   console.log(req.session);
   if (!req.session.user_id) {
-    res.send('You are not authorized to view this page');
+    res.redirect('/');
   } else {
     next();
   }
