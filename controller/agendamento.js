@@ -12,7 +12,7 @@ function map() {
     	var post = req.body;
         global.db.query(global.services.atendimento.getAllHours(post.date), function(err, rows) {
         	global.error(err);
-        	return rows;
+        	res.send(rows);
         });
     });
 }
