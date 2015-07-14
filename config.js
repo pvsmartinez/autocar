@@ -92,14 +92,12 @@ createTable = function(entity) {
     }
     query += 'primary key (' + entity['__primaryKey'] + '))';
 
-    console.log(query);
     text += query + ';\n';
     return query;
 };
 
 makeForeingKeys = function(table, fk) {
     var query = "ALTER TABLE " + table + " " + fk;
-    console.log(query);
     text += query + ';\n';
     return query;
 };

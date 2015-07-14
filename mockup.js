@@ -93,7 +93,6 @@ createRow = function(entity, obj) {
     });
     row = row.slice(0, -1) + ")";
 
-    console.log(row);
     text += row + ";\n";
     return row;
 }
