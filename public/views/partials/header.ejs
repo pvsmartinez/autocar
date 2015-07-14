@@ -6,7 +6,8 @@
         <button class="btn btn-primary logout" type="submit">Logout</button>
     </form>
     <ul class="pull-right">
-        <li><a href="/tela1">Tela1</a></li>
+        <li><a href="/home">Home</a></li>
+        <li><a href="/agendamento">Agendamento</a></li>
         <li><a href="/tela2">Tela2</a></li>
         <li><a href="/tela3">Tela3</a></li>
         <li><a href="/tela4">Tela4</a></li>
@@ -15,3 +16,14 @@
         <li><a href="/tela7">Tela7</a></li>
     </ul>
 </nav>
+<script>
+    $(function () {
+        var url = window.location.pathname,
+                urlRegExp = new RegExp(url.replace(/\/$/, '') + "$");
+        $('a').each(function () {
+            if (urlRegExp.test(this.href.replace(/\/$/, ''))) {
+                $(this).addClass('active');
+            }
+        });
+    });
+</script>
