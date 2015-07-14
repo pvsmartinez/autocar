@@ -40,6 +40,10 @@ global.app.use(bodyParser.json()); // to support JSON-encoded bodies
 global.app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
     extended: true
 }));
+global.app.use(methodOverride());
+global.app.use(logErrors);
+global.app.use(clientErrorHandler);
+global.app.use(errorHandler);
 global.app.use(session({
     secret: 'autocarsecret',
     saveUninitialized: false,
@@ -47,21 +51,48 @@ global.app.use(session({
 }));
 console.log("express: configured!");
 
-global.checkAuth = function (roles) {
-  return function(req, res, next) {
-    console.log(req.session);
-    if (req.session.user_id && roles.indexOf(req.session.user_permission) > -1) {
-      next();
-    } else {
-      res.redirect('/');
+// checkAuth function
+global.checkAuth = function(roles) {
+    return function(req, res, next) {
+        console.log(req.session);
+        if (req.session.user_id && roles.indexOf(req.session.user_permission) > -1) {
+            next();
+        } else {
+            res.redirect('/');
+        }
     }
-  }
+}
+
+// errors
+function logErrors(err, req, res, next) {
+    console.error(err.stack);
+    next(err);
+}
+
+function clientErrorHandler(err, req, res, next) {
+    if (req.xhr) {
+        res.status(500).send({
+            error: 'Something blew up!'
+        });
+    } else {
+        next(err);
+    }
+}
+
+function errorHandler(err, req, res, next) {
+    res.status(500);
+    res.render('error', {
+        error: err
+    });
 }
 
 // routes ======================================================================
 console.log("express: routing...");
 fileRoutes.forEach(function(name) {
     require("./controller/" + name).map();
+});
+app.get('*', function(req, res) {
+    res.render('404');
 });
 console.log("express: routed!");
 

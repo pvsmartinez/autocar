@@ -1,21 +1,29 @@
-<nav class="navbar navbar-default" role="navigation">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">
-            </a>
-        </div>
-        <ul class="nav navbar-nav">
-            <li><a href="/">Home</a></li>
-            <li><a href="/tela1">Tela1</a></li>
-            <li><a href="/tela2">Tela2</a></li>
-            <li><a href="/tela3">Tela3</a></li>
-            <li><a href="/tela4">Tela4</a></li>
-            <li><a href="/tela5">Tela5</a></li>
-            <li><a href="/tela6">Tela6</a></li>
-            <li><a href="/tela7">Tela7</a></li>
-        </ul>
-        <form class="pull-right" action="/logout" method="post">
-            <button class="btn btn-primary logout" type="submit">Logout</button>
-        </form>
-    </div>
+<nav id="header" class="bg-blue">
+    <a class="logo" href="/">
+        AutoCar
+    </a>
+    <form class="pull-right" action="/logout" method="post">
+        <button class="btn btn-primary logout" type="submit">Logout</button>
+    </form>
+    <ul class="pull-right">
+        <li><a href="/home">Home</a></li>
+        <li><a href="/agendamento">Agendamento</a></li>
+        <li><a href="/tela2">Tela2</a></li>
+        <li><a href="/tela3">Tela3</a></li>
+        <li><a href="/tela4">Tela4</a></li>
+        <li><a href="/tela5">Tela5</a></li>
+        <li><a href="/tela6">Tela6</a></li>
+        <li><a href="/tela7">Tela7</a></li>
+    </ul>
 </nav>
+<script>
+    $(function () {
+        var url = window.location.pathname,
+                urlRegExp = new RegExp(url.replace(/\/$/, '') + "$");
+        $('a').each(function () {
+            if (urlRegExp.test(this.href.replace(/\/$/, ''))) {
+                $(this).addClass('active');
+            }
+        });
+    });
+</script>

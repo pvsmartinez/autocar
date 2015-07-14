@@ -11,8 +11,8 @@ function map() {
         res.render('homeLogada')
     });
 
-    global.app.get('/tela1', global.checkAuth([0,1,2,3,4]), function (req, res) {
-            res.render('tela1');
+    global.app.get('/agendamento', global.checkAuth([0,1,2,3,4]), function (req, res) {
+            res.render('agendamento');
     });
 
     global.app.get('/tela2', global.checkAuth([0,1,2,3,4]), function (req, res) {

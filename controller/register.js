@@ -9,9 +9,7 @@ function map() {
         global.db.query(global.services.usuario.register(post.nome, post.email, post.senha, post.telefone, post.endereco), function(err, rows) {
             if (err) {
                 erro = err.errno == 1062?'Email já cadastrado':'Ocorreu um erro inesperado.';
-                if (err.errno == 1062) {
-                    res.render('cadastro', {locals: {erro: erro}});
-                }
+                res.render('cadastro', {locals: {erro: erro}});
             } else if (rows.length !== 0) {
                 console.log(rows);
                 req.session.user_id = rows.insertId;
