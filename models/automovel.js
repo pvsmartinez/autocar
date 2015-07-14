@@ -17,6 +17,9 @@ var obj = {
 }
 
 var objs = [
+	{cliente_id : '0', placa : 'EMD 2790', renavan : '213123123', modelo:'renault logan', ano:'2010', quilometragem:'10000'},
+	{cliente_id : '0', placa : 'MBM 1234', renavan : '213123123', modelo:'renault logan', ano:'2011', quilometragem:'10000'},
+	{cliente_id : '0', placa : 'VSF 0000', renavan : '213123123', modelo:'renault logan', ano:'2004', quilometragem:'10000'},
 ];
 
 function ent() {

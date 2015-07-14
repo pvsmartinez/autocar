@@ -11,16 +11,17 @@ var obj = {
 	senha : "varchar(255) not null",
 	nome : "varchar(255) not null",
 	telefone : "varchar(255)",
+	endereco : "varchar(255)",
 	permissao : "int(1) not null default 0",
 	especialidade : "int(2) null"
 }
 
 var objs = [
-	{email: "cliente@usp.br", senha : "1234", nome : "cliente", telefone : "12345678", permissao :"0"},
-	{email: "atendente@usp.br", senha : "1234", nome : "atendente", telefone : "12345678", permissao :"1"},
-	{email: "tecnico@usp.br", senha : "1234", nome : "tecnico", telefone : "12345678", permissao :"2"},
-	{email: "mecanico@usp.br", senha : "1234", nome : "mecanico", telefone : "12345678", permissao :"3"},
-	{email: "administrador@usp.br", senha : "1234", nome : "administrador", telefone : "12345678", permissao :"4"}
+	{email: "cliente@usp.br", senha : "1234", nome : "cliente", telefone : "12345678", endereco : "Av Luciano Gualberto, 123", permissao :"0"},
+	{email: "atendente@usp.br", senha : "1234", nome : "atendente", telefone : "12345678", endereco : "Av Luciano Gualberto, 123", permissao :"1"},
+	{email: "tecnico@usp.br", senha : "1234", nome : "tecnico", telefone : "12345678", endereco : "Av Luciano Gualberto, 123", permissao :"2"},
+	{email: "mecanico@usp.br", senha : "1234", nome : "mecanico", telefone : "12345678", endereco : "Av Luciano Gualberto, 123", permissao :"3"},
+	{email: "administrador@usp.br", senha : "1234", nome : "administrador", telefone : "12345678", endereco : "Av Luciano Gualberto, 123", permissao :"4"}
 ];
 
 function ent() {
