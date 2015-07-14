@@ -4,10 +4,15 @@ module.exports = {
 
 function map() {
 	// index page 
+    global.app.get('/agendamento', global.checkAuth([0, 1, 2, 3, 4]), function(req, res) {
+        res.render('agendamento');
+    });
 
-    global.app.get('/agendamento', global.checkAuth, function(req, res) {
-
-            //res.send('if you are viewing this page it means you are logged in');
-            res.render('agendamento')
+    global.app.post('/api/horarios-de-atendimento', global.checkAuth([0, 1, 2, 3, 4]), function(req, res) {
+    	var post = req.body;
+        global.db.query(global.services.atendimento.getAllHours(post.date), function(err, rows) {
+        	global.error(err);
+        	return rows;
+        });
     });
 }

@@ -16,7 +16,11 @@ var obj = {
 }
 
 var objs = [
-	{email: "teste@usp.br", senha : "123456", nome : "teste", telefone : "12345678"}
+	{email: "cliente@usp.br", senha : "1234", nome : "cliente", telefone : "12345678", permissao :"0"},
+	{email: "atendente@usp.br", senha : "1234", nome : "atendente", telefone : "12345678", permissao :"1"},
+	{email: "tecnico@usp.br", senha : "1234", nome : "tecnico", telefone : "12345678", permissao :"2"},
+	{email: "mecanico@usp.br", senha : "1234", nome : "mecanico", telefone : "12345678", permissao :"3"},
+	{email: "administrador@usp.br", senha : "1234", nome : "administrador", telefone : "12345678", permissao :"4"}
 ];
 
 function ent() {
@@ -26,3 +30,12 @@ function ent() {
 function populate() {
 	return objs;
 }
+
+/*
+======================= PERMISSÕES =======================
+0 - CLIENTE
+1 - ATENDENTE
+2 - TECNICO
+3 - MECANICO
+4 - ADMINISTRADOR
+*/

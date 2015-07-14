@@ -7,9 +7,9 @@ var obj = {
 	__name : "atendimento",
 	__primaryKey : "id",
 	id : "int(11) auto_increment",
-	horario_id : "int(11)",
+	horario : "datetime",
 	automovel_id : "int(11)",
-	__foreignKeys : ["(horario_id) REFERENCES horario_atendimento(id)", "(automovel_id) REFERENCES automovel(id)"]
+	__foreignKeys : ["(automovel_id) REFERENCES automovel(id)"]
 }
 
 var objs = [

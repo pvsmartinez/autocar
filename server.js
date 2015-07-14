@@ -1,5 +1,3 @@
-// server.js
-
 // requirements ================================================================
 console.log("node: starting...");
 var express = require('express');
@@ -27,7 +25,7 @@ global.db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: 'root',
-    database : 'autocar'
+    database: 'autocar'
 });
 global.db.connect();
 console.log("mySQL: connected!");
@@ -38,22 +36,26 @@ global.app.set('views', __dirname + '/public/views/pages');
 global.app.set('view engine', 'ejs');
 global.app.use(express.static(__dirname + '/public')); // set the static files location /public/img will be /img for users
 global.app.use(morgan('dev')); // log every request to the console
-global.app.use( bodyParser.json() );       // to support JSON-encoded bodies
-global.app.use( bodyParser.urlencoded({     // to support URL-encoded bodies
-  extended: true
-})); 
-global.app.use(session({secret:'autocarsecret',saveUninitialized:false,resave:false}));
+global.app.use(bodyParser.json()); // to support JSON-encoded bodies
+global.app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
+    extended: true
+}));
+global.app.use(session({
+    secret: 'autocarsecret',
+    saveUninitialized: false,
+    resave: false
+}));
 console.log("express: configured!");
 
-global.checkAuth = function(req, res, next) {
-
-  console.log(req.session);
-  if (!req.session.user_id) {
-    res.redirect('/');
-  } else {
-    next();
+global.checkAuth = function (roles) {
+  return function(req, res, next) {
+    console.log(req.session);
+    if (req.session.user_id && roles.indexOf(req.session.user_permission) > -1) {
+      next();
+    } else {
+      res.redirect('/');
+    }
   }
-
 }
 
 // routes ======================================================================
