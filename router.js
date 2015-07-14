@@ -16,17 +16,17 @@ function map(app, db) {
     // load the single view file (angular will handle the page changes on the front-end)
     // for spa and angular
     // app.get('*', function(req, res) {
-    // 		res.sendfile('./public/index.html'); 
+    // 		res.sendfile('./public/index.html');
     // });
 
-    // index page 
+    // index page
     app.get('/', function(req, res) {
-    
+
             res.render('index');
 
     });
 
-    // about page 
+    // about page
     app.get('/about', function(req, res) {
         res.render('about');
     });
