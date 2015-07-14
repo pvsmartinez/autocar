@@ -18,11 +18,17 @@
                     <br>
                     <input type="password" class="form-control" placeholder="Senha" name="senha" required>
                     <br>
-                    <!--CRIAR METODO DE CADASTRO APOS CLIQUE DE BOTAO-->
+                    <input type="text" class="form-control" placeholder="Telefone" name="telefone" required>
+                    <br>
+                    <input type="text" class="form-control" placeholder="Endereço" name="endereco" required>
+                    <br>
                     <button class="btn btn-lg btn-primary btn-block" type="submit">
                         Cadastrar
                     </button>
                 </form>
+                <%if (locals.erro) { %>
+                    <div><%=locals.erro %></div>
+                <%}%>
             </div>
         </div>
     </div>

@@ -23,6 +23,6 @@ function findByEmailAndPassword(email, senha) {
 	return "select id, permissao from usuario where email = '" + email + "' and senha = '"+ senha + "'";
 }
 
-function register(nome, email, senha) {
-	return "insert into usuario (nome, email, senha) values ('"+nome+"', '"+email+"', '"+senha+"')";
+function register(nome, email, senha, telefone, endereco) {
+	return "insert into usuario (nome, email, senha, telefone, endereco) values ('"+nome+"', '"+email+"', '"+senha+"', '"+telefone+"', '"+endereco+"')";
 }
