@@ -1,9 +1,7 @@
 module.exports = {
 	findById : findById,
-	createUser : createUser,
-	countByEmailAndPassword : countByEmailAndPassword,
-	findByEmailAndPassword : findByEmailAndPassword,
-	register : register
+	createAtendimento : createAtendimento,
+	getAllHours : getAllHours
 }
 
 
@@ -15,6 +13,6 @@ function createAtendimento() {
 	return "insert into atendimento () values ()";
 }
 
-function getAllHours() {
-	return ""
+function getAllHours(data) {
+	return "select horario from atendimento where horario >= '" + data + " 00:00:00' and horario < '" + data + " 23:59:59'"
 }

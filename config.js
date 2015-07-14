@@ -1,5 +1,3 @@
-//configuration.js
-
 // require
 var mysql = require('mysql');
 var fs = require('fs');

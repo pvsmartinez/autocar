@@ -8,4 +8,8 @@ function map() {
         
     });
 
+    global.app.get('/api/horarios-de-atendimento', global.checkAuth, function(req, res) {
+        
+    });
+
 }
