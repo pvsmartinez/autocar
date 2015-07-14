@@ -13,7 +13,8 @@ var obj = {
 	telefone : "varchar(255)",
 	endereco : "varchar(255)",
 	permissao : "int(1) not null default 0",
-	especialidade : "int(2) null"
+	especialidade : "int(11) null",
+	__foreignKeys : ["(especialidade) REFERENCES especialidade(id)"]
 }
 
 var objs = [
