@@ -3,7 +3,8 @@ module.exports = {
 	createUser : createUser,
 	countByEmailAndPassword : countByEmailAndPassword,
 	findByEmailAndPassword : findByEmailAndPassword,
-	register : register
+	register : register,
+	registerFuncionario : registerFuncionario
 }
 
 
@@ -25,4 +26,8 @@ function findByEmailAndPassword(email, senha) {
 
 function register(nome, email, senha, telefone, endereco) {
 	return "insert into usuario (nome, email, senha, telefone, endereco) values ('"+nome+"', '"+email+"', '"+senha+"', '"+telefone+"', '"+endereco+"')";
+}
+
+function registerFuncionario(nome, email, senha, telefone, endereco, tipo, especialidade) {
+	return "insert into usuario (nome, email, senha, telefone, endereco, permissao"+(especialidade==null?"":", especialidade")+") values ('"+nome+"', '"+email+"', '"+senha+"', '"+telefone+"', '"+endereco+"', "+tipo+(especialidade!=null?", "+especialidade:"")+")";
 }
