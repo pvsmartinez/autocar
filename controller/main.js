@@ -6,17 +6,12 @@ function map() {
 	// index page 
 
     global.app.get('/', function(req, res) {
-        if (!req.session.user_id) {
-            res.render('index');
-        } else {
-            res.redirect('/welcome');
+        if (req.session.user_id) {
+            res.redirect('/welcome');    
         }
-    });
-
-    global.app.post('/', function(req, res) {
-
-            res.render('index', {errorMsg: req.body.errorMsg});
-
+        else {
+            res.render('index');
+        }
     });
 
     // about page 
