@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+
+		<title>SuperCal 0.1 Example</title>
+
+		<link rel="stylesheet" href="css/supercal.css">
+
+		<% include ../partials/head %>
+
+		<style>
+
+			.td-horario {
+				cursor:pointer;
+			}
+
+			.td-horario span {
+				display:none;
+			}
+
+			.td-horario-indisponivel {
+				color: #ccc;
+				font-style: italic;
+				cursor:default;
+			}
+
+			.td-horario-indisponivel:hover {
+				background: #fff;
+			}
+
+			.td-horario-indisponivel span {
+				display:inline;
+				padding-left:20px;
+			}
+
+		</style>
+
+	</head>
+
+	<body class="container">
+
+	<header>
+	    <% include ../partials/header %>
+	</header>
+
+		<div align="center">
+			<h1 class="text-center login-title">Agendamento</h1>
+			<br />
+		</div>
+
+		<div class="calendar" style="float:left">Selecione um dia abaixo:<br /><br /></div>
+
+		<div style="float:left; width:9%">&nbsp;</div>
+
+		<div style="position:relative; float:left; width:30%">
+
+			<div id="horarios-loading" style="float:left; width:100%; display:none; position:absolute;" align="center">
+
+				<img src="img/loading_64x64.gif" />
+
+			</div>
+
+			<div id="horarios" style="float:left; width:100%; display:none;">
+
+				<table width="100%" class="table table-hover">
+					<thead>
+						<tr>
+							<td align="center"><b>Horários disponíveis</b><br /><span id="horarios-date"></span></td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="td-horario" id="horario-8">08:00 - 09:00<span>Indisponível</span></td>
+						</tr>
+						<tr>
+							<td class="td-horario" id="horario-9">09:00 - 10:00<span>Indisponível</span></td>
+						</tr>
+						<tr>
+							<td class="td-horario" id="horario-10">10:00 - 11:00<span>Indisponível</span></td>
+						</tr>
+						<tr>
+							<td class="td-horario" id="horario-11">11:00 - 12:00<span>Indisponível</span></td>
+						</tr>
+						<tr>
+							<td class="td-horario" id="horario-14">14:00 - 15:00<span>Indisponível</span></td>
+						</tr>
+						<tr>
+							<td class="td-horario" id="horario-15">15:00 - 16:00<span>Indisponível</span></td>
+						</tr>
+						<tr>
+							<td class="td-horario" id="horario-16">16:00 - 17:00<span>Indisponível</span></td>
+						</tr>
+						<tr>
+							<td class="td-horario" id="horario-17">17:00 - 18:00<span>Indisponível</span></td>
+						</tr>
+					</tbody>
+				</table>
+
+			</div>
+
+		</div>
+
+		<script src="libs/supercal/jquery.supercal.js"></script>
+
+		<script>
+
+			var dias = ["Domingo","Segunda-feira","Terça-feira","Quarta-feira","Quinta-feira","Sexta-feira","Sábado"];
+			var meses = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
+			var animTime = 50;
+
+			var currentDate;
+
+			$('.calendar').supercal({
+				transition: 'carousel-horizontal',
+				clickCallback : function(date) {
+					currentDate = date;
+					var dt = date.getFullYear().toString()+"-"+(date.getMonth()+1)+"-"+date.getDate();
+					var formatedDate = dias[date.getDay()]+", "+date.getDate()+" de "+meses[date.getMonth()]+" de "+date.getFullYear().toString();
+					$.ajax({
+						type: "POST",
+						url:"api/horarios-de-atendimento",
+						data: {date:dt},
+						beforeSend: function() {
+							$("#horarios-loading").fadeIn(animTime);
+							$("#horarios").fadeOut(animTime);
+
+						},
+						success: function(data) {
+							$('.td-horario').removeClass('td-horario-indisponivel');
+							$.each(data, function(index, value) {
+								var d = new Date(Date.parse(value.horario));
+								if ($('#horario-'+d.getHours())) {
+									$('#horario-'+d.getHours()).addClass('td-horario-indisponivel');
+								}
+							});
+							$("#horarios-date").html(formatedDate);
+							$("#horarios").fadeIn(animTime);
+							$("#horarios-loading").fadeOut(animTime);
+						},
+						error: function(err) {
+							alert(err);
+						},
+					});
+				}
+			});
+			$('.td-horario').click( function() {
+				if (!$(this).hasClass('td-horario-indisponivel')) {
+					hor = $(this).attr('id').split("horario-")[1];
+					alert("Selecionado horário das "+hor+" horas da data "+currentDate+".");
+				}
+			});
+
+
+
+		</script>
+	</body>
+</html>

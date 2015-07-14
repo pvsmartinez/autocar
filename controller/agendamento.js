@@ -5,7 +5,7 @@ module.exports = {
 function map() {
 	// index page 
     global.app.get('/agendamento', global.checkAuth([0, 1, 2, 3, 4]), function(req, res) {
-        
+        res.render('agendamento');
     });
 
     global.app.post('/api/horarios-de-atendimento', global.checkAuth([0, 1, 2, 3, 4]), function(req, res) {

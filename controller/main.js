@@ -5,18 +5,22 @@ module.exports = {
 function map() {
 	// index page 
 
-    global.app.get('/', function(req, res) {
+    global.app.get('/login', function(req, res) {
         if (req.session.user_id) {
-            res.redirect('/welcome');    
+            res.redirect('/home');
         }
         else {
             res.render('index');
         }
     });
 
-    // about page 
-    global.app.get('/about', function(req, res) {
-        res.render('about');
+    global.app.get('/', function(req, res) {
+        if (req.session.user_id) {
+            res.redirect('/home');
+        }
+        else {
+            res.redirect('/login');
+        }
     });
 
 
