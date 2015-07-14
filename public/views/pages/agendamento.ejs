@@ -51,7 +51,7 @@
 
 		<div class="calendar" style="float:left">Selecione um dia abaixo:<br /><br /></div>
 
-		<div style="float:left; width:9%">&nbsp;</div>
+		<div style="float:left; width:5%">&nbsp;</div>
 
 		<div style="position:relative; float:left; width:30%">
 
@@ -101,6 +101,57 @@
 
 		</div>
 
+		<div style="float:left; width:5%">&nbsp;</div>
+
+		<div id="cadastro-div" style="float:left; width:30%; display:none">
+
+            <div class="account-wall" align="center">
+            	<table width="50%" border="0" cellspacing="0" cellpadding="0">
+            		<tr>
+            			<td><b>Data:</b></td>
+            			<td><span id="cadastro-data"></span></td>
+            		<tr>
+            			<td><b>Horário:</b></td>
+            			<td><span id="cadastro-hora"></span></td>
+            		</tr>
+            	</table>
+                <h5 class="text-center">Dados do veículo:</h5>
+                <form class="form-signin" method="post" id="cadastro-form">
+                <!--<form class="form-signin" method="post" action="/signUp">-->
+                	<input type="hidden" name="horario" id="form-horario">
+                    <input type="text" class="form-control" placeholder="Placa do carro" name="placa" required autofocus>
+                    <!--<input type="password" class="form-control" placeholder="Telefone" name="telefone" required>-->
+                    <br>
+                    <input type="text" class="form-control" placeholder="Renavan" name="renavan" required>
+                    <br>
+                    <select name="modelo" class="form-control"  placeholder="Modelo">
+                    	<option value="">Modelo do carro</option>
+                    	<%
+                    	locals.modelos.forEach( function(entry) {
+
+                    		%>
+                    		<option value="<%= entry.id %>"><%= entry.marca +" "+ entry.modelo %></option>
+                    		<%
+
+                   		});
+                    	%>
+                    </select>
+                    <br>
+                    <input type="text" class="form-control" placeholder="Ano" name="ano" required>
+                    <br>
+                    <input type="text" class="form-control" placeholder="Quilometragem" name="quilometragem" required>
+                    <br>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">
+                        Marcar atendimento
+                    </button>
+                </form>
+                <%if (locals.erro) { %>
+                    <div><%=locals.erro %></div>
+                <%}%>
+            </div>
+
+		</div>
+
 		<script src="libs/supercal/jquery.supercal.js"></script>
 
 		<script>
@@ -124,7 +175,7 @@
 						beforeSend: function() {
 							$("#horarios-loading").fadeIn(animTime);
 							$("#horarios").fadeOut(animTime);
-
+							$("#cadastro-div").fadeOut(animTime);
 						},
 						success: function(data) {
 							$('.td-horario').removeClass('td-horario-indisponivel');
@@ -147,7 +198,11 @@
 			$('.td-horario').click( function() {
 				if (!$(this).hasClass('td-horario-indisponivel')) {
 					hor = $(this).attr('id').split("horario-")[1];
-					alert("Selecionado horário das "+hor+" horas da data "+currentDate+".");
+					formatedDate = currentDate.getDate()+"/"+(currentDate.getMonth()+1)+"/"+currentDate.getFullYear().toString();
+					$("#form-horario").val(new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), hor, 0, 0, 0));
+					$("#cadastro-data").html(formatedDate);
+					$("#cadastro-hora").html(hor+":00");
+					$("#cadastro-div").fadeIn(animTime);
 				}
 			});
 

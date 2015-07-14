@@ -1,7 +1,8 @@
 module.exports = {
 	findById : findById,
 	createAtendimento : createAtendimento,
-	getAllHours : getAllHours
+	getAllHours : getAllHours,
+	getModeloCarros : getModeloCarros
 }
 
 
@@ -15,4 +16,8 @@ function createAtendimento() {
 
 function getAllHours(data) {
 	return "select horario from atendimento where horario >= '" + data + " 00:00:00' and horario < '" + data + " 23:59:59'"
+}
+
+function getModeloCarros() {
+	return "select marca,modelo from modelo_carro"
 }

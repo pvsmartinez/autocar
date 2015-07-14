@@ -5,6 +5,7 @@ CREATE TABLE atendimento(id int(11) auto_increment, horario datetime, automovel_
 CREATE TABLE automovel(id int(11) auto_increment, cliente_id int(11), placa varchar(10), renavan varchar(50), modelo int(1) not null default 0, ano int(4) null, quilometragem int(10) null, primary key (id));
 CREATE TABLE equipe(id int(11) auto_increment, especialidade int(2), id_func1 int(11), id_func2 int(11), primary key (id));
 CREATE TABLE horario_atendimento(id int(11) auto_increment, horario datetime, disponivel bool, primary key (id));
+CREATE TABLE modelo_carro(id int(11) auto_increment, marca varchar(40), modelo varchar(40), primary key (id));
 CREATE TABLE ordem_de_servico(id int(11) auto_increment, equipe_id int(11), automovel_id int(11), data_emissao datetime, data_conclusao datetime, horario datetime, preco decimal(6,2), tipo int(1) not null default 0, revisao_id int(11) null, status int(1), primary key (id));
 CREATE TABLE os_x_peca(os_id int(11), peca_id int(11), primary key (os_id, peca_id));
 CREATE TABLE os_x_tipo_de_servico(os_id int(11), tipo_id int(11), primary key (os_id, tipo_id));
