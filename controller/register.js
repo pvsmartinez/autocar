@@ -17,7 +17,11 @@ function map() {
     });
 
     global.app.get('/cadastro', function(req, res) {
-        res.render('cadastro');
+        if (req.session.user_id) {
+            res.redirect('/');
+        } else {
+            res.render('cadastro');
+        }
     });
     
 }

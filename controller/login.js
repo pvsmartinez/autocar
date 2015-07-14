@@ -20,7 +20,7 @@ function map() {
         });
     });
 
-    global.app.post('/logout', function (req, res) {
+    global.app.post('/logout', global.checkAuth, function (req, res) {
         req.session.destroy();
         res.redirect('/');
     });
