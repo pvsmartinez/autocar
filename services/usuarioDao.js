@@ -20,7 +20,7 @@ function countByEmailAndPassword(email, senha) {
 }
 
 function findByEmailAndPassword(email, senha) {
-	return "select id from usuario where email = '" + email + "' and senha = '"+ senha + "'";
+	return "select id, permissao from usuario where email = '" + email + "' and senha = '"+ senha + "'";
 }
 
 function register(nome, email, senha) {

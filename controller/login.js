@@ -15,12 +15,13 @@ function map() {
             } else {
                 console.log(rows[0].id);
                 req.session.user_id = rows[0].id;
+                req.session.user_permission = rows[0].permissao;
                 res.redirect('/welcome');
             }
         });
     });
 
-    global.app.post('/logout', global.checkAuth, function (req, res) {
+    global.app.post('/logout', global.checkAuth([0,1,2,3,4]), function (req, res) {
         req.session.destroy();
         res.redirect('/');
     });

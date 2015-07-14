@@ -4,7 +4,7 @@ module.exports = {
 
 function map() {
 	// index page 
-    global.app.get('/agendamento', global.checkAuth, function(req, res) {
+    global.app.get('/agendamento', global.checkAuth([0, 1, 2, 3, 4]), function(req, res) {
         
     });
 

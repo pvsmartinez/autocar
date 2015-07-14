@@ -45,15 +45,15 @@ global.app.use( bodyParser.urlencoded({     // to support URL-encoded bodies
 global.app.use(session({secret:'autocarsecret',saveUninitialized:false,resave:false}));
 console.log("express: configured!");
 
-global.checkAuth = function(req, res, next) {
-
-  console.log(req.session);
-  if (!req.session.user_id) {
-    res.redirect('/');
-  } else {
-    next();
+global.checkAuth = function (roles) {
+  return function(req, res, next) {
+    console.log(req.session);
+    if (req.session.user_id && roles.indexOf(req.session.user_permission) > -1) {
+      next();
+    } else {
+      res.redirect('/');
+    }
   }
-
 }
 
 // routes ======================================================================
