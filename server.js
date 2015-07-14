@@ -47,15 +47,16 @@ global.app.use(session({
 }));
 console.log("express: configured!");
 
-global.checkAuth = function(req, res, next) {
-
+global.checkAuth = function (roles) {
+  return function(req, res, next) {
     console.log(req.session);
-    if (!req.session.user_id) {
-        res.redirect('/');
+    if (req.session.user_id && roles.indexOf(req.session.user_permission) > -1) {
+      next();
     } else {
-        next();
+      res.redirect('/');
     }
-
+  }
+>>>>>>> fb68746b791e9942b370e22f3475ae341973f1fb
 }
 
 // routes ======================================================================
