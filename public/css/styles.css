@@ -92,6 +92,6 @@ body {
     margin: 10px;
 }
 
-.navbar-default .navbar-nav>li>a:active{
-    color: #f0ad4e;
+.navbar-default .navbar-nav>li>a.active{
+    color: #337AB7;
 }
