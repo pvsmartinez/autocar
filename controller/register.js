@@ -16,7 +16,7 @@ function map() {
                 console.log(rows);
                 req.session.user_id = rows.insertId;
                 req.session.user_permission = 0;
-                res.redirect('/welcome');
+                res.redirect('/home');
             }
         });
     });
