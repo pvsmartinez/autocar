@@ -15,7 +15,7 @@
 	}
 }(function($) {
 	var defaults = {
-		todayButton: true,		// Show the button to reset to today's date?
+		todayButton: false,		// Show the button to reset to today's date?
 		showInput: false,		// Show input
 		weekStart: 1,			// Start day of the week. 0 is Sunday, 6 for Saturday, 1 for Monday (default)
 		widget: true,
@@ -34,10 +34,10 @@
 	
 	var now = new Date();
 
-	var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-	var shortMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-	var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-	var shortDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+	var months = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
+	var shortMonths = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+	var days = ["Domingo","Segunda-feira","Terça-feira","Quarta-feira","Quinta-feira","Sexta-feira","Sábado"];
+	var shortDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 
 	// Get the number of days in the current month (or next month if delta == 1, or prev month if delta == -1, etc)
 	Date.prototype.daysInMonth = function(delta) {
