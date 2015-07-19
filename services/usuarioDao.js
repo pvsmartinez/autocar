@@ -4,7 +4,10 @@ module.exports = {
 	countByEmailAndPassword : countByEmailAndPassword,
 	findByEmailAndPassword : findByEmailAndPassword,
 	register : register,
-	registerFuncionario : registerFuncionario
+	registerFuncionario : registerFuncionario,
+	listFuncionarios : listFuncionarios,
+	findFuncionarioById : findFuncionarioById,
+	editFuncionario : editFuncionario
 }
 
 
@@ -31,3 +34,26 @@ function register(nome, email, senha, telefone, endereco) {
 function registerFuncionario(nome, email, senha, telefone, endereco, tipo, especialidade) {
 	return "insert into usuario (nome, email, senha, telefone, endereco, permissao"+(especialidade==null?"":", especialidade")+") values ('"+nome+"', '"+email+"', '"+senha+"', '"+telefone+"', '"+endereco+"', "+tipo+(especialidade!=null?", "+especialidade:"")+")";
 }
+
+function editFuncionario(id, nome, email, senha, telefone, endereco, tipo, especialidade) {
+	return "update usuario set nome='"+nome+"', email='"+email+"', senha='"+senha+"', telefone='"+telefone+
+			"', endereco='"+endereco+"', permissao="+tipo+" "+(especialidade==null?"":"especialidade="+especialidade)+" where id = "+id+" and permissao in (1, 2, 3)";
+}
+
+function listFuncionarios() {
+	return "select * from usuario where permissao in (1, 2, 3)";
+}
+
+function findFuncionarioById(id) {
+	return "select * from usuario where permissao in (1, 2, 3) and id="+id;
+}
+
+
+/*
+======================= PERMISSÕES =======================
+0 - CLIENTE
+1 - ATENDENTE
+2 - TECNICO
+3 - MECANICO
+4 - ADMINISTRADOR
+*/
