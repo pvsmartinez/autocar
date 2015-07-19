@@ -71,4 +71,10 @@ function map() {
             }
         });
     });
+
+    global.app.post('/excluirFuncionario', global.checkAuth([4]), function (req, res) {
+        global.db.query(global.services.usuario.deleteFuncionario(req.body.id), function (err, rows) {
+            res.redirect('/listarFuncionarios');
+        });
+    });
 }

@@ -7,7 +7,8 @@ module.exports = {
 	registerFuncionario : registerFuncionario,
 	listFuncionarios : listFuncionarios,
 	findFuncionarioById : findFuncionarioById,
-	editFuncionario : editFuncionario
+	editFuncionario : editFuncionario,
+	deleteFuncionario : deleteFuncionario
 }
 
 
@@ -48,6 +49,9 @@ function findFuncionarioById(id) {
 	return "select * from usuario where permissao in (1, 2, 3) and id="+id;
 }
 
+function deleteFuncionario(id) {
+	return "delete from usuario where id = "+id+" and permissao in (1, 2, 3)";
+}
 
 /*
 ======================= PERMISSÕES =======================
