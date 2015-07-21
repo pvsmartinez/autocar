@@ -15,61 +15,105 @@
     } %>
     <div class="row">
         <div class="col-sm-6 col-md-4 col-md-offset-4">
-            <div class="account-wall">
-                <form class="form-signin" method="post" action=<%if(!locals.func){%>"/cadastroFuncionario"<%} else {%>"/editarFuncionario"<%}%>>
-                    <%if (locals.func) {%>
-                        <input type="hidden" name="id" value="<%=locals.func.id%>">
-                    <%}%>
-                <!--<form class="form-signin" method="post" action="/signUp">-->
-                    <input type="text" class="form-control" placeholder="Nome" name="nome" value="<%=locals.func?func.nome:''%>" required autofocus>
-                    <!--<input type="password" class="form-control" placeholder="Telefone" name="telefone" required>-->
-                    <br>
-                    <input type="text" class="form-control" placeholder="E-mail" name="email" value="<%=locals.func?func.email:''%>" required>
-                    <br>
-                    <input type="password" class="form-control" placeholder="Senha" name="senha" value="<%=locals.func?func.senha:''%>" required>
-                    <br>
-                    <input type="text" class="form-control" placeholder="Telefone" name="telefone" value="<%=locals.func?func.telefone:''%>" required>
-                    <br>
-                    <input type="text" class="form-control" placeholder="Endereço" name="endereco" value="<%=locals.func?func.endereco:''%>" required>
-                    <br>
-                    <select class="form-control" name="tipo">
-                    	<option value="3" <%if (func.permissao == 3){%> selected <%}%>>Mecânico</option>
-                    	<option value="2" <%if (func.permissao == 2){%> selected <%}%>>Técnico</option>
-                    	<option value="1" <%if (func.permissao == 1){%> selected <%}%>>Atendente</option>
-                    </select>
-                    <br>
-                    <select class="form-control" name="especialidade">
-                    	<% locals.especialidades.forEach(function(entry) {
-                    		%>
-                    		<option value="<%=entry.id%>" <%if (func.especialidade == entry.id) {%>selected<%}%>><%=entry.nome%></option>
-                    		<%
-                    	}); %>
-                    </select>	
-                    <br>
-                    <button class="btn btn-lg btn-primary btn-block" type="submit">
-                       <%if (!locals.func){%> Cadastrar <%} else {%> Salvar <%}%>
-                    </button>
-                </form>
-                    <% if(locals.func) { %>
-                        <form action="/excluirFuncionario" method="post" style="padding: 15px">
-                            <input type="hidden" name="id" value="<%=locals.func.id%>">
-                            <button class="btn btn-lg btn-block btn-danger" type="submit">Excluir</button>
-                        </form>
-                    </button> 
+            <div class="autoCard">
+                <form class="form-signin" method="post" action=<% if(!locals.func){ %>"/cadastroFuncionario"
+                <% } else { %>
+                "/editarFuncionario"
+                <% } %>
+                >
+                <% if (locals.func) { %>
+                <input type="hidden" name="id" value="<%= locals.func.id %>">
+                <% } %>
+                <label for="nome">Nome:</label>
+                <input type="text" class="form-control" placeholder="Nome" name="nome"
+                       value="<%= locals.func?func.nome:'' %>" required autofocus>
+                <br>
+                <label for="email">E-mail:</label>
+                <input type="text" class="form-control" placeholder="E-mail" name="email"
+                       value="<%= locals.func?func.email:'' %>" required>
+                <br>
+                <label for="senha">Senha:</label>
+                <input type="password" class="form-control" placeholder="Senha" name="senha"
+                       value="<%= locals.func?func.senha:'' %>" required>
+                <br>
+                <label for="telefone">Telefone:</label>
+                <input type="text" class="form-control" placeholder="Telefone" name="telefone"
+                       value="<%= locals.func?func.telefone:'' %>" required>
+                <br>
+                <label for="endereco">Endereço:</label>
+                <input type="text" class="form-control" placeholder="Endereço" name="endereco"
+                       value="<%= locals.func?func.endereco:'' %>" required>
+                <br>
+                <label for="tipo">Tipo:</label>
+                <select class="form-control" name="tipo">
+                    <option value="3"
+                            <% if (func.permissao == 3){ %>
+                            selected
+                            <% } %>
+                            >Mecânico
+                    </option>
+                    <option value="2"
+                            <% if (func.permissao == 2){ %>
+                            selected
+                            <% } %>
+                            >Técnico
+                    </option>
+                    <option value="1"
+                            <% if (func.permissao == 1){ %>
+                            selected
+                            <% } %>
+                            >Atendente
+                    </option>
+                </select>
+                <br>
+                <label id="especialidadeLabel" for="especialidade">Especialidade:</label>
+
+                <select class="form-control" name="especialidade">
+                    <% locals.especialidades.forEach(function(entry) {
+                    %>
+
+                    <option value="<%= entry.id %>" <% if (func.especialidade == entry.id) { %>selected
+                            <% } %>
+                            ><%= entry.nome %></option>
+                    <%
+                    }); %>
+                </select>
+                <br>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">
+                    <% if (!locals.func){ %>
+                    Cadastrar
+                    <% } else { %>
+                    Salvar
                     <% } %>
-                <%  if (locals.query && locals.query.err) { %>
-                    <div><%=locals.query.err == 1062? 'Email já cadastrado.' : 'Ocorreu um erro inesperado.' %></div>
-                <%}%>
+                </button>
+                <br>
+                <% if(locals.func) { %>
+                <form action="/excluirFuncionario" method="post" style="padding: 15px">
+                    <input type="hidden" name="id" value="<%= locals.func.id %>">
+                    <button class="btn btn-lg btn-block btn-danger" type="submit">Excluir</button>
+                </form>
+                </button>
+                <% } %>
+                <% if (locals.query && locals.query.err) { %>
+                <div><%= locals.query.err == 1062? 'Email já cadastrado.' : 'Ocorreu um erro inesperado.' %></div>
+                <% } %>
+                </form>
+
             </div>
         </div>
     </div>
 </main>
 <script type="text/javascript">
-	var hideOrShow = function () {
+    var hideOrShow = function () {
         if ($('select[name=tipo]').val() != 3) {
             $('select[name=especialidade]').hide();
+            $('#especialidadeLabel').hide();
         } else {
             $('select[name=especialidade]').show();
+            $('#especialidadeLabel').show();
+        }
+        if (<%= user.permissao %> != 4) {
+            $('select[name=tipo]').hide();
         }
     };
     $('select[name=tipo]').change(hideOrShow);

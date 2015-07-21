@@ -7,11 +7,13 @@
 <main>
     <div class="row">
         <div class="col-sm-6 col-md-4 col-md-offset-4">
-            <div class="account-wall">
+            <div class="autoCard">
                 <h1 class="text-center login-title">Bem-Vindo ao AutoCar</h1>
                 <form class="form-signin" method="post" action="/login">
+                    <label for="email">E-mail:</label>
                     <input type="text" class="form-control" placeholder="E-mail" name="email" required autofocus>
                     <br>
+                    <label for="senha">Senha:</label>
                     <input type="password" class="form-control" placeholder="Senha" name="senha" required>
                     <br>
                     <div class="alert alert-danger" role="alert" style="display:<%= (typeof errorMsg !== 'undefined' && errorMsg) ? "block" : "none" %>">

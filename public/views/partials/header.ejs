@@ -6,19 +6,20 @@
         <button class="btn btn-primary logout" type="submit">Logout</button>
     </form>
     <ul class="pull-right">
-        <li><a href="/home">Home</a></li>
         <li><a href="/agendamento">Agendamento</a></li>
-        <% if (user.user_permission == 4) { %>
-        <li><a href="/listarFuncionarios">Funcionarios</a></li>
+        <% if (user.permissao > 0) { %>
+            <li><a href="/os">Ordem de Serviço</a></li>
+            <% if (user.permissao < 4) { %>
+                <li><a href="/detalheFuncionario?id=<%= user.id %>">Perfil</a></li>
+            <% } %>
+            <% if (user.permissao == 4) { %>
+                <li><a href="/listarFuncionarios">Funcionarios</a></li>
+                <li><a href="/listarPecas">Peças</a></li>
+                <li><a href="/relatorios">Relatórios</a></li>
+            <% } %>
         <% } %>
-        <li><a href="/tela3">Tela3</a></li>
-        <li><a href="/tela4">Tela4</a></li>
-        <li><a href="/tela5">Tela5</a></li>
-        <li><a href="/tela6">Tela6</a></li>
-        <li><a href="/tela7">Tela7</a></li>
     </ul>
 </nav>
-<%= user.nome %>
 <script>
     $(function () {
         var url = window.location.pathname,

@@ -1,50 +1,37 @@
 <!DOCTYPE html>
 
 <html>
-	<head>
+<head>
 
-		<link rel="stylesheet" href="css/supercal.css">
-		<link rel="stylesheet" href="css/sortable.css">
 
-		<% include ../partials/head %>
+    <link rel="stylesheet" href="css/supercal.css">
 
-		<style>
+    <% include ../partials/head %>
 
-			.td-horario {
-				cursor:pointer;
-			}
+    <style>
 
-			.td-horario span {
-				display:none;
-			}
+        .td-horario {
+            cursor: pointer;
+        }
 
-			.td-horario-indisponivel {
-				color: #ccc;
-				font-style: italic;
-				cursor:default;
-			}
+        .td-horario span {
+            display: none;
+        }
 
-			.td-horario-indisponivel:hover {
-				background: #fff;
-			}
+        .td-horario-indisponivel {
+            color: #ccc;
+            font-style: italic;
+            cursor: default;
+        }
 
-			.td-horario-indisponivel span {
-				display:inline;
-				padding-left:20px;
-			}
+        .td-horario-indisponivel:hover {
+            background: #fff;
+        }
 
-			.sortable-list {
-				list-style-type: none;
-				padding:0;
-			}
-
-			.sortable-list li {
-				margin:5px;
-				padding:5px;
-				cursor: pointer;
-				border: 1px solid #ccc;
-				background: #eeeeee;
-			}
+        .td-horario-indisponivel span {
+            display: inline;
+            padding-left: 20px;
+        }
 
 		</style>
 
@@ -56,62 +43,62 @@
 	    <% include ../partials/header %>
 	</header>
 
-		<div align="center">
-			<h1 class="text-center login-title">Agendamento</h1>
-			<br />
-		</div>
+	<div align="center">
+	    <h1 class="text-center login-title">Agendamento</h1>
+	    <br/>
+	</div>
 
-		<div class="calendar" style="float:left">Selecione um dia abaixo:<br /><br /></div>
+	<div class="calendar" style="float:left">Selecione um dia abaixo:<br/><br/></div>
 
-		<div style="float:left; width:5%">&nbsp;</div>
+	<div style="float:left; width:5%">&nbsp;</div>
 
-		<div style="position:relative; float:left; width:30%">
+	<div style="position:relative; float:left; width:30%">
 
-			<div id="horarios-loading" style="float:left; width:100%; display:none; position:absolute;" align="center">
+	    <div id="horarios-loading" style="float:left; width:100%; display:none; position:absolute;" align="center">
 
-				<img src="img/loading_64x64.gif" />
+	        <img src="img/loading_64x64.gif"/>
 
-			</div>
+	    </div>
 
-			<div id="horarios" style="float:left; width:100%; display:none;">
+	    <div id="horarios" style="float:left; width:100%; display:none;">
 
-				<table width="100%" class="table table-hover">
-					<thead>
-						<tr>
-							<td align="center"><b>Horários disponíveis</b><br /><span id="horarios-date"></span></td>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td class="td-horario" id="horario-8">08:00 - 09:00<span>Indisponível</span></td>
-						</tr>
-						<tr>
-							<td class="td-horario" id="horario-9">09:00 - 10:00<span>Indisponível</span></td>
-						</tr>
-						<tr>
-							<td class="td-horario" id="horario-10">10:00 - 11:00<span>Indisponível</span></td>
-						</tr>
-						<tr>
-							<td class="td-horario" id="horario-11">11:00 - 12:00<span>Indisponível</span></td>
-						</tr>
-						<tr>
-							<td class="td-horario" id="horario-14">14:00 - 15:00<span>Indisponível</span></td>
-						</tr>
-						<tr>
-							<td class="td-horario" id="horario-15">15:00 - 16:00<span>Indisponível</span></td>
-						</tr>
-						<tr>
-							<td class="td-horario" id="horario-16">16:00 - 17:00<span>Indisponível</span></td>
-						</tr>
-						<tr>
-							<td class="td-horario" id="horario-17">17:00 - 18:00<span>Indisponível</span></td>
-						</tr>
-					</tbody>
-				</table>
+	        <table width="100%" class="table table-hover">
+	            <thead>
+	            <tr>
+	                <td align="center"><b>Horários disponíveis</b><br/><span id="horarios-date"></span></td>
+	            </tr>
+	            </thead>
+	            <tbody>
+	            <tr>
+	                <td class="td-horario" id="horario-8">08:00 - 09:00<span>Indisponível</span></td>
+	            </tr>
+	            <tr>
+	                <td class="td-horario" id="horario-9">09:00 - 10:00<span>Indisponível</span></td>
+	            </tr>
+	            <tr>
+	                <td class="td-horario" id="horario-10">10:00 - 11:00<span>Indisponível</span></td>
+	            </tr>
+	            <tr>
+	                <td class="td-horario" id="horario-11">11:00 - 12:00<span>Indisponível</span></td>
+	            </tr>
+	            <tr>
+	                <td class="td-horario" id="horario-14">14:00 - 15:00<span>Indisponível</span></td>
+	            </tr>
+	            <tr>
+	                <td class="td-horario" id="horario-15">15:00 - 16:00<span>Indisponível</span></td>
+	            </tr>
+	            <tr>
+	                <td class="td-horario" id="horario-16">16:00 - 17:00<span>Indisponível</span></td>
+	            </tr>
+	            <tr>
+	                <td class="td-horario" id="horario-17">17:00 - 18:00<span>Indisponível</span></td>
+	            </tr>
+	            </tbody>
+	        </table>
 
-			</div>
+	    </div>
 
-		</div>
+	</div>
 
 		<div style="float:left; width:5%">&nbsp;</div>
 
@@ -157,9 +144,13 @@
 	                    </select>
 	                    <br>
 						Serviços:<br>
-						<input type="checkbox" name="servicos" value="1"> Conserto de parachoque<br>
-						<input type="checkbox" name="servicos" value="2"> Conserto de motor<br>
-						<input type="checkbox" name="servicos" value="3"> Troca de embreagem<br>
+			                <%
+				                locals.servicos.forEach( function(entry) {
+				                %>
+				                	<input type="checkbox" name="servicos" value="<%= entry.id %>"> <%= entry.nome %><br>
+				                <%
+				                });
+			                %>
 	                    <br>
 	               
 	                </form>
@@ -181,50 +172,57 @@
 
 			<div id="cadastro-div" style="float:left; width:30%; display:none">
 
-	            <div class="account-wall" align="center">
-	            	<table width="50%" border="0" cellspacing="0" cellpadding="0">
-	            		<tr>
-	            			<td><b>Data:</b></td>
-	            			<td><span id="cadastro-data"></span></td>
-	            		<tr>
-	            			<td><b>Horário:</b></td>
-	            			<td><span id="cadastro-hora"></span></td>
-	            		</tr>
-	            	</table>
-	                <h5 class="text-center">Dados do veículo:</h5>
-	                <form class="form-signin" method="post" id="cadastro-form">
-	                <!--<form class="form-signin" method="post" action="/signUp">-->
-	                	<input type="hidden" name="horario" id="form-horario">
-	                    <input type="text" class="form-control" placeholder="Placa do carro" name="placa" required autofocus>
-	                    <!--<input type="password" class="form-control" placeholder="Telefone" name="telefone" required>-->
-	                    <br>
-	                    <input type="text" class="form-control" placeholder="Renavan" name="renavan" required>
-	                    <br>
-	                    <select name="modelo" class="form-control"  placeholder="Modelo" required>
-	                    	<option value="">Modelo do carro</option>
-	                    	<%
-	                    	locals.modelos.forEach( function(entry) {
+			    <div class="autoCard-no-padding-top">
+			        <form class="form-signin" method="post" id="cadastro-form">
+			            <h3>Dados do Agendamento:</h3>
 
-	                    		%>
-	                    		<option value="<%= entry.id %>"><%= entry.marca +" "+ entry.modelo %></option>
-	                    		<%
+			            <b><span>Data:</span></b>
+			            <span id="cadastro-data"></span>
 
-	                   		});
-	                    	%>
-	                    </select>
-	                    <br>
-	                    <input type="number" class="form-control" placeholder="Ano" name="ano" required>
-	                    <br>
-	                    <input type="text" class="form-control" placeholder="Quilometragem" name="quilometragem" required>
-	                    <br>
-	                    <button class="btn btn-lg btn-primary btn-block" type="submit">
-	                        Marcar atendimento
-	                    </button>
-	                </form>
-	                <%if (locals.erro) { %>
-	                    <div><%=locals.erro %></div>
-	                <%}%>
-	            </div>
+			            <br>
+
+			            <b><span>Horário:<span></b>
+			            <span id="cadastro-hora"></span>
+
+
+			            <h3>Dados do veículo:</h3>
+
+
+			            <!--<form class="form-signin" method="post" action="/signUp">-->
+			            <input type="hidden" name="horario" id="form-horario">
+			            <label for="placa">Placa:</label>
+			            <input type="text" class="form-control" placeholder="Placa do carro" name="placa" required autofocus>
+			            <!--<input type="password" class="form-control" placeholder="Telefone" name="telefone" required>-->
+			            <br>
+			            <label for="renavan">Renavan:</label>
+			            <input type="text" class="form-control" placeholder="Renavan" name="renavan" required>
+			            <br>
+			            <label for="modelo">Modelo:</label>
+			            <select name="modelo" class="form-control" placeholder="Modelo" required>
+			                <option value="">Modelo do carro</option>
+			                <%
+				                locals.modelos.forEach( function(entry) {
+				                %>
+				                	<option value="<%= entry.id %>"><%= entry.marca + " " + entry.modelo %></option>
+				                <%
+				                });
+			                %>
+			            </select>
+			            <br>
+			            <label for="ano">Ano:</label>
+			            <input type="number" class="form-control" placeholder="Ano" name="ano" required>
+			            <br>
+			            <label for="quilometragem">Quilometragem:</label>
+			            <input type="text" class="form-control" placeholder="Quilometragem" name="quilometragem" required>
+			            <br>
+			            <button class="btn btn-lg btn-primary btn-block" type="submit">
+			                Marcar atendimento
+			            </button>
+			        </form>
+			        <% if (locals.erro) { %>
+			        <div><%= locals.erro %></div>
+			        <% } %>
+			    </div>
 
 			</div>
 
@@ -236,7 +234,6 @@
 
 
 		<script src="libs/supercal/jquery.supercal.js"></script>
-		<script src="libs/sortable/jquery-sortable.js"></script>
 
 		<%
 
