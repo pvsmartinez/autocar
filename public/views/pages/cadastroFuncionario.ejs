@@ -66,7 +66,6 @@
                     </option>
                 </select>
                 <br>
-
                 <label id="especialidadeLabel" for="especialidade">Especialidade:</label>
 
                 <select class="form-control" name="especialidade">
@@ -112,6 +111,9 @@
         } else {
             $('select[name=especialidade]').show();
             $('#especialidadeLabel').show();
+        }
+        if (<%= user.permissao %> != 4) {
+            $('select[name=tipo]').hide();
         }
     };
     $('select[name=tipo]').change(hideOrShow);
