@@ -4,6 +4,7 @@ body {
 }
 
 #header {
+    z-index:10;
     width: 100%;
     position: fixed;
     top: 0;
@@ -59,6 +60,19 @@ body {
 .bg-blue {
     background-color: #6699FF;
     color: #fff;
+}
+
+.graph-container {
+    display: inline-block;
+    width:100%;
+}
+
+.figure {
+    width:25%;
+    float:left;
+    margin:0px;
+    text-align:center;
+    padding:0px;
 }
 
 .tabela-funcionarios{
