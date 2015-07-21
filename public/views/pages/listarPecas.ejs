@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+</head>
+<body class="container">
+<header>
+    <% include ../partials/header %>
+</header>
+<main>
+    <div class="row">
+        <div class="col-xs-2 col-sm-4 col-md-10">
+            <h2>Lista de Peças AutoCar</h2>
+        </div>
+    </div>
+    <div class="tabela-funcionarios">
+        <div class="row">
+            <div class="col-xs-2 col-sm-4 col-md-10">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Preço</th>
+                        <th>Quantidade em estoque</th>
+                        <th>Ação</th>
+                    </tr>
+                    </thead>
+                    <%    locals.pecas.forEach(function(peca) {
+                    %>
+
+                    <tr>
+                        <td><%= peca.nome %></td>
+                        <td>R$ <%= peca.valor.toFixed(2) %></td>
+                        <td><%= peca.quantidade_em_estoque %></td>
+                        <td><a href="/editarPeca?id=<%= peca.id %>">Editar</a>
+                    </tr>
+                    <%
+                    });
+                    %>
+                </table>
+                <a href="/cadastroPeca"><button class="btn btn-large btn-primary">Cadastrar</button></a>
+            </div>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>
