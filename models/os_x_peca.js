@@ -13,6 +13,16 @@ var obj = {
 }
 
 var objs = [
+	{os_id : "0", peca_id : "0"},
+	{os_id : "0", peca_id : "1"},
+	{os_id : "0", peca_id : "2"},
+	{os_id : "0", peca_id : "4"},
+	{os_id : "0", peca_id : "5"},
+	{os_id : "1", peca_id : "2"},
+	{os_id : "1", peca_id : "4"},
+	{os_id : "0", peca_id : "3"},
+	{os_id : "1", peca_id : "0"},
+	{os_id : "1", peca_id : "1"}
 ];
 
 function ent() {
