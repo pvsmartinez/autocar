@@ -29,6 +29,8 @@ truncate ordem_de_servico;
 truncate os_x_peca;
 truncate os_x_tipo_de_servico;
 truncate peca;
+insert into peca (valor,nome,quantidade_em_estoque) values ('1.5','Fuzível','30');
+insert into peca (valor,nome,quantidade_em_estoque) values ('300','Pneu','3');
 truncate revisao;
 truncate revisao_x_peca;
 truncate teste;
