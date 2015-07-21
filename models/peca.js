@@ -13,6 +13,8 @@ var obj = {
 }
 
 var objs = [
+	{valor: 1.50, nome: 'Fuzível', quantidade_em_estoque: 30},
+	{valor: 300, nome : 'Pneu', quantidade_em_estoque: 3}
 ];
 
 function ent() {
