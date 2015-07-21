@@ -124,7 +124,7 @@
                     <br>
                     <input type="text" class="form-control" placeholder="Renavan" name="renavan" required>
                     <br>
-                    <select name="modelo" class="form-control"  placeholder="Modelo">
+                    <select name="modelo" class="form-control"  placeholder="Modelo" required>
                     	<option value="">Modelo do carro</option>
                     	<%
                     	locals.modelos.forEach( function(entry) {
@@ -137,7 +137,7 @@
                     	%>
                     </select>
                     <br>
-                    <input type="text" class="form-control" placeholder="Ano" name="ano" required>
+                    <input type="number" class="form-control" placeholder="Ano" name="ano" required>
                     <br>
                     <input type="text" class="form-control" placeholder="Quilometragem" name="quilometragem" required>
                     <br>
