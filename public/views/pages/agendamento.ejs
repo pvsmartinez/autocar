@@ -3,9 +3,8 @@
 <html>
 	<head>
 
-		<title>SuperCal 0.1 Example</title>
-
 		<link rel="stylesheet" href="css/supercal.css">
+		<link rel="stylesheet" href="css/sortable.css">
 
 		<% include ../partials/head %>
 
@@ -32,6 +31,19 @@
 			.td-horario-indisponivel span {
 				display:inline;
 				padding-left:20px;
+			}
+
+			.sortable-list {
+				list-style-type: none;
+				padding:0;
+			}
+
+			.sortable-list li {
+				margin:5px;
+				padding:5px;
+				cursor: pointer;
+				border: 1px solid #ccc;
+				background: #eeeeee;
 			}
 
 		</style>
@@ -103,126 +115,288 @@
 
 		<div style="float:left; width:5%">&nbsp;</div>
 
-		<div id="cadastro-div" style="float:left; width:30%; display:none">
+		<%
 
-            <div class="account-wall" align="center">
-            	<table width="50%" border="0" cellspacing="0" cellpadding="0">
-            		<tr>
-            			<td><b>Data:</b></td>
-            			<td><span id="cadastro-data"></span></td>
-            		<tr>
-            			<td><b>Horário:</b></td>
-            			<td><span id="cadastro-hora"></span></td>
-            		</tr>
-            	</table>
-                <h5 class="text-center">Dados do veículo:</h5>
-                <form class="form-signin" method="post" id="cadastro-form">
-                <!--<form class="form-signin" method="post" action="/signUp">-->
-                	<input type="hidden" name="horario" id="form-horario">
-                    <input type="text" class="form-control" placeholder="Placa do carro" name="placa" required autofocus>
-                    <!--<input type="password" class="form-control" placeholder="Telefone" name="telefone" required>-->
-                    <br>
-                    <input type="text" class="form-control" placeholder="Renavan" name="renavan" required>
-                    <br>
-                    <select name="modelo" class="form-control"  placeholder="Modelo" required>
-                    	<option value="">Modelo do carro</option>
-                    	<%
-                    	locals.modelos.forEach( function(entry) {
+		if (user.permissao > 0) {
 
-                    		%>
-                    		<option value="<%= entry.id %>"><%= entry.marca +" "+ entry.modelo %></option>
-                    		<%
 
-                   		});
-                    	%>
-                    </select>
-                    <br>
-                    <input type="number" class="form-control" placeholder="Ano" name="ano" required>
-                    <br>
-                    <input type="text" class="form-control" placeholder="Quilometragem" name="quilometragem" required>
-                    <br>
-                    <button class="btn btn-lg btn-primary btn-block" type="submit">
-                        Marcar atendimento
-                    </button>
-                </form>
-                <%if (locals.erro) { %>
-                    <div><%=locals.erro %></div>
-                <%}%>
-            </div>
+			%>
 
-		</div>
+			<div id="ordem-div" style="float:left; width:30%; display:none">
+
+	            <div align="center">
+	            	<button class="btn btn-lg btn-primary btn-block" id="btn_gerar" data-toggle="modal" data-target="#ordem_modal">
+	                    Gerar ordem de serviço
+	                </button>
+	            </div>
+
+			</div>
+
+
+			<div class="modal fade" id="ordem_modal">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        <h4 class="modal-title">Gerar ordem de serviço</h4>
+			      </div>
+			      <div class="modal-body">
+	                <form method="post" id="cadastro-form">
+	                <!--<form class="form-signin" method="post" action="/signUp">-->
+	                	<input type="hidden" name="automovel" id="form-automovel">
+	                    <input type="date" class="form-control" placeholder="Previsão de conclusão" name="data-conclusao" required autofocus>
+	                    <!--<input type="password" class="form-control" placeholder="Telefone" name="telefone" required>-->
+	                    <br>
+	                    <select name="modelo" class="form-control"  placeholder="tipo" required>
+	                    	<option value="revisao">Revisão periódica</option>
+	                    	<option value="outro">Outro</option>
+	                    </select>
+	                    <br>
+	                    <select name="modelo" class="form-control"  placeholder="Modelo" required>
+	                    	<option value="">Equipe</option>
+	                    </select>
+	                    <br>
+						Serviços:<br>
+						<input type="checkbox" name="servicos" value="1"> Conserto de parachoque<br>
+						<input type="checkbox" name="servicos" value="2"> Conserto de motor<br>
+						<input type="checkbox" name="servicos" value="3"> Troca de embreagem<br>
+	                    <br>
+	               
+	                </form>
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			        <button type="button" class="btn btn-primary">Save changes</button>
+			      </div>
+			    </div><!-- /.modal-content -->
+			  </div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
+
+			<%
+
+
+		} else {
+
+			%>
+
+			<div id="cadastro-div" style="float:left; width:30%; display:none">
+
+	            <div class="account-wall" align="center">
+	            	<table width="50%" border="0" cellspacing="0" cellpadding="0">
+	            		<tr>
+	            			<td><b>Data:</b></td>
+	            			<td><span id="cadastro-data"></span></td>
+	            		<tr>
+	            			<td><b>Horário:</b></td>
+	            			<td><span id="cadastro-hora"></span></td>
+	            		</tr>
+	            	</table>
+	                <h5 class="text-center">Dados do veículo:</h5>
+	                <form class="form-signin" method="post" id="cadastro-form">
+	                <!--<form class="form-signin" method="post" action="/signUp">-->
+	                	<input type="hidden" name="horario" id="form-horario">
+	                    <input type="text" class="form-control" placeholder="Placa do carro" name="placa" required autofocus>
+	                    <!--<input type="password" class="form-control" placeholder="Telefone" name="telefone" required>-->
+	                    <br>
+	                    <input type="text" class="form-control" placeholder="Renavan" name="renavan" required>
+	                    <br>
+	                    <select name="modelo" class="form-control"  placeholder="Modelo" required>
+	                    	<option value="">Modelo do carro</option>
+	                    	<%
+	                    	locals.modelos.forEach( function(entry) {
+
+	                    		%>
+	                    		<option value="<%= entry.id %>"><%= entry.marca +" "+ entry.modelo %></option>
+	                    		<%
+
+	                   		});
+	                    	%>
+	                    </select>
+	                    <br>
+	                    <input type="number" class="form-control" placeholder="Ano" name="ano" required>
+	                    <br>
+	                    <input type="text" class="form-control" placeholder="Quilometragem" name="quilometragem" required>
+	                    <br>
+	                    <button class="btn btn-lg btn-primary btn-block" type="submit">
+	                        Marcar atendimento
+	                    </button>
+	                </form>
+	                <%if (locals.erro) { %>
+	                    <div><%=locals.erro %></div>
+	                <%}%>
+	            </div>
+
+			</div>
+
+			<%
+
+		}
+
+		%>
+
 
 		<script src="libs/supercal/jquery.supercal.js"></script>
+		<script src="libs/sortable/jquery-sortable.js"></script>
 
-		<script>
+		<%
 
-			var dias = ["Domingo","Segunda-feira","Terça-feira","Quarta-feira","Quinta-feira","Sexta-feira","Sábado"];
-			var meses = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
-			var animTime = 50;
+		if (user.permissao > 0) {
 
-			var currentDate;
 
-			$('.calendar').supercal({
-				transition: 'carousel-horizontal',
-				clickCallback : function(date) {
-					var dateLast = date;
-					dateLast.setHours(17,0,0,0); // Última hora disponível 17:00
-					if (dateLast.getTime() < (new Date()).getTime()) {
-						alert("A data escolhida ja passou!");
-					} else {
-						currentDate = date;
-						var dt = date.getFullYear().toString()+"-"+(date.getMonth()+1)+"-"+date.getDate();
-						var formatedDate = dias[date.getDay()]+", "+date.getDate()+" de "+meses[date.getMonth()]+" de "+date.getFullYear().toString();
-						$.ajax({
-							type: "POST",
-							url:"api/horarios-de-atendimento",
-							data: {date:dt},
-							beforeSend: function() {
-								$("#horarios-loading").fadeIn(animTime);
-								$("#horarios").fadeOut(animTime);
-								$("#cadastro-div").fadeOut(animTime);
-							},
-							success: function(data) {
-								$('.td-horario').removeClass('td-horario-indisponivel');
-								$.each(data, function(index, value) {
-									var d = new Date(Date.parse(value.horario));
-									if ($('#horario-'+d.getHours())) {
-										$('#horario-'+d.getHours()).addClass('td-horario-indisponivel');
-									}
-								});
-								$("#horarios-date").html(formatedDate);
-								$("#horarios").fadeIn(animTime);
-								$("#horarios-loading").fadeOut(animTime);
-							},
-							error: function(err) {
-								alert(err);
-							},
-						});
+			%>
+
+			<script>
+
+				var dias = ["Domingo","Segunda-feira","Terça-feira","Quarta-feira","Quinta-feira","Sexta-feira","Sábado"];
+				var meses = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
+				var animTime = 50;
+
+				var currentDate;
+
+				$('.calendar').supercal({
+					transition: 'carousel-horizontal',
+					clickCallback : function(date) {
+						var dateLast = date;
+						dateLast.setHours(17,0,0,0); // Última hora disponível 17:00
+						if (dateLast.getTime() < (new Date()).getTime()) {
+							alert("A data escolhida ja passou!");
+						} else {
+							currentDate = date;
+							var dt = date.getFullYear().toString()+"-"+(date.getMonth()+1)+"-"+date.getDate();
+							var formatedDate = dias[date.getDay()]+", "+date.getDate()+" de "+meses[date.getMonth()]+" de "+date.getFullYear().toString();
+							$.ajax({
+								type: "POST",
+								url:"api/horarios-de-atendimento",
+								data: {date:dt},
+								beforeSend: function() {
+									$("#horarios-loading").fadeIn(animTime);
+									$("#horarios").fadeOut(animTime);
+									$("#cadastro-div").fadeOut(animTime);
+								},
+								success: function(data) {
+									$('.td-horario').addClass('td-horario-indisponivel');
+									$.each(data, function(index, value) {
+										var d = new Date(Date.parse(value.horario));
+										if ($('#horario-'+d.getHours())) {
+											$('#horario-'+d.getHours()).removeClass('td-horario-indisponivel');
+										}
+									});
+									$("#horarios-date").html(formatedDate);
+									$("#horarios").fadeIn(animTime);
+									$("#horarios-loading").fadeOut(animTime);
+								},
+								error: function(err) {
+									alert(err);
+								},
+							});
+						}
 					}
-				}
-			});
-			$('.td-horario').click( function() {
-				if (!$(this).hasClass('td-horario-indisponivel')) {
-					hor = $(this).attr('id').split("horario-")[1];
-					var hourDate = new Date(currentDate);
-					hourDate.setHours(hor,0,0,0);
-					if (hourDate.getTime() > (new Date()).getTime()) {
-						formatedDate = currentDate.getDate()+"/"+(currentDate.getMonth()+1)+"/"+currentDate.getFullYear().toString();
-						var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
-						var localISOTime = (new Date(hourDate - tzoffset)).toISOString().slice(0,-1);
-						console.log(localISOTime);
-						$("#form-horario").val(localISOTime);
-						$("#cadastro-data").html(formatedDate);
-						$("#cadastro-hora").html(hor+":00");
-						$("#cadastro-div").fadeIn(animTime);
-					} else {
-						alert("O horário escolhido já passou!");
+				});
+				$('.td-horario').click( function() {
+					if (!$(this).hasClass('td-horario-indisponivel')) {
+						hor = $(this).attr('id').split("horario-")[1];
+						var hourDate = new Date(currentDate);
+						hourDate.setHours(hor,0,0,0);
+						if (hourDate.getTime() > (new Date()).getTime()) {
+							formatedDate = currentDate.getDate()+"/"+(currentDate.getMonth()+1)+"/"+currentDate.getFullYear().toString();
+							var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
+							var localISOTime = (new Date(hourDate - tzoffset)).toISOString().slice(0,-1);
+							console.log(localISOTime);
+							$("#form-horario").val(localISOTime);
+							$("#cadastro-data").html(formatedDate);
+							$("#cadastro-hora").html(hor+":00");
+							$("#ordem-div").fadeIn(animTime);
+						} else {
+							alert("O horário escolhido já passou!");
+						}
 					}
-				}
-			});
+				});
+
+
+			</script>
+
+			<%
+
+		} else {
+
+			%>
+
+			<script>
+
+				var dias = ["Domingo","Segunda-feira","Terça-feira","Quarta-feira","Quinta-feira","Sexta-feira","Sábado"];
+				var meses = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
+				var animTime = 50;
+
+				var currentDate;
+
+				$('.calendar').supercal({
+					transition: 'carousel-horizontal',
+					clickCallback : function(date) {
+						var dateLast = date;
+						dateLast.setHours(17,0,0,0); // Última hora disponível 17:00
+						if (dateLast.getTime() < (new Date()).getTime()) {
+							alert("A data escolhida ja passou!");
+						} else {
+							currentDate = date;
+							var dt = date.getFullYear().toString()+"-"+(date.getMonth()+1)+"-"+date.getDate();
+							var formatedDate = dias[date.getDay()]+", "+date.getDate()+" de "+meses[date.getMonth()]+" de "+date.getFullYear().toString();
+							$.ajax({
+								type: "POST",
+								url:"api/horarios-de-atendimento",
+								data: {date:dt},
+								beforeSend: function() {
+									$("#horarios-loading").fadeIn(animTime);
+									$("#horarios").fadeOut(animTime);
+									$("#cadastro-div").fadeOut(animTime);
+								},
+								success: function(data) {
+									$('.td-horario').removeClass('td-horario-indisponivel');
+									$.each(data, function(index, value) {
+										var d = new Date(Date.parse(value.horario));
+										if ($('#horario-'+d.getHours())) {
+											$('#horario-'+d.getHours()).addClass('td-horario-indisponivel');
+										}
+									});
+									$("#horarios-date").html(formatedDate);
+									$("#horarios").fadeIn(animTime);
+									$("#horarios-loading").fadeOut(animTime);
+								},
+								error: function(err) {
+									alert(err);
+								},
+							});
+						}
+					}
+				});
+				$('.td-horario').click( function() {
+					if (!$(this).hasClass('td-horario-indisponivel')) {
+						hor = $(this).attr('id').split("horario-")[1];
+						var hourDate = new Date(currentDate);
+						hourDate.setHours(hor,0,0,0);
+						if (hourDate.getTime() > (new Date()).getTime()) {
+							formatedDate = currentDate.getDate()+"/"+(currentDate.getMonth()+1)+"/"+currentDate.getFullYear().toString();
+							var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
+							var localISOTime = (new Date(hourDate - tzoffset)).toISOString().slice(0,-1);
+							console.log(localISOTime);
+							$("#form-horario").val(localISOTime);
+							$("#cadastro-data").html(formatedDate);
+							$("#cadastro-hora").html(hor+":00");
+							$("#cadastro-div").fadeIn(animTime);
+						} else {
+							alert("O horário escolhido já passou!");
+						}
+					}
+				});
 
 
 
-		</script>
+			</script>
+
+			<%
+
+		}
+
+		%>
+
 	</body>
 </html>

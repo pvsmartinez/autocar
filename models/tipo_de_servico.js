@@ -12,6 +12,9 @@ var obj = {
 }
 
 var objs = [
+	{nome:"Conserto de parachoque",preco:400},
+	{nome:"Conserto de motor",preco:1200},
+	{nome:"Troca de embreagem",preco:500}
 ];
 
 function ent() {
