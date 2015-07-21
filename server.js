@@ -49,7 +49,7 @@ global.app.use(session({
     saveUninitialized: false,
     resave: false
 }));
-global.app.use(function(req, res, next){
+global.app.use(function(req, res, next) {
     if (req.session.user_id) {
         global.db.query(global.services.usuario.findById(req.session.user_id), function(err, rows) {
             global.error(err);
@@ -60,7 +60,7 @@ global.app.use(function(req, res, next){
         res.locals.user = {};
         next();
     }
-    
+
 });
 console.log("express: configured!");
 

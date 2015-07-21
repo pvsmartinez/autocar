@@ -9,9 +9,13 @@
         <li><a href="/agendamento">Agendamento</a></li>
         <% if (user.permissao > 0) { %>
         <li><a href="/os">Ordem de Serviço</a></li>
-        <% } %>
-        <% if (user.permissao == 4) { %>
-        <li><a href="/listarFuncionarios">Funcionarios</a></li>
+            <% if (user.permissao < 4) { %>
+                <li><a href="/editarFuncionario?id=<%= user.id %>">Perfil</a></li>
+            <% } %>
+            <% if (user.permissao == 4) { %>
+                <li><a href="/listarFuncionarios">Funcionarios</a></li>
+            <% } %>
+        
         <% } %>
     </ul>
 </nav>
