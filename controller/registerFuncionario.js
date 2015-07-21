@@ -24,7 +24,11 @@ function map() {
                 if (funcs.length < 1) res.redirect('/404');
                 else {
                     global.db.query(global.services.especialidade.listAll(), function(err, rows) {
-                        res.render('cadastroFuncionario', {locals: {especialidades: rows, func: funcs[0]}});
+                        if (!req.query.err) {
+                            res.render('cadastroFuncionario', {locals: {especialidades: rows, func: funcs[0]}});
+                        } else {
+                            res.render('cadastroFuncionario', {locals: {especialidades: rows, func: funcs[0]}, err : {errno : req.query.err}});
+                        }
                     });
                 }
             }
@@ -35,7 +39,8 @@ function map() {
         post = req.body;
         global.db.query(global.services.usuario.editFuncionario(post.id, post.nome, post.email, post.senha, post.telefone, post.endereco, post.tipo, post.tipo == 3? post.especialidade:null), function (err, rows) {
             if (err) {
-                res.redirect('/cadastroFuncionario?id='+post.id+'&err='+errno);
+                console.log(err);
+                res.redirect('/editarFuncionario?id='+post.id+'&err='+err.errno);
             } else {
                 res.redirect('/detalheFuncionario?id='+post.id);
             }
