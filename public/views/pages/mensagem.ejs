@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+
+		<% include ../partials/head %>
+
+	</head>
+
+	<body class="container">
+
+	<header>
+	    <% include ../partials/header %>
+	</header>
+
+	<br><br>
+
+		<div align="center">
+			<div class="panel panel-<%= locals.tipo %>" style="width:50%">
+				<div class="panel-heading">
+					<h3 class="panel-title"><%= locals.titulo %></h3>
+				</div>
+				<div class="panel-body">
+					<%= locals.mensagem %>
+				</div>
+		</div>
+
+	</body>
+</html>

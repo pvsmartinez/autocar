@@ -165,44 +165,59 @@
 			$('.calendar').supercal({
 				transition: 'carousel-horizontal',
 				clickCallback : function(date) {
-					currentDate = date;
-					var dt = date.getFullYear().toString()+"-"+(date.getMonth()+1)+"-"+date.getDate();
-					var formatedDate = dias[date.getDay()]+", "+date.getDate()+" de "+meses[date.getMonth()]+" de "+date.getFullYear().toString();
-					$.ajax({
-						type: "POST",
-						url:"api/horarios-de-atendimento",
-						data: {date:dt},
-						beforeSend: function() {
-							$("#horarios-loading").fadeIn(animTime);
-							$("#horarios").fadeOut(animTime);
-							$("#cadastro-div").fadeOut(animTime);
-						},
-						success: function(data) {
-							$('.td-horario').removeClass('td-horario-indisponivel');
-							$.each(data, function(index, value) {
-								var d = new Date(Date.parse(value.horario));
-								if ($('#horario-'+d.getHours())) {
-									$('#horario-'+d.getHours()).addClass('td-horario-indisponivel');
-								}
-							});
-							$("#horarios-date").html(formatedDate);
-							$("#horarios").fadeIn(animTime);
-							$("#horarios-loading").fadeOut(animTime);
-						},
-						error: function(err) {
-							alert(err);
-						},
-					});
+					var dateLast = date;
+					dateLast.setHours(17,0,0,0); // Última hora disponível 17:00
+					if (dateLast.getTime() < (new Date()).getTime()) {
+						alert("A data escolhida ja passou!");
+					} else {
+						currentDate = date;
+						var dt = date.getFullYear().toString()+"-"+(date.getMonth()+1)+"-"+date.getDate();
+						var formatedDate = dias[date.getDay()]+", "+date.getDate()+" de "+meses[date.getMonth()]+" de "+date.getFullYear().toString();
+						$.ajax({
+							type: "POST",
+							url:"api/horarios-de-atendimento",
+							data: {date:dt},
+							beforeSend: function() {
+								$("#horarios-loading").fadeIn(animTime);
+								$("#horarios").fadeOut(animTime);
+								$("#cadastro-div").fadeOut(animTime);
+							},
+							success: function(data) {
+								$('.td-horario').removeClass('td-horario-indisponivel');
+								$.each(data, function(index, value) {
+									var d = new Date(Date.parse(value.horario));
+									if ($('#horario-'+d.getHours())) {
+										$('#horario-'+d.getHours()).addClass('td-horario-indisponivel');
+									}
+								});
+								$("#horarios-date").html(formatedDate);
+								$("#horarios").fadeIn(animTime);
+								$("#horarios-loading").fadeOut(animTime);
+							},
+							error: function(err) {
+								alert(err);
+							},
+						});
+					}
 				}
 			});
 			$('.td-horario').click( function() {
 				if (!$(this).hasClass('td-horario-indisponivel')) {
 					hor = $(this).attr('id').split("horario-")[1];
-					formatedDate = currentDate.getDate()+"/"+(currentDate.getMonth()+1)+"/"+currentDate.getFullYear().toString();
-					$("#form-horario").val(new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), hor, 0, 0, 0));
-					$("#cadastro-data").html(formatedDate);
-					$("#cadastro-hora").html(hor+":00");
-					$("#cadastro-div").fadeIn(animTime);
+					var hourDate = new Date(currentDate);
+					hourDate.setHours(hor,0,0,0);
+					if (hourDate.getTime() > (new Date()).getTime()) {
+						formatedDate = currentDate.getDate()+"/"+(currentDate.getMonth()+1)+"/"+currentDate.getFullYear().toString();
+						var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
+						var localISOTime = (new Date(hourDate - tzoffset)).toISOString().slice(0,-1);
+						console.log(localISOTime);
+						$("#form-horario").val(localISOTime);
+						$("#cadastro-data").html(formatedDate);
+						$("#cadastro-hora").html(hor+":00");
+						$("#cadastro-div").fadeIn(animTime);
+					} else {
+						alert("O horário escolhido já passou!");
+					}
 				}
 			});
 
