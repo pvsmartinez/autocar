@@ -20,18 +20,22 @@
                     <%if (locals.func) {%>
                         <input type="hidden" name="id" value="<%=locals.func.id%>">
                     <%}%>
-                <!--<form class="form-signin" method="post" action="/signUp">-->
+                    <label for="nome">Nome:</label>
                     <input type="text" class="form-control" placeholder="Nome" name="nome" value="<%=locals.func?func.nome:''%>" required autofocus>
-                    <!--<input type="password" class="form-control" placeholder="Telefone" name="telefone" required>-->
                     <br>
+                    <label for="email">E-mail:</label>
                     <input type="text" class="form-control" placeholder="E-mail" name="email" value="<%=locals.func?func.email:''%>" required>
                     <br>
+                    <label for="senha">Senha:</label>
                     <input type="password" class="form-control" placeholder="Senha" name="senha" value="<%=locals.func?func.senha:''%>" required>
                     <br>
+                    <label for="telefone">Telefone:</label>
                     <input type="text" class="form-control" placeholder="Telefone" name="telefone" value="<%=locals.func?func.telefone:''%>" required>
                     <br>
+                    <label for="endereco">Endereço:</label>
                     <input type="text" class="form-control" placeholder="Endereço" name="endereco" value="<%=locals.func?func.endereco:''%>" required>
                     <br>
+                    <label for="tipo">Tipo:</label>
                     <select class="form-control" name="tipo">
                     	<option value="3" <%if (func.permissao == 3){%> selected <%}%>>Mecânico</option>
                     	<option value="2" <%if (func.permissao == 2){%> selected <%}%>>Técnico</option>
@@ -39,9 +43,13 @@
                     </select>
 
                     <br>
+
+                    <label id="especialidadeLabel" for="especialidade">Especialidade:</label>
+
                     <select class="form-control" name="especialidade">
                     	<% locals.especialidades.forEach(function(entry) {
                     		%>
+
                     		<option value="<%=entry.id%>" <%if (func.especialidade == entry.id) {%>selected<%}%>><%=entry.nome%></option>
                     		<%
                     	}); %>
@@ -69,8 +77,10 @@
 	var hideOrShow = function () {
         if ($('select[name=tipo]').val() != 3) {
             $('select[name=especialidade]').hide();
+            $('#especialidadeLabel').hide();
         } else {
             $('select[name=especialidade]').show();
+            $('#especialidadeLabel').show();
         }
         if (<%= user.permissao %> != 4) {
             $('select[name=tipo]').hide();
