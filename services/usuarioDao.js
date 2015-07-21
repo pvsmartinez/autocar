@@ -8,7 +8,8 @@ module.exports = {
 	listFuncionarios : listFuncionarios,
 	findFuncionarioById : findFuncionarioById,
 	editFuncionario : editFuncionario,
-	deleteFuncionario : deleteFuncionario
+	deleteFuncionario : deleteFuncionario,
+	listMecanicos : listMecanicos
 }
 
 
@@ -51,6 +52,10 @@ function findFuncionarioById(id) {
 
 function deleteFuncionario(id) {
 	return "delete from usuario where id = "+id+" and permissao in (1, 2, 3)";
+}
+
+function listMecanicos() {
+	return "select usuario.*, especialidade.nome as espec from usuario left join especialidade on usuario.especialidade = especialidade.id where usuario.permissao = 3";
 }
 
 /*

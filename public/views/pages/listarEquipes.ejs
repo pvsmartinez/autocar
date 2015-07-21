@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+</head>
+<body class="container">
+<header>
+    <% include ../partials/header %>
+</header>
+<main>
+    <div class="row">
+        <div class="col-xs-2 col-sm-4 col-md-10">
+            <h2>Lista de Equipes AutoCar</h2>
+        </div>
+    </div>
+    <div>
+        <div class="row">
+            <div class="col-xs-2 col-sm-4 col-md-10">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Especialidade</th>
+                        <th>Mecânico</th>
+                        <th>Mecânico</th>
+                        <th>Ação</th>
+                    </tr>
+                    </thead>
+                    <%    locals.equipes.forEach(function(equipe) {
+                    %>
+
+                    <tr>
+                        <td><%= equipe.nome %></td>
+                        <td><%= equipe.nome_especialidade %></td>
+                        <td><%= equipe.funcionario1 %></td>
+                        <td><%= equipe.funcionario2 %></td>
+                        <td><a href="/editarEquipe?id=<%= equipe.id %>">Editar</a>
+                    </tr>
+                    <%
+                    });
+                    %>
+                </table>
+                <a href="/cadastroEquipe"><button class="btn btn-large btn-primary">Cadastrar</button></a>
+            </div>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

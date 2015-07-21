@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+</head>
+<body class="container">
+<header>
+    <% include ../partials/header %>
+</header>
+<main>
+    <div class="row">
+        <div class="col-sm-6 col-md-4 col-md-offset-4">
+            <div class="account-wall">
+                <form class="form-signin" method="post" action="<%=locals.equipe?'/editarEquipe':'/cadastroEquipe'%>">
+                    <% if (locals.equipe) { %>
+                        <input type="hidden" name="id" value="<%=locals.equipe.id%>">
+                    <% } %>
+                    <label>Nome</label>
+                    <input class="form-control" type="text" name="nome" value="<%=locals.equipe?locals.equipe.nome:''%>" required>
+                    <br>
+                    <label>Especialidade</label>
+                    <select class="form-control" name="especialidade">
+                        <% locals.especialidades.forEach(function (especialidade) { %>
+                            <option value="<%=especialidade.id%>" <% if (locals.equipe && especialidade.id == locals.equipe.especialidade) {%> selected <%}%>><%=especialidade.nome%></option>
+                        <% }); %>
+                    </select>
+                    <br>
+                    <label>Mecânicos</label>
+                    <select class="form-control" name="funcionario1">
+                        <% locals.mecanicos.forEach(function(mecanico) { %>
+                            <option value="<%=mecanico.id%>" <% if (locals.equipe && mecanico.id == locals.equipe.id_func1) {%> selected <%}%>><%=mecanico.nome%> - <%=mecanico.espec%></option>
+                        <% }); %>
+                    </select>
+                    <br>
+                    <select class="form-control" name="funcionario2">
+                        <% locals.mecanicos.forEach(function(mecanico) { %>
+                            <option value="<%=mecanico.id%>" <% if (locals.equipe && mecanico.id == locals.equipe.id_func2) {%> selected <%}%>><%=mecanico.nome%> - <%=mecanico.espec%></option>
+                        <% }); %>
+                    </select>
+                    <br>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">
+                       <%=locals.equipe?'Salvar':'Cadastrar'%>
+                    </button>
+                    <% if (locals.query && locals.query.err) { %>
+                        Ocorreu um erro inesperado.
+                    <% } %>
+                </form>
+                <% if(locals.equipe) { %>
+                    <form action="/excluirEquipe" method="post" style="padding: 15px">
+                        <input type="hidden" name="id" value="<%=locals.equipe.id%>">
+                        <button class="btn btn-lg btn-block btn-danger" type="submit">Excluir</button>
+                    </form>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</main>
+<script type="text/javascript">
+    $('form').submit(function (event) {
+        if ($('select[name=funcionario1]').val() != $('select[name=funcionario2]').val()) {
+            return;
+        }
+        event.preventDefault();
+        alert('Por favor, selecione dois mecânicos para a equipe');
+    });
+</script>
+</body>
+</html>
