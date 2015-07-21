@@ -1,17 +1,14 @@
 module.exports = {
 	findById : findById,
-	createAtendimento : createAtendimento,
 	getAllHours : getAllHours,
-	getModeloCarros : getModeloCarros
+	getModeloCarros : getModeloCarros,
+	insertAutomovel : insertAutomovel,
+	insertAtendimento : insertAtendimento
 }
 
 
 function findById(id) {
 	return "select * from atendimento where id = " + id;
-}
-
-function createAtendimento() {
-	return "insert into atendimento () values ()";
 }
 
 function getAllHours(data) {
@@ -20,4 +17,12 @@ function getAllHours(data) {
 
 function getModeloCarros() {
 	return "select marca,modelo from modelo_carro"
+}
+
+function insertAutomovel(cliente_id, placa, renavan, modelo, ano, quilometragem) {
+	return "insert into automovel(cliente_id, placa, renavan, modelo, ano, quilometragem) values (" + cliente_id + ",'" + placa + "','" + renavan + "','" + modelo + "','" + ano +"','" + quilometragem + "')"; 
+}
+
+function insertAtendimento(horario, automovel_id) {
+	return "insert into atendimento(horario, automovel_id) values ('" + horario + "','" + automovel_id + "')";
 }
