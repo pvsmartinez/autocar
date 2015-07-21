@@ -1,6 +1,7 @@
 module.exports = {
 	listAll : listAll,
-	showOS : showOS
+	showOS : showOS,
+	getServicos : getServicos
 }
 
 function listAll() {
@@ -9,4 +10,8 @@ function listAll() {
 
 function showOS(id) {
 	return "select ordem_de_servico.* from ordem_de_servico where ordem_de_servico = "+ id;
+}
+
+function getServicos() {
+	return "select * from tipo_de_servico";
 }

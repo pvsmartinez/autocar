@@ -13,10 +13,13 @@ var obj = {
 }
 
 var objs = [
-	{nome : 'tirar amaços', preco : '799.99', duracao : 600},
+	{nome : 'tirar amaços', preco : '799.99', duracao : 450},
 	{nome : 'pintura', preco : '299.99', duracao : 300},
 	{nome : 'restauração', preco : '2499.99', duracao : 1200},
-	{nome : 'troca de oleo', preco : '49.99', duracao : 30}
+	{nome : 'troca de oleo', preco : '49.99', duracao : 30},
+	{nome : 'Conserto de parachoque', preco : 400, duracao : 240},
+	{nome : 'Conserto de motor', preco : 1200, duracao : 600},
+	{nome : 'Troca de embreagem', preco : 500, duracao : 240}
 ];
 
 function ent() {
