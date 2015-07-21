@@ -37,6 +37,7 @@
                     	<option value="2" <%if (func.permissao == 2){%> selected <%}%>>Técnico</option>
                     	<option value="1" <%if (func.permissao == 1){%> selected <%}%>>Atendente</option>
                     </select>
+
                     <br>
                     <select class="form-control" name="especialidade">
                     	<% locals.especialidades.forEach(function(entry) {
@@ -70,6 +71,9 @@
             $('select[name=especialidade]').hide();
         } else {
             $('select[name=especialidade]').show();
+        }
+        if (<%= user.permissao %> != 4) {
+            $('select[name=tipo]').hide();
         }
     };
     $('select[name=tipo]').change(hideOrShow);

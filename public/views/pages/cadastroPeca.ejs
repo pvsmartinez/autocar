@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+</head>
+<body class="container">
+<header>
+    <% include ../partials/header %>
+</header>
+<main>
+    <% if (locals.peca) {
+        peca = locals.peca;
+    } else {
+        peca = {};
+    } %>
+    <div class="row">
+        <div class="col-sm-6 col-md-4 col-md-offset-4">
+            <div class="account-wall">
+                <form class="form-signin" method="post" action="<%=!locals.peca?"/cadastroPeca":"/editarPeca"%>">
+                    <%if (locals.peca) {%>
+                        <input type="hidden" name="id" value="<%=locals.peca.id%>">
+                    <%}%>
+                <!--<form class="form-signin" method="post" action="/signUp">-->
+                    <input type="text" class="form-control" placeholder="Nome" name="nome" value="<%=locals.peca?peca.nome:''%>" required autofocus>
+                    <br>
+                    <input type="number" class="form-control" placeholder="Preço" name="valor" value="<%=locals.peca?peca.valor:''%>" required>
+                    <br>
+                    <input type="number" class="form-control" placeholder="Quantidade em estoque" name="quantidade_em_estoque" value="<%=locals.peca?peca.quantidade_em_estoque:''%>" required>
+                    <br>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">
+                       <%if (!locals.peca){%> Cadastrar <%} else {%> Salvar <%}%>
+                    </button>
+                </form>
+                    <% if(locals.peca) { %>
+                        <form action="/excluirPeca" method="post" style="padding: 15px">
+                            <input type="hidden" name="id" value="<%=locals.peca.id%>">
+                            <button class="btn btn-lg btn-block btn-danger" type="submit">Excluir</button>
+                        </form>
+                    </button> 
+                    <% } %>
+                <%  if (locals.query && locals.query.err) { %>
+                    <div>Ocorreu um erro inesperado.</div>
+                <%}%>
+            </div>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

@@ -38,7 +38,7 @@ function registerFuncionario(nome, email, senha, telefone, endereco, tipo, espec
 
 function editFuncionario(id, nome, email, senha, telefone, endereco, tipo, especialidade) {
 	return "update usuario set nome='"+nome+"', email='"+email+"', senha='"+senha+"', telefone='"+telefone+
-			"', endereco='"+endereco+"', permissao="+tipo+", "+(especialidade==null?"":"especialidade="+especialidade)+" where id = "+id+" and permissao in (1, 2, 3)";
+			"', endereco='"+endereco+"', permissao="+tipo+(especialidade==null?"":", especialidade="+especialidade)+" where id = "+id+" and permissao in (1, 2, 3)";
 }
 
 function listFuncionarios() {

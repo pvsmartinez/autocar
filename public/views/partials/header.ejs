@@ -8,14 +8,14 @@
     <ul class="pull-right">
         <li><a href="/agendamento">Agendamento</a></li>
         <% if (user.permissao > 0) { %>
-        <li><a href="/os">Ordem de Serviço</a></li>
+            <li><a href="/os">Ordem de Serviço</a></li>
             <% if (user.permissao < 4) { %>
-                <li><a href="/editarFuncionario?id=<%= user.id %>">Perfil</a></li>
+                <li><a href="/detalheFuncionario?id=<%= user.id %>">Perfil</a></li>
             <% } %>
             <% if (user.permissao == 4) { %>
                 <li><a href="/listarFuncionarios">Funcionarios</a></li>
+                <li><a href="/listarPecas">Peças</a></li>
             <% } %>
-        
         <% } %>
     </ul>
 </nav>
