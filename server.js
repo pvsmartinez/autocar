@@ -49,6 +49,19 @@ global.app.use(session({
     saveUninitialized: false,
     resave: false
 }));
+global.app.use(function(req, res, next){
+    if (req.session.user_id) {
+        global.db.query(global.services.usuario.findById(req.session.user_id), function(err, rows) {
+            global.error(err);
+            res.locals.user = rows[0];
+            next();
+        });
+    } else {
+        res.locals.user = {};
+        next();
+    }
+    
+});
 console.log("express: configured!");
 
 // checkAuth function
@@ -91,7 +104,7 @@ console.log("express: routing...");
 fileRoutes.forEach(function(name) {
     require("./controller/" + name).map();
 });
-app.get('*', function(req, res) {
+global.app.get('*', function(req, res) {
     res.render('404');
 });
 console.log("express: routed!");

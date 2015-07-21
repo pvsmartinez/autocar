@@ -6,17 +6,11 @@ function map() {
     // index page
 
     global.app.get('/home', global.checkAuth([0,1,2,3,4]), function (req, res) {
-
-        //res.send('if you are viewing this page it means you are logged in');
         res.render('homeLogada')
     });
 
     global.app.get('/agendamento', global.checkAuth([0,1,2,3,4]), function (req, res) {
             res.render('agendamento');
-    });
-
-    global.app.get('/tela2', global.checkAuth([0,1,2,3,4]), function (req, res) {
-            res.render('tela2');
     });
 
     global.app.get('/tela3', global.checkAuth([0,1,2,3,4]), function (req, res) {
