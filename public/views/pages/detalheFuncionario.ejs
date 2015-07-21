@@ -33,7 +33,7 @@
                         <th>Endereço</th>
                         <th>Função</th>
                         <% if (func.permissao == 3) { %>
-                        <th>Nome</th>
+                        <th>Especialidade</th>
                         <% } %>
                     </tr>
                     </thead>
@@ -44,7 +44,7 @@
                         <td><%= func.endereco %></td>
                         <td><%= func.funcao %></td>
                         <% if (func.permissao == 3) { %>
-                        <td><%= func.nome %></td>
+                        <td><%= func.especialidade %></td>
                         <% } %>
                     </tr>
                 </table>
@@ -55,28 +55,6 @@
     <a href="/editarFuncionario?id=<%= func.id %>" class="btn btn-sm btn-primary text-center">
         Editar
     </a>
-    <!-- -->
-    <!--<div class="row">-->
-    <!--<div class="col-sm-6 col-md-4 col-md-offset-4">-->
-    <!--<div>-->
-    <!--<span class="col-sm-6 text-right"><bold>Nome<bold></span>-->
-    <!--<span class="col-sm-6"><%= func.nome %></span>-->
-    <!--<span class="col-sm-6 text-right"><bold>Email<bold></span>-->
-    <!--<span class="col-sm-6"><%= func.email %></span>-->
-    <!--<span class="col-sm-6 text-right"><bold>Telefone<bold></span>-->
-    <!--<span class="col-sm-6"><%= func.telefone %></span>-->
-    <!--<span class="col-sm-6 text-right"><bold>Endereço<bold></span>-->
-    <!--<span class="col-sm-6"><%= func.endereco %></span>-->
-    <!--<span class="col-sm-6 text-right"><bold>Função<bold></span>-->
-    <!--<span class="col-sm-6"><%= func.funcao %></span>-->
-    <!--<% if (func.permissao == 3) { %>-->
-    <!--<span class="col-sm-6 text-right"><bold>Nome<bold></span>-->
-    <!--<span class="col-sm-6"><%= func.nome %></span>-->
-    <!--<% } %>-->
-    <!--<a href="/editarFuncionario?id=<%= func.id %>"><button>Editar</button></a>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
 </main>
 </body>
 </html>
