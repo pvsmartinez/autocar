@@ -4,6 +4,9 @@ module.exports = {
 
 function map() {
 	global.app.get('/os', global.checkAuth([1,2,3,4]), function (req, res, next) {
-		res.render('os');
+		global.db.query(global.services.os.listAll(), function(err, rows) {
+			res.render('os', {locals: {os:rows}});
+		});
+		
 	});
 }
