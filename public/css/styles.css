@@ -61,6 +61,12 @@ body {
     color: #fff;
 }
 
+.tabela-funcionarios{
+    display: inline-block;
+    width:100%;
+    margin-top: 20px;
+}
+
 .footer {
     left: 0px;
     bottom: 0px;

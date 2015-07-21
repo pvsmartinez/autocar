@@ -15,6 +15,10 @@ insert into automovel (cliente_id,placa,renavan,modelo,ano,quilometragem) values
 insert into automovel (cliente_id,placa,renavan,modelo,ano,quilometragem) values ('0','MBM 1234','213123123','renault logan','2011','10000');
 insert into automovel (cliente_id,placa,renavan,modelo,ano,quilometragem) values ('0','VSF 0000','213123123','renault logan','2004','10000');
 truncate equipe;
+truncate especialidade;
+insert into especialidade (nome) values ('Pneu');
+insert into especialidade (nome) values ('Parachoque');
+insert into especialidade (nome) values ('Motor');
 truncate horario_atendimento;
 truncate modelo_carro;
 insert into modelo_carro (marca,modelo) values ('Fiat','Punto');

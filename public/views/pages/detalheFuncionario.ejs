@@ -9,32 +9,74 @@
 </header>
 <main>
     <% func = locals.func;
-        switch (func.permissao) {
-            case 1: func.funcao = 'Atendente'; break;
-            case 2: func.funcao = 'Técnico'; break;
-            case 3: func.funcao = 'Mecânico'; break;
-        } %>
-    <div class="row">
-        <div class="col-sm-6 col-md-4 col-md-offset-4">
-            <div>
-                <span class="col-sm-6 text-right"><bold>Nome<bold></span>
-                <span class="col-sm-6"><%=func.nome%></span>
-                <span class="col-sm-6 text-right"><bold>Email<bold></span>
-                <span class="col-sm-6"><%=func.email%></span>
-                <span class="col-sm-6 text-right"><bold>Telefone<bold></span>
-                <span class="col-sm-6"><%=func.telefone%></span>
-                <span class="col-sm-6 text-right"><bold>Endereço<bold></span>
-                <span class="col-sm-6"><%=func.endereco%></span>
-                <span class="col-sm-6 text-right"><bold>Função<bold></span>
-                <span class="col-sm-6"><%=func.funcao%></span>
-                <% if (func.permissao == 3) {%>
-                <span class="col-sm-6 text-right"><bold>Nome<bold></span>
-                <span class="col-sm-6"><%=func.nome%></span>
-                <%}%>
-                <a href="/editarFuncionario?id=<%=func.id%>"><button>Editar</button></a>
+    switch (func.permissao) {
+        case 1:
+            func.funcao = 'Atendente';
+            break;
+        case 2:
+            func.funcao = 'Técnico';
+            break;
+        case 3:
+            func.funcao = 'Mecânico';
+            break;
+    } %>
+
+    <div class="tabela-funcionarios">
+        <div class="row">
+            <div class="col-xs-2 col-sm-4 col-md-10">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Função</th>
+                        <th>Email</th>
+                        <th>Endereço</th>
+                        <th>Função</th>
+                        <% if (func.permissao == 3) { %>
+                        <th>Nome</th>
+                        <% } %>
+                    </tr>
+                    </thead>
+                    <tr>
+                        <th><%= func.nome %></th>
+                        <th><%= func.email %></th>
+                        <th><%= func.telefone %></th>
+                        <th><%= func.endereco %></th>
+                        <th><%= func.funcao %></th>
+                        <% if (func.permissao == 3) { %>
+                        <th><%= func.nome %></th>
+                        <% } %>
+                    </tr>
+                </table>
+
             </div>
         </div>
     </div>
+    <a href="/editarFuncionario?id=<%= func.id %>" class="btn btn-sm btn-primary text-center">
+        Editar
+    </a>
+    <!-- -->
+    <!--<div class="row">-->
+    <!--<div class="col-sm-6 col-md-4 col-md-offset-4">-->
+    <!--<div>-->
+    <!--<span class="col-sm-6 text-right"><bold>Nome<bold></span>-->
+    <!--<span class="col-sm-6"><%= func.nome %></span>-->
+    <!--<span class="col-sm-6 text-right"><bold>Email<bold></span>-->
+    <!--<span class="col-sm-6"><%= func.email %></span>-->
+    <!--<span class="col-sm-6 text-right"><bold>Telefone<bold></span>-->
+    <!--<span class="col-sm-6"><%= func.telefone %></span>-->
+    <!--<span class="col-sm-6 text-right"><bold>Endereço<bold></span>-->
+    <!--<span class="col-sm-6"><%= func.endereco %></span>-->
+    <!--<span class="col-sm-6 text-right"><bold>Função<bold></span>-->
+    <!--<span class="col-sm-6"><%= func.funcao %></span>-->
+    <!--<% if (func.permissao == 3) { %>-->
+    <!--<span class="col-sm-6 text-right"><bold>Nome<bold></span>-->
+    <!--<span class="col-sm-6"><%= func.nome %></span>-->
+    <!--<% } %>-->
+    <!--<a href="/editarFuncionario?id=<%= func.id %>"><button>Editar</button></a>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
 </main>
 </body>
 </html>
