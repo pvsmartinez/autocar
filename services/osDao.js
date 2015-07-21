@@ -1,7 +1,8 @@
 module.exports = {
 	listAll : listAll,
 	showOS : showOS,
-	getServicos : getServicos
+	getServicos : getServicos,
+	getEquipes : getEquipes
 }
 
 function listAll() {
