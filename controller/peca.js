@@ -40,7 +40,7 @@ function map() {
                     console.log(err);
                     res.redirect('/404');
                 } else {
-                   res.render('cadastroPeca',{locals: {peca:rows[0]}});
+                   res.render('cadastroPeca',{locals: {peca:rows[0], query : req.query}});
                 }
             });
         }

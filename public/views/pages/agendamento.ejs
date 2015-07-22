@@ -268,7 +268,7 @@
 								beforeSend: function() {
 									$("#horarios-loading").fadeIn(animTime);
 									$("#horarios").fadeOut(animTime);
-									$("#cadastro-div").fadeOut(animTime);
+									$("#ordem-div").fadeOut(animTime);
 								},
 								success: function(data) {
 									$('.td-horario').addClass('td-horario-indisponivel');
@@ -289,23 +289,10 @@
 						}
 					}
 				});
+
 				$('.td-horario').click( function() {
 					if (!$(this).hasClass('td-horario-indisponivel')) {
-						hor = $(this).attr('id').split("horario-")[1];
-						var hourDate = new Date(currentDate);
-						hourDate.setHours(hor,0,0,0);
-						if (hourDate.getTime() > (new Date()).getTime()) {
-							formatedDate = currentDate.getDate()+"/"+(currentDate.getMonth()+1)+"/"+currentDate.getFullYear().toString();
-							var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
-							var localISOTime = (new Date(hourDate - tzoffset)).toISOString().slice(0,-1);
-							console.log(localISOTime);
-							$("#form-horario").val(localISOTime);
-							$("#cadastro-data").html(formatedDate);
-							$("#cadastro-hora").html(hor+":00");
-							$("#ordem-div").fadeIn(animTime);
-						} else {
-							alert("O horário escolhido já passou!");
-						}
+						$("#ordem-div").fadeIn(animTime);
 					}
 				});
 

@@ -1,7 +1,8 @@
 module.exports = {
 	listAll : listAll,
 	showOS : showOS,
-	getServicos : getServicos
+	getServicos : getServicos,
+	getEquipes : getEquipes
 }
 
 function listAll() {
@@ -14,4 +15,8 @@ function showOS(id) {
 
 function getServicos() {
 	return "select * from tipo_de_servico";
+}
+
+function getEquipes() {
+	return "select * from equipe";
 }

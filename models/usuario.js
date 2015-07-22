@@ -21,7 +21,8 @@ var objs = [
 	{email: "cliente@usp.br", senha : "1234", nome : "cliente", telefone : "12345678", endereco : "Av Luciano Gualberto, 123", permissao :"0"},
 	{email: "atendente@usp.br", senha : "1234", nome : "atendente", telefone : "12345678", endereco : "Av Luciano Gualberto, 123", permissao :"1"},
 	{email: "tecnico@usp.br", senha : "1234", nome : "tecnico", telefone : "12345678", endereco : "Av Luciano Gualberto, 123", permissao :"2"},
-	{email: "mecanico@usp.br", senha : "1234", nome : "mecanico", telefone : "12345678", endereco : "Av Luciano Gualberto, 123", permissao :"3"},
+	{email: "mecanico@usp.br", senha : "1234", nome : "mecanico", telefone : "12345678", endereco : "Av Luciano Gualberto, 123", permissao :"3", especialidade : "1"},
+	{email: "mecanico2@usp.br", senha : "1234", nome : "mecanico2", telefone : "12345678", endereco : "Av Luciano Gualberto, 123", permissao :"3", especialidade : "2"},
 	{email: "administrador@usp.br", senha : "1234", nome : "administrador", telefone : "12345678", endereco : "Av Luciano Gualberto, 123", permissao :"4"}
 ];
 
