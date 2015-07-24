@@ -16,6 +16,7 @@ var objs = [
 	{marca : 'Peugeot', modelo : '307'},
 	{marca : 'Hyundai', modelo : 'HB20'},
 	{marca : 'Ford', modelo : 'Focus'},
+	{marca : 'Renault', modelo : 'Logan'}
 ];
 
 function ent() {

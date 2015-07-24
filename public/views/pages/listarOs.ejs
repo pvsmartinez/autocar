@@ -25,22 +25,36 @@
                         <th>Preço</th>
                         <th>Tipo</th>
                         <th>Situação</th>
+                        <th>Opções</th>
                     </tr>
                     </thead>
                     <% orders.forEach(function(os){%>
                         <tr>
                             <th><%= os.nome %></th>
-                            <th><%= os.modelo %></th>
+                            <th><%= os.placa %></th>
                             <th><%= os.horario %></th>
-                            <th><%= os.preco %></th>
-                            <th><%= os.tipo %></th>
+                            <th>R$ <%= os.preco.toFixed(2) %></th>
+                            <th><%= os.tipo == 1? 'revisão' : 'normal' %></th>
                             <th><%= os.status %></th>
+                            <th>
+                                <a href="/os/detalhes/<%= os.id %>">
+                                    <i class="fa fa-wrench" data-toggle="tooltip" title="Detalhes"></i>
+                                </a>
+                                <a href="/os/feito/<%= os.id %>">
+                                    <i class="fa fa-check" data-toggle="tooltip" title="Feito"></i>
+                                </a>
+                            </th>
                         </tr>
                     <%})%>
                 </table>
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip(); 
+        });
+    </script>
 </main>
 <footer>
     <% include ../partials/footer %>

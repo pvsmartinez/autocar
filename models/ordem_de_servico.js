@@ -21,7 +21,7 @@ var obj = {
 }
 
 var objs = [
-	{equipe_id : '0', automovel_id : '0', data_emissao : '2015-07-14 11:00:00', horario : '2015-07-28 8:00:00', preco :  "2000.00", tipo : "0", status : "0"},
+	{equipe_id : '2', automovel_id : '2', data_emissao : '2015-07-14 11:00:00', horario : '2015-07-28 8:00:00', preco :  "2000.00", tipo : "0", status : "0"},
 	{equipe_id : '1', automovel_id : '1', data_emissao : '2015-07-14 13:00:00', horario : '2015-07-29 8:00:00', preco :  "1000.00", tipo : "0", status : "0"}
 ];
 
@@ -32,3 +32,11 @@ function ent() {
 function populate() {
 	return objs;
 }
+
+/*
+======================= TIPO =======================
+0 - NORMAL
+1 - REVISÃO
+======================= STATUS =======================
+NAO DEFINIMOS!
+*/
