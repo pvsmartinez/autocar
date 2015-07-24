@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+</head>
+<body class="container">
+<header>
+    <% include ../partials/header %>
+</header>
+<main>
+    <div class="row">
+        <div class="col-xs-2 col-sm-4 col-md-10">
+            <h2>Lista de Revisões AutoCar</h2>
+        </div>
+    </div>
+    <div class="tabela-funcionarios">
+        <div class="row">
+            <div class="col-xs-2 col-sm-4 col-md-10">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Revisão</th>
+                        <th>Modelo do automóvel</th>
+                        <th>Quilometragem</th>
+                        <th>Preço</th>
+                        <th>Ação</th>
+                    </tr>
+                    </thead>
+                    <%    locals.revisoes.forEach(function(revisao) {
+                    %>
+
+                    <tr>
+                        <td><a href="/detalheRevisao?id=<%=revisao.id%>"><%= revisao.marca %> <%=revisao.modelo%> - <%= revisao.quilometragem %> km</a></td>
+                        <td><%= revisao.marca %> <%=revisao.modelo%></td>
+                        <td><%= revisao.quilometragem %> km</td>
+                        <td>R$ <%= revisao.preco.toFixed(2) %></td>
+                        <td><a href="/editarRevisao?id=<%= revisao.id %>">Editar</a>
+                    </tr>
+                    <%
+                    });
+                    %>
+                </table>
+                <a href="/cadastroRevisao"><button class="btn btn-large btn-primary">Cadastrar</button></a>
+            </div>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

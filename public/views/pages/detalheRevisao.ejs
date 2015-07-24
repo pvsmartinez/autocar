@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+</head>
+<body class="container">
+<header>
+    <% include ../partials/header %>
+</header>
+<main>
+    <div class="row">
+        <div class="col-xs-2 col-sm-4 col-md-10">
+            <h2>Detalhes Revisão AutoCar</h2>
+            <h3><%=locals.revisao.marca + ' ' + locals.revisao.modelo + ' - '+ locals.revisao.quilometragem + ' km'%></h3>
+        </div>
+    </div>
+    <div class="tabela-funcionarios">
+        <div class="row">
+            <div class="col-xs-2 col-sm-4 col-md-10">
+
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="col-sm-6 text-right">
+                            <strong>Automóvel</strong>
+                        </div>
+                        <div class="col-sm-6">
+                            <%= locals.revisao.marca + ' ' + locals.revisao.modelo%>
+                        </div>
+                        <div class="col-sm-6 text-right">
+                            <strong>Quilometragem</strong>
+                        </div>
+                        <div class="col-sm-6">
+                            <%= locals.revisao.quilometragem%> km
+                        </div>
+                        <div class="col-sm-6 text-right">
+                            <strong>Preço</strong>
+                        </div>
+                        <div class="col-sm-6">
+                            R$ <%= locals.revisao.preco.toFixed(2)%>
+                        </div>
+                    </div>
+                </div>
+                <h3>Peças</h1>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <table class="table">
+                            <thead>
+                                <th>Peça</th>
+                                <th>Quantidade</th>
+                                <th>Preço</th>
+                                <th>Total</th>
+                            </thead>
+                            <% locals.pecasAssociadas.forEach(function (peca) { %>
+                                <tr>
+                                    <td><%=peca.nome%></td>
+                                    <td><%=peca.quantidade%></td>
+                                    <td>R$ <%=peca.valor.toFixed(2)%></td>
+                                    <td>R$ <%=(peca.quantidade * peca.valor).toFixed(2)%></td>
+                                </tr>
+                            <% }); %>
+                        </table>
+                    </div>
+                </div>
+
+                <a href="/editarRevisao?id=<%=locals.revisao.id%>"><button class="btn btn-large btn-primary">Editar</button></a>
+            </div>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>
