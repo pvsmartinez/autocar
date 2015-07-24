@@ -15,6 +15,8 @@ insert into automovel (cliente_id,placa,renavan,modelo,ano,quilometragem) values
 insert into automovel (cliente_id,placa,renavan,modelo,ano,quilometragem) values ('0','MBM 1234','213123123','renault logan','2011','10000');
 insert into automovel (cliente_id,placa,renavan,modelo,ano,quilometragem) values ('0','VSF 0000','213123123','renault logan','2004','10000');
 truncate equipe;
+insert into equipe (nome,especialidade,id_func1,id_func2) values ('equipe rocket','1','3','4');
+insert into equipe (nome,especialidade,id_func1,id_func2) values ('power rangers','0','5','6');
 truncate especialidade;
 insert into especialidade (nome) values ('Pneu');
 insert into especialidade (nome) values ('Parachoque');
@@ -26,8 +28,8 @@ insert into modelo_carro (marca,modelo) values ('Peugeot','307');
 insert into modelo_carro (marca,modelo) values ('Hyundai','HB20');
 insert into modelo_carro (marca,modelo) values ('Ford','Focus');
 truncate ordem_de_servico;
-insert into ordem_de_servico (automovel_id,data_emissao,horario,preco,tipo,status) values ('0','2015-07-14 11:00:00','2015-07-28 8:00:00','2000.00','0','0');
-insert into ordem_de_servico (automovel_id,data_emissao,horario,preco,tipo,status) values ('1','2015-07-14 13:00:00','2015-07-29 8:00:00','1000.00','0','0');
+insert into ordem_de_servico (equipe_id,automovel_id,data_emissao,horario,preco,tipo,status) values ('0','0','2015-07-14 11:00:00','2015-07-28 8:00:00','2000.00','0','0');
+insert into ordem_de_servico (equipe_id,automovel_id,data_emissao,horario,preco,tipo,status) values ('1','1','2015-07-14 13:00:00','2015-07-29 8:00:00','1000.00','0','0');
 truncate os_x_peca;
 insert into os_x_peca (os_id,peca_id) values ('0','0');
 insert into os_x_peca (os_id,peca_id) values ('0','1');
@@ -69,6 +71,8 @@ insert into usuario (email,senha,nome,telefone,endereco,permissao) values ('aten
 insert into usuario (email,senha,nome,telefone,endereco,permissao) values ('tecnico@usp.br','1234','tecnico','12345678','Av Luciano Gualberto, 123','2');
 insert into usuario (email,senha,nome,telefone,endereco,permissao,especialidade) values ('mecanico@usp.br','1234','mecanico','12345678','Av Luciano Gualberto, 123','3','1');
 insert into usuario (email,senha,nome,telefone,endereco,permissao,especialidade) values ('mecanico2@usp.br','1234','mecanico2','12345678','Av Luciano Gualberto, 123','3','2');
+insert into usuario (email,senha,nome,telefone,endereco,permissao,especialidade) values ('mecanic3@usp.br','1234','mecanico3','12345678','Av Luciano Gualberto, 123','3','1');
+insert into usuario (email,senha,nome,telefone,endereco,permissao,especialidade) values ('mecanico4@usp.br','1234','mecanico4','12345678','Av Luciano Gualberto, 123','3','2');
 insert into usuario (email,senha,nome,telefone,endereco,permissao) values ('administrador@usp.br','1234','administrador','12345678','Av Luciano Gualberto, 123','4');
 set foreign_key_checks = 1;
 commit;

@@ -6,7 +6,17 @@ module.exports = {
 }
 
 function listAll() {
-	return "select * from ordem_de_servico";
+	//return "select * from ordem_de_servico";
+	
+	text = "SELECT os.horario, os.preco, os.tipo, os.status, e.nome, a.modelo";
+	text += " FROM ordem_de_servico os";
+	text += " LEFT JOIN equipe e";
+	text += " ON os.equipe_id = e.id";
+	text += " LEFT JOIN automovel a";
+	text += " ON os.automovel_id = a.id";
+	text += " ORDER BY os.horario";
+	return text;
+
 }
 
 function showOS(id) {
