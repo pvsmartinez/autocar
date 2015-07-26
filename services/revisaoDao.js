@@ -4,7 +4,10 @@ module.exports = {
 	details : details,
 	pecasAssociadas : pecasAssociadas,
 	cadastro : cadastro,
-	adicionarPecas : adicionarPecas
+	adicionarPecas : adicionarPecas,
+	excluirPecasAssociadas : excluirPecasAssociadas,
+	excluir : excluir,
+	update : update
 }
 
 
@@ -37,4 +40,15 @@ function adicionarPecas(id, pecas, qtds) {
 		}
 	});
 	return str;
+}
+
+function excluirPecasAssociadas (id) {
+	return "delete from revisao_x_peca where revisao_id = "+id;
+}
+function excluir (id) {
+	return "delete from revisao where id = "+id;
+}
+
+function update (id, modelo_id, preco, quilometragem) {
+	return "update revisao set modelo_id="+modelo_id+", preco="+preco+", quilometragem="+quilometragem+" where id="+id;
 }

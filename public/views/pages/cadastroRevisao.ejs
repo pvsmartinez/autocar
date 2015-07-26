@@ -11,24 +11,37 @@
     <div class="row">
         <div class="col-sm-6 col-md-4 col-md-offset-4">
             <div class="autoCard">
-                <form id="cadastroForm" class="form-signin" method="post" action="/cadastroRevisao">
+                <form id="cadastroForm" class="form-signin" method="post" action="<%=locals.revisao?'/editarRevisao':'/cadastroRevisao'%>">
+                    <%
+                        if (locals.revisao) {
+                            %>
+                            <input type="hidden" name="id" value="<%=locals.revisao.id%>">
+                            <%
+                        }
+                    %>
                     <label for="modelo">Modelo:</label>
                     <select class="form-control" name="modelo">
                         <% locals.carros.forEach(function (carro) {
                             %>
-                            <option value="<%=carro.id%>"><%=carro.marca + ' ' + carro.modelo%></option>
+                            <option value="<%=carro.id%>" <%=locals.revisao && locals.revisao.modelo_id == carro.id?'selected':''%>><%=carro.marca + ' ' + carro.modelo%></option>
                             <%
                         });%>
                     </select>
                     <br>
                     <label for="quilometragem">Quilometragem:</label>
-                    <input type="number" class="form-control" placeholder="Quilometragem" name="quilometragem" required>
+                    <input type="number" class="form-control" placeholder="Quilometragem" name="quilometragem" <%=locals.revisao?'value='+locals.revisao.quilometragem:''%> required>
                     <br>
                     <label for="preco">Preço:</label>
-                    <input type="number" class="form-control" placeholder="Preço" name="preco" required>
+                    <input type="number" class="form-control" placeholder="Preço" name="preco" <%=locals.revisao?'value='+locals.revisao.preco:''%> required>
                     <br>
-                    <button class="btn btn-lg btn-primary btn-block" type="submit">Cadastrar</button>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit"><%=locals.revisao?'Salvar':'Cadastrar'%></button>
                 </form>
+                <% if(locals.revisao) { %>
+                    <form action="/excluirRevisao" method="post" style="padding: 15px">
+                        <input type="hidden" name="id" value="<%= locals.revisao.id %>">
+                        <button class="btn btn-lg btn-block btn-danger" type="submit">Excluir</button>
+                    </form>
+                <% } %>
                 <% if (locals.query && locals.query.err) { %>
                 <div>Ocorreu um erro inesperado.</div>
                 <% } %>
@@ -79,17 +92,39 @@
     })();
     var pecasAssociadas = [];
     var pecasFinais = [];
+    function adicionarPecaTable (peca, nome, qtd) {
+        $('#pecasTable').append('<tr><td>'+nome+'</td><td>'+qtd+'</td><td><span class="excluirPeca" style="cursor: pointer;" pecaId="'+peca+'">Excluir</span></td></tr>');
+                
+    }
+    <%
+        if (locals.revisao) {
+            %>
+            (function() {
+            <%
+            locals.revisao.pecasAssociadas.forEach(function (peca) {
+            %>
+                pecasAssociadas.push(<%=peca.id%>);
+                pecasFinais.push({peca:<%=peca.id%>, nome:'<%=peca.nome%>', qtd:<%=peca.quantidade%>});
+                adicionarPecaTable(<%=peca.id%>, '<%=peca.nome%>', <%=peca.quantidade%>);
+            <%
+            });
+            %>
+        })();
+            <%
+        }
+
+    %>
     $('#adicionarPeca').submit(function (evt) {
-        var peca = $('select[name=novaPeca]').val();
-        var qtd = $('input[name=novaPecaQtd]').val();
+        var peca = Number.parseInt($('select[name=novaPeca]').val());
+        var qtd = Number.parseInt($('input[name=novaPecaQtd]').val());
         if (!qtd || qtd < 1) {
             alert('Coloque uma quantidade maior que 1');
         } else {
             if (pecasAssociadas.indexOf(peca) == -1) {
                 pecasAssociadas.push(peca);
                 var pecaObj = $.grep(pecas, function(e){return e.id==peca});
-                $('#pecasTable').append('<tr><td>'+pecaObj[0].nome+'</td><td>'+qtd+'</td><td><span class="excluirPeca" style="cursor: pointer;" pecaId="'+peca+'">Excluir</span></td></tr>');
                 pecasFinais.push({peca: peca, nome: pecaObj[0].nome, qtd: qtd});
+                adicionarPecaTable(peca, pecaObj[0].nome, qtd);
             }
             else {
                 alert('Peça já adicionada');
@@ -101,8 +136,8 @@
     $(document).on('click', '.excluirPeca', function(evt) {
         console.log();
         $(evt.target).closest('tr').remove();
-        var index = pecasAssociadas.indexOf($(evt.target).attr('pecaId'));
-        pecasAssociadas.splice(pecasAssociadas.indexOf(index), 1);
+        var index = pecasAssociadas.indexOf(Number.parseInt($(evt.target).attr('pecaId')));
+        pecasAssociadas.splice(index, 1);
         pecasFinais.splice(index, 1);
     });
     $('#cadastroForm').submit(function (evt) {
