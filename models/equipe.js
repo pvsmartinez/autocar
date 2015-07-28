@@ -8,15 +8,15 @@ var obj = {
 	__primaryKey : "id",
 	id : "int(11) auto_increment",
 	nome : "varchar(100)",
-	especialidade : "int(11)",
+	especialidade_id : "int(11)",
 	id_func1 : "int(11)",
 	id_func2 : "int(11)",
-	__foreignKeys : ["(especialidade) REFERENCES especialidade(id)","(id_func1) REFERENCES usuario(id)", "(id_func2) REFERENCES usuario(id)"]
+	__foreignKeys : ["(especialidade_id) REFERENCES especialidade(id)","(id_func1) REFERENCES usuario(id)", "(id_func2) REFERENCES usuario(id)"]
 }
 
 var objs = [
-	{nome: 'equipe rocket', especialidade: '1', id_func1:'7', id_func2:'4'},
-	{nome: 'power rangers', especialidade: '2', id_func1:'5', id_func2:'6'}
+	{nome: 'equipe rocket', especialidade_id: 1, id_func1: 3, id_func2:4},
+	{nome: 'power rangers', especialidade_id: 2, id_func1: 5, id_func2:6}
 ];
 
 function ent() {

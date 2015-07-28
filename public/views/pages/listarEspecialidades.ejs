@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <% include ../partials/head %>
+</head>
+<body class="container">
+<header>
+    <% include ../partials/header %>
+</header>
+<main>
+    <div class="row">
+        <div class="col-xs-2 col-sm-4 col-md-10">
+            <h2>Lista de Especialidades AutoCar</h2>
+        </div>
+    </div>
+    <div class="tabela-funcionarios">
+        <div class="row">
+            <div class="col-xs-2 col-sm-4 col-md-10">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Ação</th>
+                    </tr>
+                    </thead>
+                    <%    locals.especialidades.forEach(function(especialidade) {
+                    %>
+
+                    <tr>
+                        <td><%= especialidade.nome %></td>
+                        <td><a href="/editarEspecialidade?id=<%= especialidade.id %>">Editar</a>
+                    </tr>
+                    <%
+                    });
+                    %>
+                </table>
+                <a href="/cadastroEspecialidade"><button class="btn btn-large btn-primary">Cadastrar</button></a>
+            </div>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>
