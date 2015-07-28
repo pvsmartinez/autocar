@@ -3,7 +3,8 @@ module.exports = {
 	listCurrent : listCurrent,
 	showOS : showOS,
 	getServicos : getServicos,
-	getEquipes : getEquipes
+	getEquipes : getEquipes,
+	setStatus : setStatus
 }
 
 function listAll() {
@@ -13,7 +14,6 @@ function listAll() {
 	text += " ON os.equipe_id = e.id";
 	text += " LEFT JOIN automovel a";
 	text += " ON os.automovel_id = a.id";
-	text += " WHERE os.horario > NOW()"
 	text += " ORDER BY os.horario";
 	return text;
 }
@@ -26,6 +26,7 @@ function listCurrent() {
 	text += " LEFT JOIN automovel a";
 	text += " ON os.automovel_id = a.id";
 	text += " WHERE os.horario > NOW()";
+	text += " AND os.status < 3";
 	text += " ORDER BY os.horario";
 	return text;
 }
@@ -55,4 +56,8 @@ function getServicos() {
 
 function getEquipes() {
 	return "select * from equipe";
+}
+
+function setStatus(id, status) {
+	return	"update ordem_de_servico set status=" + status + " where id =" + id;
 }

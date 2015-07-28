@@ -16,7 +16,7 @@ insert into automovel (cliente_id,placa,renavan,modelo_id,ano,quilometragem) val
 insert into automovel (cliente_id,placa,renavan,modelo_id,ano,quilometragem) values ('0','VSF 0000','213123123','2','2004','10000');
 truncate equipe;
 insert into equipe (nome,especialidade,id_func1,id_func2) values ('equipe rocket','1','3','4');
-insert into equipe (nome,especialidade,id_func1,id_func2) values ('power rangers','0','5','6');
+insert into equipe (nome,especialidade,id_func1,id_func2) values ('power rangers','2','5','6');
 truncate especialidade;
 insert into especialidade (nome) values ('Pneu');
 insert into especialidade (nome) values ('Parachoque');

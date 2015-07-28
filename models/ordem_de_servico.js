@@ -17,7 +17,6 @@ var obj = {
 	revisao_id : "int(11) null",
 	status : "int(1)",
 	__foreignKeys : ["(equipe_id) REFERENCES equipe(id)", "(automovel_id) REFERENCES automovel(id)", "(revisao_id) REFERENCES revisao(id)"]
-
 }
 
 var objs = [
@@ -38,5 +37,9 @@ function populate() {
 0 - NORMAL
 1 - REVISÃO
 ======================= STATUS =======================
-NAO DEFINIMOS!
+0 - CRIADO
+1 - AUTORIZADO
+2 - SUSPENSO
+3 - CANCELADO
+4 - CONCLUIDO
 */

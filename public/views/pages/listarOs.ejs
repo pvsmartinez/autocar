@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <% include ../partials/head %>
 </head>
@@ -30,23 +30,50 @@
                     </thead>
                     <% orders.forEach(function(os){%>
                         <tr>
-                            <th><%= os.nome %></th>
-                            <th><%= os.placa %></th>
-                            <th><%= os.horario %></th>
-                            <th>R$ <%= os.preco.toFixed(2) %></th>
-                            <th><%= os.tipo == 1? 'revisão' : 'normal' %></th>
-                            <th><%= os.status %></th>
-                            <th>
+                            <%
+                                hora = os.horario.getDate() +'/'+ ("0" + (os.horario.getMonth() + 1)).slice(-2) +'/'+os.horario.getFullYear();
+                                switch(os.status) {
+                                    case 0:
+                                        status = 'CRIADO'
+                                        break;
+                                    case 1:
+                                        status = 'AUTORIZADO'
+                                        break;
+                                    case 2:
+                                        status = 'SUSPENSO'
+                                        break;
+                                    case 3:
+                                        status = 'CANCELADO'
+                                        break;
+                                    case 4:
+                                        status = 'CONCLUIDO'
+                                        break;
+                                    default:
+                                        status = 'ERROR'
+                                }
+                             %>
+                            <td><%= os.nome %></td>
+                            <td><%= os.placa %></td>
+                            <td><%= hora %></td>
+                            <td>R$ <%= os.preco.toFixed(2) %></td>
+                            <td><%= os.tipo == 1? 'revisão' : 'normal' %></td>
+                            <td><%= status %></td>
+                            <td>
                                 <a href="/os/detalhes/<%= os.id %>">
                                     <i class="fa fa-wrench" data-toggle="tooltip" title="Detalhes"></i>
                                 </a>
                                 <a href="/os/feito/<%= os.id %>">
                                     <i class="fa fa-check" data-toggle="tooltip" title="Feito"></i>
                                 </a>
-                            </th>
+                            </td>
                         </tr>
                     <%})%>
                 </table>
+                <% if (!todos && user.permissao == 4) {%>
+                <a href="/os/todos">
+                    <button>Listar Todos</button>
+                </a>
+                <% } %>
             </div>
         </div>
     </div>
