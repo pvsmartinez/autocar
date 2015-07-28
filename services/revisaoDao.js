@@ -7,7 +7,8 @@ module.exports = {
 	adicionarPecas : adicionarPecas,
 	excluirPecasAssociadas : excluirPecasAssociadas,
 	excluir : excluir,
-	update : update
+	update : update,
+	buscar : buscar
 }
 
 
@@ -51,4 +52,8 @@ function excluir (id) {
 
 function update (id, modelo_id, preco, quilometragem) {
 	return "update revisao set modelo_id="+modelo_id+", preco="+preco+", quilometragem="+quilometragem+" where id="+id;
+}
+
+function buscar(modelo_id) {
+	return "select revisao.*,modelo_carro.modelo, modelo_carro.marca from revisao inner join modelo_carro on revisao.modelo_id = modelo_carro.id where revisao.modelo_id = "+modelo_id;
 }

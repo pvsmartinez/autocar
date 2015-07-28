@@ -113,7 +113,7 @@
 			<div id="ordem-div" style="float:left; width:30%; display:none">
 
 	            <div align="center">
-	            	<button class="btn btn-lg btn-primary btn-block" id="btn_gerar" data-toggle="modal" data-target="#ordem_modal">
+	            	<button class="btn btn-lg btn-primary btn-block" id="btn_gerar" onclick="showOSForm()">
 	                    Gerar ordem de serviço
 	                </button>
 	            </div>
@@ -121,41 +121,76 @@
 			</div>
 
 
-			<div class="modal fade" id="ordem_modal">
+			<div class="modal fade" id="os-modal">
 			  <div class="modal-dialog">
 			    <div class="modal-content">
-			      <div class="modal-header">
-			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			        <h4 class="modal-title">Gerar ordem de serviço</h4>
-			      </div>
-			      <div class="modal-body">
-	                <form method="post" id="os-form">
-	                <!--<form class="form-signin" method="post" action="/signUp">-->
-	                	<input type="hidden" name="automovel" id="form-automovel">
-	                    <input type="date" class="form-control" placeholder="Previsão de conclusão" name="data-conclusao" required autofocus>
-	                    <!--<input type="password" class="form-control" placeholder="Telefone" name="telefone" required>-->
-	                    <br>
-	                    <select name="modelo" class="form-control"  placeholder="tipo" required>
-	                    	<option value="revisao">Revisão periódica</option>
-	                    	<option value="outro">Outro</option>
-	                    </select>
-	                    <br>
-	                    <select name="modelo" class="form-control" id="os-equipes"  placeholder="Modelo" required>
-	                    	<option value="">Equipe</option>
-	                    </select><div id="equipes-loading" style="display:none"><img src="img/loading_16x16.gif"></div>
-	                    <br>
-						Serviços:
-						<div id="servicos-loading" style="display:none"><img src="img/loading_16x16.gif"></div>
-						<br>
-						<div id="os-servicos"></div>
-	                    <br>
-
-	                </form>
-			      </div>
-			      <div class="modal-footer">
-			        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			        <button type="button" class="btn btn-primary">Save changes</button>
-			      </div>
+				    <form method="post" id="os-form">
+				      <div class="modal-header">
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				        <h4 class="modal-title">Gerar ordem de serviço</h4>
+				      </div>
+				      <div class="modal-body">
+				      	<div id="os-loading" style="display:none; width:100%" align="center">
+				      		<img src="img/loading_64x64.gif">
+				      	</div>
+				      	<div id="os-div">
+			                <!--<form class="form-signin" method="post" action="/signUp">-->
+			                	<input type="hidden" name="automovel" id="os-automovel">
+			                	<input type="hidden" name="modelo_id" id="os-modelo_id">
+			                	<input type="hidden" name="pecas" id="os-pecas">
+			                	<input type="hidden" name="pecas-qtd" id="os-pecas-qtd">
+			                	<select name="modelo" class="form-control" id="os-tipo" placeholder="tipo" required onchange="showRevisoes()">
+			                		<option value="">Tipo de OS</option>
+			                    	<option value="revisao">Revisão periódica</option>
+			                    	<option value="outro">Outro</option>
+			                    </select><div id="revisoes-loading" style="display:none"><img src="img/loading_16x16.gif"></div>
+			                    <br>
+			                	<select name="revisao" class="form-control" id="os-revisoes" placeholder="revisao" style="display:none">
+			                		<option value="">Selecione revisão</option>
+			                    </select>
+			                	<br>
+			                    <select name="modelo" class="form-control" id="os-especialidade"  placeholder="Especialidade" required>
+			                    	<option value="">Especialidade</option>
+			                    </select><div id="especialidade-loading" style="display:none"><img src="img/loading_16x16.gif"></div>
+			                    <br>
+			                    <table cellspacing='0' cellpadding='0' border='0' width='100%'>
+			                    	<tr>
+			                    		<td width="50%" valign="top">
+											<label>Serviços:</label>
+											<div id="servicos-loading" style="display:none"><img src="img/loading_16x16.gif"></div>
+											<br>
+											<div id="os-servicos"></div>
+						                    <br>
+			                			</td>
+			                			<td width="50%">
+					                        <label>Peça:</label>
+					                        <select id="pecas-list" class="form-control">
+					                        	<option value="">Seleciona a peça</option>
+					                        </select>
+					                        <br>
+					                        <label>Quantidade</label>
+					                        <input type="number" id="pecas-qtd" class="form-control">
+					                        <br>
+					                        <button type="button" class="btn btn-primary" onclick="adicionarPeca()">Adicionar</button>
+						                    <br><br>
+						                    <table class="table" id="pecasTable" style="display:none">
+						                        <thead>
+						                            <th>Peça</th>
+						                            <th>Quantidade</th>
+						                            <th></th>
+						                        </thead>
+						                    </table>
+			                			</td>
+			                		</tr>
+			                	</table>
+			               
+		            	</div>
+				      </div>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				        <button type="submit" class="btn btn-primary">Save changes</button>
+				      </div>
+			        </form>
 			    </div><!-- /.modal-content -->
 			  </div><!-- /.modal-dialog -->
 			</div><!-- /.modal -->
@@ -234,8 +269,9 @@
 
 			<script>
 
-				var equipes = null;
+				var especialidades = null;
 				var servicos = null;
+				var pecas = null;
 
 				var dias = ["Domingo","Segunda-feira","Terça-feira","Quarta-feira","Quinta-feira","Sexta-feira","Sábado"];
 				var meses = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
@@ -255,7 +291,7 @@
 							var dt = date.getFullYear().toString()+"-"+(date.getMonth()+1)+"-"+date.getDate();
 							var formatedDate = dias[date.getDay()]+", "+date.getDate()+" de "+meses[date.getMonth()]+" de "+date.getFullYear().toString();
 							$.ajax({
-								type: "POST",
+								type: "GET",
 								url:"api/horarios-de-atendimento",
 								data: {date:dt},
 								beforeSend: function() {
@@ -265,10 +301,12 @@
 								},
 								success: function(data) {
 									$('.td-horario').addClass('td-horario-indisponivel');
+									$('.td-horario').removeAttr('automovel');
 									$.each(data, function(index, value) {
 										var d = new Date(Date.parse(value.horario));
 										if ($('#horario-'+d.getHours())) {
 											$('#horario-'+d.getHours()).removeClass('td-horario-indisponivel');
+											$('#horario-'+d.getHours()).attr('automovel',value.automovel_id);
 										}
 									});
 									$("#horarios-date").html(formatedDate);
@@ -277,7 +315,7 @@
 								},
 								error: function(err) {
 									alert(err);
-								},
+								}
 							});
 						}
 					}
@@ -287,30 +325,37 @@
 					if (!$(this).hasClass('td-horario-indisponivel')) {
 						$("#ordem-div").fadeIn(animTime);
 
-						if (equipes == null) getEquipes();
-						else fillEquipes();
+						$("#os-automovel").val($(this).attr("automovel"));
+
+						if (especialidades == null) getEspecialidades();
+						else fillEspecialidades();
 
 						if (servicos == null) getServicos();
 						else fillServicos();
+
+						if (pecas == null) getPecas();
+						else fillPecas();
+
+						getAutomovel();
 					}
 				});
 
-				function getEquipes() {
+				function getEspecialidades() {
 
 					$.ajax({
-						type: "POST",
-						url:"api/equipes",
+						type: "GET",
+						url:"api/especialidades",
 						beforeSend: function() {
-							$("#equipes-loading").fadeIn(animTime);
+							$("#especialidades-loading").fadeIn(animTime);
 						},
 						success: function(data) {
 							equipes = data;
-							fillEquipes();
-							$("#equipes-loading").fadeOut(animTime);
+							fillEspecialidade();
+							$("#especialidades-loading").fadeOut(animTime);
 						},
 						error: function(err) {
 							alert(err);
-						},
+						}
 					});
 
 				}
@@ -318,7 +363,7 @@
 				function getServicos() {
 
 					$.ajax({
-						type: "POST",
+						type: "GET",
 						url:"api/servicos",
 						beforeSend: function() {
 							$("#servicos-loading").fadeIn(animTime);
@@ -335,16 +380,36 @@
 
 				}
 
+				function getPecas() {
 
-				function fillEquipes() {
+					$.ajax({
+						type: "GET",
+						url:"api/pecas",
+						beforeSend: function() {
+							$("#pecas-loading").fadeIn(animTime);
+						},
+						success: function(data) {
+							pecas = data;
+							fillPecas();
+							$("#pecas-loading").fadeOut(animTime);
+						},
+						error: function(err) {
+							alert(err);
+						},
+					});
 
-					$("#os-equipes").html("<option value=''>Equipe</option>");
+				}
+
+
+				function fillEspecialidade() {
+
+					$("#os-especialidade").html("<option value=''>Especialidade</option>");
 
 					$.each(equipes, function(index, value) {
 						opt = $("<option></option>");
 						opt.val(value.id);
 						opt.html(value.nome);
-						$("#os-equipes").append(opt);
+						$("#os-especialidade").append(opt);
 					});
 
 				}
@@ -359,6 +424,167 @@
 						$("#os-servicos").append(opt);
 						$("#os-servicos").append(" "+value.nome+"<br />");
 					});
+
+				}
+
+				function fillPecas() {
+
+					$("#pecas-list").html("<option value=''>Seleciona a peça</option>");
+
+					$.each(pecas, function(index, value) {
+						opt = $("<option></option>");
+						opt.val(value.id);
+						opt.html(value.nome);
+						$("#pecas-list").append(opt);
+					});
+
+				}
+
+				function getAutomovel() {
+
+					var automovel = $("#os-automovel").val();
+
+					$.ajax({
+						type: "GET",
+						url:"api/automovel/buscar",
+						data: {id:automovel},
+						beforeSend: function() {
+							$("#os-form").hide();
+							$("#os-loading").fadeIn(animTime);
+						},
+						success: function(data) {
+							$("#os-loading").fadeOut(animTime);
+							$("#os-form").fadeIn(animTime);
+							$("#os-modelo_id").val(data[0].modelo_id);
+						},
+						error: function(err) {
+							alert(err);
+						}
+					});
+
+				}
+
+				function showOSForm() {
+
+					resetOSForm();
+					$("#os-modal").modal();
+
+				}
+
+				function showRevisoes() {
+
+					if ($("#os-tipo").val() == "revisao") {
+
+						modelo = $("#os-modelo_id").val();
+
+						$.ajax({
+							type: "GET",
+							url:"api/revisoes",
+							data: {modelo_id:modelo},
+							beforeSend: function() {
+								$("#revisoes-loading").fadeIn(animTime);
+							},
+							success: function(data) {
+								console.log(data);
+								$("#os-revisoes").show(animTime);
+								$("#os-revisoes").attr("required","true");
+								$("#revisoes-loading").fadeOut(animTime);
+								$("#os-revisoes").html("<option value=''>Selecione revisão</option>");
+								$.each(data, function(index, value) {
+									opt = $("<option></option>");
+									opt.val(value.id);
+									opt.append(value.marca + " " + value.modelo + " - " + value.quilometragem + "km");
+									$("#os-revisoes").append(opt);
+								});
+							},
+							error: function(err) {
+								alert(err);
+							}
+						});
+
+					} else {
+
+						$("#os-revisoes").hide(animTime);
+						$("#os-revisoes").removeAttr("required");
+
+					}
+
+				}
+
+				function adicionarPeca() {
+					
+					var id = $("#pecas-list").val();
+					var nome = $("#pecas-list option:selected").text();
+					var qtd = Number.parseInt($("#pecas-qtd").val());
+
+        			if (!qtd || qtd < 1) {
+            			alert('Coloque uma quantidade maior que 1');
+            			return;
+            		}
+
+					var pecas;
+        			try {
+        				pecas = JSON.parse($("#os-pecas").val());
+        			} catch (err) {
+        				pecas = []; 
+        			}
+
+        			for (i = 0; i < pecas.length; i++) {
+        				if (pecas[i].id == id) {
+        					alert('Peça já adicionada');
+        					return;
+        				}
+        			}
+
+        			$('#pecasTable').append('<tr class="pecaTr"><td>'+nome+'</td><td>'+qtd+'</td><td><span class="excluirPeca" style="cursor: pointer;" pecaId="'+id+'">Excluir</span></td></tr>');
+        			$('#pecasTable').show();
+
+        			var pecas;
+        			try {
+        				pecas = JSON.parse($("#os-pecas").val());
+        			} catch (err) {
+        				pecas = []; 
+        			}
+
+        			pecas.push({id:id, nome:nome, qtd:qtd});
+
+        			$("#os-pecas").val(JSON.stringify(pecas));
+
+
+				}
+
+				$(document).on('click', '.excluirPeca', function(evt) {
+
+					var id = $(evt.target).attr("pecaId");
+        			var pecas;
+
+        			try {
+        				pecas = JSON.parse($("#os-pecas").val());
+        			} catch (err) {
+        				pecas = []; 
+        			}
+        			for (i = 0; i < pecas.length; i++) {
+        				if (pecas[i].id == id) {
+        					pecas.splice(i, 1);
+        				}
+        			}
+
+        			$("#os-pecas").val(JSON.stringify(pecas));
+					$(evt.target).closest('tr').remove();
+
+					if (pecas.length == 0) {
+						$("#pecasTable").hide();
+					}
+
+				});
+
+				function resetOSForm() {
+
+					$("#os-revisoes").hide(animTime);
+					$("#os-revisoes").removeAttr("required");
+					$(".pecaTr").remove();
+					$("#pecasTable").hide();
+					$("#os-form")[0].reset();
 
 				}
 
@@ -393,7 +619,7 @@
 							var dt = date.getFullYear().toString()+"-"+(date.getMonth()+1)+"-"+date.getDate();
 							var formatedDate = dias[date.getDay()]+", "+date.getDate()+" de "+meses[date.getMonth()]+" de "+date.getFullYear().toString();
 							$.ajax({
-								type: "POST",
+								type: "GET",
 								url:"api/horarios-de-atendimento",
 								data: {date:dt},
 								beforeSend: function() {
@@ -446,7 +672,7 @@
 				function getModelos() {
 
 					$.ajax({
-						type: "POST",
+						type: "GET",
 						url:"api/modelos-carros",
 						beforeSend: function() {
 							$("#modelos-loading").fadeIn(animTime);

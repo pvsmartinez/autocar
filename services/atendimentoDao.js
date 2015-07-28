@@ -12,7 +12,7 @@ function findById(id) {
 }
 
 function getAllHours(data) {
-	return "select horario from atendimento where horario >= '" + data + " 00:00:00' and horario < '" + data + " 23:59:59'"
+	return "select horario,automovel_id from atendimento where horario >= '" + data + " 00:00:00' and horario < '" + data + " 23:59:59'"
 }
 
 function getModeloCarros() {

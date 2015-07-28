@@ -25,19 +25,26 @@ function map() {
     });
 
 
-    global.app.post('/api/horarios-de-atendimento', global.checkAuth([0, 1, 2, 3, 4]), function(req, res) {
-    	var post = req.body;
-        global.db.query(global.services.atendimento.getAllHours(post.date), function(err, rows) {
+    global.app.get('/api/horarios-de-atendimento', global.checkAuth([0, 1, 2, 3, 4]), function(req, res) {
+    	var get = req.query;
+        global.db.query(global.services.atendimento.getAllHours(get.date), function(err, rows) {
         	global.error(err);
         	res.send(rows);
         });
     });
 
-    global.app.post('/api/modelos-carros', global.checkAuth([0, 1, 2, 3, 4]), function(req, res) {
-        var post = req.body;
+    global.app.get('/api/modelos-carros', global.checkAuth([0, 1, 2, 3, 4]), function(req, res) {
         global.db.query(global.services.atendimento.getModeloCarros(), function(err, rows) {
             global.error(err);
             res.send(rows);
         });
     });
+
+    global.app.get('/api/especialidades', global.checkAuth([1, 2, 3, 4]), function(req, res) {
+        global.db.query(global.services.especialidade.listAll(), function(err, rows) {
+            global.error(err);
+            res.send(rows);
+        });
+    });
+
 }
