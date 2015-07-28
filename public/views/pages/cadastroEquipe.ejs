@@ -21,7 +21,7 @@
                     <label>Especialidade:</label>
                     <select class="form-control" name="especialidade">
                         <% locals.especialidades.forEach(function (especialidade) { %>
-                            <option value="<%=especialidade.id%>" <% if (locals.equipe && especialidade.id == locals.equipe.especialidade) {%> selected <%}%>><%=especialidade.nome%></option>
+                            <option value="<%=especialidade.id%>" <% if (locals.equipe && especialidade.id == locals.equipe.especialidade_id) {%> selected <%}%>><%=especialidade.nome%></option>
                         <% }); %>
                     </select>
                     <br>

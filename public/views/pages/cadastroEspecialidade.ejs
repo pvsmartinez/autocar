@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <% include ../partials/head %>
+</head>
+<body class="container">
+<header>
+    <% include ../partials/header %>
+</header>
+<main>
+    <div class="row">
+        <div class="col-sm-6 col-md-4 col-md-offset-4">
+            <div class="autoCard">
+                <form class="form-signin" method="post" action="<%= !locals.especialidade?"/cadastroEspecialidade":"/editarEspecialidade" %>">
+                    <% if (locals.especialidade) { %>
+                    <input type="hidden" name="id" value="<%= locals.especialidade.id %>">
+                    <% } %>
+                    <!--<form class="form-signin" method="post" action="/signUp">-->
+                    <label for="nome">Nome:</label>
+                    <input type="text" class="form-control" placeholder="Nome" name="nome"
+                           value="<%= locals.especialidade?locals.especialidade.nome:'' %>" required autofocus>
+                    <br>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">
+                        <% if (!locals.especialidade){ %>
+                        Cadastrar
+                        <% } else { %>
+                        Salvar
+                        <% } %>
+                    </button>
+                </form>
+                <% if(locals.especialidade) { %>
+                    <form action="/excluirEspecialidade" method="post" style="padding: 15px">
+                        <input type="hidden" name="id" value="<%= locals.especialidade.id %>">
+                        <button class="btn btn-lg btn-block btn-danger" type="submit">Excluir</button>
+                    </form>
+                <% } %>
+
+                <% if (locals.query && locals.query.err) { %>
+                <div>Ocorreu um erro inesperado.</div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

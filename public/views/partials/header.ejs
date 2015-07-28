@@ -1,28 +1,3 @@
-<!--<nav class="navbar navbar-default" id="header" class="bg-blue">-->
-<!--<a class="logo" href="/">-->
-<!--AutoCar-->
-<!--</a>-->
-<!--<form class="pull-right" action="/logout" method="post">-->
-    <!--<button class="btn btn-primary logout" type="submit">Logout</button>-->
-<!--</form>-->
-<!--<ul class="pull-right">-->
-<!--<li><a href="/agendamento">Agendamento</a></li>-->
-<!--<% if (user.permissao > 0) { %>-->
-<!--<li><a href="/os">Ordem de Serviço</a></li>-->
-<!--<% if (user.permissao < 4) { %>-->
-<!--<li><a href="/detalheFuncionario?id=<%= user.id %>">Perfil</a></li>-->
-<!--<% } %>-->
-<!--<% if (user.permissao == 4) { %>-->
-<!--<li><a href="/listarFuncionarios">Funcionários</a></li>-->
-<!--<li><a href="/listarPecas">Peças</a></li>-->
-<!--<li><a href="/listarEquipes">Equipes</a></li>-->
-<!--<li><a href="/listarTiposDeServico">Tipos de serviço</a></li>-->
-<!--<li><a href="/listarRevisoes">Revisões</a></li>-->
-<!--<li><a href="/relatorios">Relatórios</a></li>-->
-<!--<% } %>-->
-<!--<% } %>-->
-<!--</ul>-->
-<!--</nav>-->
 <nav class="autocar-header navbar navbar-default">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -42,24 +17,27 @@
             <ul class="nav navbar-nav">
                 <li><a href="/agendamento">Agendamento</a></li>
                 <% if (user.permissao > 0) { %>
-                    <li><a href="/os">Ordem de Serviço</a></li>
-                    <% if (user.permissao < 4) { %>
-                        <li><a href="/detalheFuncionario?id=<%= user.id %>">Perfil</a></li>
-                    <% } %>
-                    <% if (user.permissao == 4) { %>
-                        <li><a href="/listarFuncionarios">Funcionários</a></li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                               aria-expanded="false">Ferramentas<span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="/listarPecas">Peças</a></li>
-                                <li><a href="/listarEquipes">Equipes</a></li>
-                                <li><a href="/listarTiposDeServico">Tipos de serviço</a></li>
-                                <li><a href="/listarRevisoes">Revisões</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="/relatorios">Relatórios</a></li>
-                    <% } %>
+                <li><a href="/os">Ordem de Serviço</a></li>
+                <% if (user.permissao < 4) { %>
+                <li><a href="/detalheFuncionario?id=<%= user.id %>">Perfil</a></li>
+                <% } %>
+                <% if (user.permissao == 4) { %>
+                <li><a href="/listarFuncionarios">Funcionários</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">Ferramentas<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/listarPecas">Peças</a></li>
+                        <li><a href="/listarEquipes">Equipes</a></li>
+                        <li><a href="/listarEspecialidades">Especialidades</a></li>
+                        <li><a href="/listarTiposDeServico">Tipos de serviço</a></li>
+                        <li><a href="/listarRevisoes">Revisões</a></li>
+                    </ul>
+                </li>
+                <li><a href="/relatorios">Relatórios</a></li>
+                <% } %>
+                <% } else { %>
+                <li><a href="/editarPerfilCliente">Editar Perfil</a></li>
                 <% } %>
             </ul>
             <form class="pull-right" action="/logout" method="post">
@@ -70,6 +48,7 @@
     </div>
     <!-- /.container-fluid -->
 </nav>
+
 <script>
     $(function () {
         var url = window.location.pathname,

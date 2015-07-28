@@ -4,35 +4,46 @@
     <% include ../partials/head %>
 </head>
 <body class="container">
+<% if (user.id) { %>
+<header>
+    <% include ../partials/header %>
+</header>
+<% } %>
 <main>
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="autocard">
                 <h1 class="text-center login-title">Preencha os campos abaixo:</h1>
-                <form class="form-signin" method="post" action="/cadastro">
+                <form class="form-signin" method="post" action="<%=user.id?'/editarPerfilCliente':'/cadastro'%>">
                 <!--<form class="form-signin" method="post" action="/signUp">-->
+                    <% if (user.id) {
+                        console.log(user);
+                        %>
+                        <input type="hidden" name="id" value="<%=user.id%>">
+                        <%
+                    } %>
                     <label for="nome">Nome:</label>
-                    <input type="text" class="form-control" placeholder="Nome" name="nome" required autofocus>
+                    <input type="text" class="form-control" placeholder="Nome" name="nome" value="<%=user.id?user.nome:''%>" required autofocus>
                     <!--<input type="password" class="form-control" placeholder="Telefone" name="telefone" required>-->
                     <br>
                     <label for="email">E-mail:</label>
-                    <input type="text" class="form-control" placeholder="E-mail" name="email" required>
+                    <input type="text" class="form-control" placeholder="E-mail" name="email" value="<%=user.id?user.email:''%>" required>
                     <br>
                     <label for="senha">Senha:</label>
-                    <input type="password" class="form-control" placeholder="Senha" name="senha" required>
+                    <input type="password" class="form-control" placeholder="Senha" name="senha" value="<%=user.id?user.senha:''%>" required>
                     <br>
                     <label for="telefone">Telefone:</label>
-                    <input type="text" class="form-control" placeholder="Telefone" name="telefone" required>
+                    <input type="text" class="form-control" placeholder="Telefone" name="telefone" value="<%=user.id?user.telefone:''%>" required>
                     <br>
                     <label for="endereco">Endereço:</label>
-                    <input type="text" class="form-control" placeholder="Endereço" name="endereco" required>
+                    <input type="text" class="form-control" placeholder="Endereço" name="endereco" value="<%=user.id?user.endereco:''%>" required>
                     <br>
                     <button class="btn btn-lg btn-primary btn-block" type="submit">
-                        Cadastrar
+                        <%=user.id?'Salvar':'Cadastrar'%>
                     </button>
                 </form>
-                <%if (locals.erro) { %>
-                    <div><%=locals.erro %></div>
+                <%if (locals.query && locals.query.erro) { %>
+                    <div><%=query.erro==1062?'Email já cadastrado':'Ocorreu um erro inexperado' %></div>
                 <%}%>
             </div>
         </div>
