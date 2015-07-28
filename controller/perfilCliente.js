@@ -19,4 +19,12 @@ function map() {
             }
         });
     });
+
+    global.app.get('/api/cliente/buscar', global.checkAuth([1,2,3,4]), function(req, res) {
+        var get = req.query;
+        global.db.query(global.services.usuario.findById(get.id), function(err, info) {
+            global.error(err);
+            res.send(rows);
+        });
+    });
 }

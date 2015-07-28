@@ -14,7 +14,12 @@
             cursor: pointer;
         }
 
-        .td-horario span {
+        .td-horario .horario-detalhe {
+            display: inline;
+            padding-left: 20px;
+        }
+
+        .td-horario .horario-indisponivel {
             display: none;
         }
 
@@ -28,9 +33,13 @@
             background: #fff;
         }
 
-        .td-horario-indisponivel span {
+        .td-horario-indisponivel .horario-indisponivel {
             display: inline;
             padding-left: 20px;
+        }
+
+        .td-horario-indisponivel .horario-detalhe {
+            display: none;
         }
 
 		</style>
@@ -71,28 +80,28 @@
 	            </thead>
 	            <tbody>
 	            <tr>
-	                <td class="td-horario" id="horario-8">08:00 - 09:00<span>Indisponível</span></td>
+	                <td class="td-horario" id="horario-8">08:00 - 09:00<span class="horario-indisponivel">Indisponível</span><span class="horario-detalhe"></span></td>
 	            </tr>
 	            <tr>
-	                <td class="td-horario" id="horario-9">09:00 - 10:00<span>Indisponível</span></td>
+	                <td class="td-horario" id="horario-9">09:00 - 10:00<span class="horario-indisponivel">Indisponível</span><span class="horario-detalhe"></span></td>
 	            </tr>
 	            <tr>
-	                <td class="td-horario" id="horario-10">10:00 - 11:00<span>Indisponível</span></td>
+	                <td class="td-horario" id="horario-10">10:00 - 11:00<span class="horario-indisponivel">Indisponível</span><span class="horario-detalhe"></span></td>
 	            </tr>
 	            <tr>
-	                <td class="td-horario" id="horario-11">11:00 - 12:00<span>Indisponível</span></td>
+	                <td class="td-horario" id="horario-11">11:00 - 12:00<span class="horario-indisponivel">Indisponível</span><span class="horario-detalhe"></span></td>
 	            </tr>
 	            <tr>
-	                <td class="td-horario" id="horario-14">14:00 - 15:00<span>Indisponível</span></td>
+	                <td class="td-horario" id="horario-14">14:00 - 15:00<span class="horario-indisponivel">Indisponível</span><span class="horario-detalhe"></span></td>
 	            </tr>
 	            <tr>
-	                <td class="td-horario" id="horario-15">15:00 - 16:00<span>Indisponível</span></td>
+	                <td class="td-horario" id="horario-15">15:00 - 16:00<span class="horario-indisponivel">Indisponível</span><span class="horario-detalhe"></span></td>
 	            </tr>
 	            <tr>
-	                <td class="td-horario" id="horario-16">16:00 - 17:00<span>Indisponível</span></td>
+	                <td class="td-horario" id="horario-16">16:00 - 17:00<span class="horario-indisponivel">Indisponível</span><span class="horario-detalhe"></span></td>
 	            </tr>
 	            <tr>
-	                <td class="td-horario" id="horario-17">17:00 - 18:00<span>Indisponível</span></td>
+	                <td class="td-horario" id="horario-17">17:00 - 18:00<span class="horario-indisponivel">Indisponível</span><span class="horario-detalhe"></span></td>
 	            </tr>
 	            </tbody>
 	        </table>
@@ -307,11 +316,13 @@
 										if ($('#horario-'+d.getHours())) {
 											$('#horario-'+d.getHours()).removeClass('td-horario-indisponivel');
 											$('#horario-'+d.getHours()).attr('automovel',value.automovel_id);
+											getAutomovelInfo('#horario-'+d.getHours(), value.automovel_id);
 										}
 									});
 									$("#horarios-date").html(formatedDate);
 									$("#horarios").fadeIn(animTime);
 									$("#horarios-loading").fadeOut(animTime);
+
 								},
 								error: function(err) {
 									alert(err);
@@ -339,6 +350,29 @@
 						getAutomovel();
 					}
 				});
+
+				function getAutomovelInfo(el, id) {
+
+					$.ajax({
+						type: "GET",
+						url:"api/automovel/buscarModeloCliente",
+						data: {id:id},
+						beforeSend: function() {
+							$(el).closest(".horario-detalhe").html("<img src='img/loading_16x16.gif'>");
+						},
+						success: function(data) {
+
+							console.log(data);
+							console.log($(el).children(".horario-detalhe"));
+							$(el).children(".horario-detalhe").html(data[0].nome+" - "+data[0].marca+" "+data[0].modelo);
+
+						},
+						error: function(err) {
+							alert(err);
+						}
+					});
+
+				}
 
 				function getEspecialidades() {
 
