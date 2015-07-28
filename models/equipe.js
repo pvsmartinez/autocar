@@ -15,7 +15,7 @@ var obj = {
 }
 
 var objs = [
-	{nome: 'equipe rocket', especialidade: '1', id_func1:'3', id_func2:'4'},
+	{nome: 'equipe rocket', especialidade: '1', id_func1:'7', id_func2:'4'},
 	{nome: 'power rangers', especialidade: '2', id_func1:'5', id_func2:'6'}
 ];
 

@@ -71,7 +71,11 @@
                 </table>
                 <% if (!todos && user.permissao == 4) {%>
                 <a href="/os/todos">
-                    <button>Listar Todos</button>
+                    <button class="btn">Listar Todos</button>
+                </a>
+                <% } else if (todos) {%>
+                <a href="/os">
+                    <button class="btn">Ocultar Antigos/Cancelados/Concluídos</button>
                 </a>
                 <% } %>
             </div>

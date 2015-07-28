@@ -8,33 +8,76 @@
     <% include ../partials/header %>
 </header>
 <main>
-  <h1></h1>
-  <!-- equipe_id: 2,
-  automovel_id: 2,
-  data_emissao: Tue Jul 14 2015 11:00:00 GMT-0300 (BRT),
-  data_conclusao: null,
-  horario: Tue Jul 28 2015 08:00:00 GMT-0300 (BRT),
-  preco: 2000,
-  tipo: 0,
-  revisao_id: null,
-  status: 0,
-  nome: null,
-  especialidade: null,
-  id_func1: 5,
-  id_func2: 6,
-  email: null,
-  senha: null,
-  telefone: null,
-  endereco: null,
-  permissao: null,
-  cliente_id: 0,
-  placa: 'MBM 1234',
-  renavan: '213123123',
-  modelo_id: 1,
-  ano: 2011,
-  quilometragem: 10000,
-  marca: 'Fiat',
-  modelo: 'Punto' -->
+  <h1>Ordem de Serviço - <%= os_id %></h1>
+  <div class="col-md-4">
+    <h3>Cliente: <%= order.nome %></h3>
+    <ul>
+      <li>Email: <%= order.email %></li>
+      <li>Telefone: <%= order.telefone %></li>
+      <li>Endereço: <%= order.endereco %></li>
+    </ul>
+    <h3>Automóvel:</h3>
+    <ul>
+      <li><b>Placa:</b> <%= order.placa %></li>
+      <li><b>Modelo:</b> <%= order.modelo %></li>
+      <li><b>Marca:</b> <%= order.marca %></li>
+      <li><b>Ano:</b> <%= order.ano %></li>
+      <li><b>Quilometragem:</b> <%= order.quilometragem %></li>
+      <li><b>Renavan:</b> <%= order.renavan %></li>
+    </ul>
+    <h3>Equipe - <%= time.e_nome %></h3>
+    <h5><%= time.e_esp %></h5>
+    <ul>
+      <li><b><%= time.f1_nome %></b></li>
+      <li><%= time.f1_esp %></li>
+      <li><b><%= time.f2_nome %></b></li>
+      <li><%= time.f2_esp %></li>
+    </ul>
+  </div>
+  <div class="col-md-8">
+    <%
+      switch(order.status) {
+          case 0:
+              status = 'CRIADO'
+              break;
+          case 1:
+              status = 'AUTORIZADO'
+              break;
+          case 2:
+              status = 'SUSPENSO'
+              break;
+          case 3:
+              status = 'CANCELADO'
+              break;
+          case 4:
+              status = 'CONCLUIDO'
+              break;
+          default:
+              status = 'ERROR'
+      }
+   %>
+    <h3>Detalhes do Serviço</h3>
+    <h4><%= status %></h4>
+    <ul>
+      <%
+        hora = order.horario.getDate() +'/'+ ("0" + (order.horario.getMonth() + 1)).slice(-2) +'/'+order.horario.getFullYear();
+        emi = order.data_emissao.getDate() +'/'+ ("0" + (order.data_emissao.getMonth() + 1)).slice(-2) +'/'+order.data_emissao.getFullYear();
+        if (order.data_conclusao) {
+        conc = order.data_conclusao.getDate() +'/'+ ("0" + (order.data_conclusao.getMonth() + 1)).slice(-2) +'/'+order.data_conclusao.getFullYear();
+        } else {
+          conc = '---';
+        }
+      %>
+      <% if (user.permissao == 4) { %>
+        <li>Data de Emissão: <%= emi %></li>
+        <li>Data de Conclusão: <%= conc %></li>
+        <li>Preço: <%= order.preco %></li>
+      <% } %>
+      <li>Horário: <%= hora %></li>
+      <li>Tipo: <%= order.tipo == 1 ? 'revisão' : 'normal' %></li>
+      <li>Descrição: <%= order.descricao %></li>
+    </ul>
+  </div>
 </main>
 <footer>
     <% include ../partials/footer %>
