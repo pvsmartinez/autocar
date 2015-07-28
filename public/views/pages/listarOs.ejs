@@ -9,13 +9,13 @@
 </header>
 <main>
     <div class="row">
-        <div class="col-xs-2 col-sm-4 col-md-10">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <h2>Lista de Ordens de Serviço</h2>
         </div>
     </div>
-    <div class="tabela-funcionarios">
+    <div class="tabela-autocar">
         <div class="row">
-            <div class="col-xs-2 col-sm-4 col-md-10">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <table class="table table-bordered">
                     <thead>
                     <tr>
@@ -28,7 +28,7 @@
                         <th>Opções</th>
                     </tr>
                     </thead>
-                    <% orders.forEach(function(os){%>
+                    <% orders.forEach(function(os){ %>
                         <tr>
                             <%
                                 hora = os.horario.getDate() +'/'+ ("0" + (os.horario.getMonth() + 1)).slice(-2) +'/'+os.horario.getFullYear();
@@ -62,16 +62,59 @@
                                 <a href="/os/detalhes/<%= os.id %>">
                                     <i class="fa fa-wrench" data-toggle="tooltip" title="Detalhes"></i>
                                 </a>
+                                <% switch(os.status) {
+                                    case 0:
+                                %>
+                                <a href="/os/autorizado/<%= os.id %>">
+                                    <i class="fa fa-play" data-toggle="tooltip" title="Autorizar"></i>
+                                </a>
+                                <a href="/os/suspenso/<%= os.id %>">
+                                    <i class="fa fa-pause" data-toggle="tooltip" title="Suspender"></i>
+                                </a>
+                                <% if (user.permissao == 4) {%>
+                                <a href="/os/cancelado/<%= os.id %>">
+                                    <i class="fa fa-stop" data-toggle="tooltip" title="Cancelar"></i>
+                                </a>
+                                <% } %>
                                 <a href="/os/feito/<%= os.id %>">
                                     <i class="fa fa-check" data-toggle="tooltip" title="Feito"></i>
                                 </a>
+                                <% break;%>
+                                    <% case 1:%>
+                                <a href="/os/suspenso/<%= os.id %>">
+                                    <i class="fa fa-pause" data-toggle="tooltip" title="Suspender"></i>
+                                </a>
+                                <% if (user.permissao == 4) {%>
+                                <a href="/os/cancelado/<%= os.id %>">
+                                    <i class="fa fa-stop" data-toggle="tooltip" title="Cancelar"></i>
+                                </a>
+                                <% } %>
+                                <a href="/os/feito/<%= os.id %>">
+                                    <i class="fa fa-check" data-toggle="tooltip" title="Feito"></i>
+                                </a>
+                                <% break;%>
+                                    <% case 2:%>
+                                <a href="/os/autorizado/<%= os.id %>">
+                                    <i class="fa fa-play" data-toggle="tooltip" title="Autorizar"></i>
+                                </a>
+                                <% if (user.permissao == 4) {%>
+                                <a href="/os/cancelado/<%= os.id %>">
+                                    <i class="fa fa-stop" data-toggle="tooltip" title="Cancelar"></i>
+                                </a>
+                                <% } %>
+                                <% break;%>
+                                <% } %>
                             </td>
                         </tr>
-                    <%})%>
+                    <% }); %>
                 </table>
                 <% if (!todos && user.permissao == 4) {%>
                 <a href="/os/todos">
-                    <button>Listar Todos</button>
+                    <button class="btn">Listar Todos</button>
+                </a>
+                <% } else if (todos) {%>
+                <a href="/os">
+                    <button class="btn">Ocultar Antigos/Cancelados/Concluídos</button>
                 </a>
                 <% } %>
             </div>

@@ -17,9 +17,9 @@ var obj = {
 }
 
 var objs = [
-	{cliente_id : '0', placa : 'EMD 2790', renavan : '213123123', modelo_id:'0', ano:'2010', quilometragem:'10000'},
-	{cliente_id : '0', placa : 'MBM 1234', renavan : '213123123', modelo_id:'1', ano:'2011', quilometragem:'10000'},
-	{cliente_id : '0', placa : 'VSF 0000', renavan : '213123123', modelo_id:'2', ano:'2004', quilometragem:'10000'},
+	{cliente_id : '1', placa : 'EMD 2790', renavan : '213123123', modelo_id:'3', ano:'2010', quilometragem:'10000'},
+	{cliente_id : '1', placa : 'MBM 1234', renavan : '213123123', modelo_id:'1', ano:'2011', quilometragem:'10000'},
+	{cliente_id : '1', placa : 'VSF 0000', renavan : '213123123', modelo_id:'2', ano:'2004', quilometragem:'10000'},
 ];
 
 function ent() {

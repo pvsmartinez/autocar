@@ -9,23 +9,23 @@
 </header>
 <main>
     <div class="row">
-        <div class="col-sm-6 col-md-4 col-md-offset-4">
-            <div class="account-wall">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="autocard">
                 <form class="form-signin" method="post" action="<%=locals.equipe?'/editarEquipe':'/cadastroEquipe'%>">
                     <% if (locals.equipe) { %>
                         <input type="hidden" name="id" value="<%=locals.equipe.id%>">
                     <% } %>
-                    <label>Nome</label>
+                    <label>Nome:</label>
                     <input class="form-control" type="text" name="nome" value="<%=locals.equipe?locals.equipe.nome:''%>" required>
                     <br>
-                    <label>Especialidade</label>
+                    <label>Especialidade:</label>
                     <select class="form-control" name="especialidade">
                         <% locals.especialidades.forEach(function (especialidade) { %>
-                            <option value="<%=especialidade.id%>" <% if (locals.equipe && especialidade.id == locals.equipe.especialidade) {%> selected <%}%>><%=especialidade.nome%></option>
+                            <option value="<%=especialidade.id%>" <% if (locals.equipe && especialidade.id == locals.equipe.especialidade_id) {%> selected <%}%>><%=especialidade.nome%></option>
                         <% }); %>
                     </select>
                     <br>
-                    <label>Mecânicos</label>
+                    <label>Mecânicos:</label>
                     <select class="form-control" name="funcionario1">
                         <% locals.mecanicos.forEach(function(mecanico) { %>
                             <option value="<%=mecanico.id%>" <% if (locals.equipe && mecanico.id == locals.equipe.id_func1) {%> selected <%}%>><%=mecanico.nome%> - <%=mecanico.espec%></option>
@@ -44,13 +44,15 @@
                     <% if (locals.query && locals.query.err) { %>
                         Ocorreu um erro inesperado.
                     <% } %>
-                </form>
-                <% if(locals.equipe) { %>
+                    <br>
+                    <% if(locals.equipe) { %>
                     <form action="/excluirEquipe" method="post" style="padding: 15px">
                         <input type="hidden" name="id" value="<%=locals.equipe.id%>">
                         <button class="btn btn-lg btn-block btn-danger" type="submit">Excluir</button>
                     </form>
-                <% } %>
+                    <% } %>
+                </form>
+
             </div>
         </div>
     </div>

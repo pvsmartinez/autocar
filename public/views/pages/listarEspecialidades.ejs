@@ -10,7 +10,7 @@
 <main>
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <h2>Lista de Equipes AutoCar</h2>
+            <h2>Lista de Especialidades AutoCar</h2>
         </div>
     </div>
     <div class="tabela-autocar">
@@ -20,27 +20,21 @@
                     <thead>
                     <tr>
                         <th>Nome</th>
-                        <th>Especialidade</th>
-                        <th>Mecânico</th>
-                        <th>Mecânico</th>
                         <th>Ação</th>
                     </tr>
                     </thead>
-                    <%    locals.equipes.forEach(function(equipe) {
+                    <%    locals.especialidades.forEach(function(especialidade) {
                     %>
 
                     <tr>
-                        <td><%= equipe.nome %></td>
-                        <td><%= equipe.nome_especialidade %></td>
-                        <td><%= equipe.funcionario1 %></td>
-                        <td><%= equipe.funcionario2 %></td>
-                        <td><a href="/editarEquipe?id=<%= equipe.id %>">Editar</a>
+                        <td><%= especialidade.nome %></td>
+                        <td><a href="/editarEspecialidade?id=<%= especialidade.id %>">Editar</a>
                     </tr>
                     <%
                     });
                     %>
                 </table>
-                <a href="/cadastroEquipe"><button class="btn btn-large btn-primary">Cadastrar</button></a>
+                <a href="/cadastroEspecialidade"><button class="btn btn-large btn-primary">Cadastrar</button></a>
             </div>
         </div>
     </div>
