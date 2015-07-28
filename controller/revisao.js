@@ -27,17 +27,30 @@ function map() {
 
     global.app.post('/cadastroRevisao', global.checkAuth([4]), function(req, res) {
          post = req.body;
-         global.db.query(global.services.revisao.cadastro(post.modelo, post.quilometragem, post.preco), function (err, sqlres) {
-            if (post.peca.length > 0) {
+         global.db.beginTransaction(function (err) {
+            global.db.query(global.services.revisao.cadastro(post.modelo, post.quilometragem, post.preco), function (err, sqlres) {
+            if (err) {
+                console.log(err);
+                global.db.rollback();
+            }
+            if (post.peca && post.peca.length > 0) {
                 global.db.query(global.services.revisao.adicionarPecas(sqlres.insertId, post.peca, post.qtd), function (err, rows) {
                     if (err) {
                         console.log(err);
+                        global.db.rollback();
+                    } else {
+                        global.db.commit(function (err) {
+                            console.log(err);
+                            global.db.rollback();
+                        });
                     }
                     res.redirect('/listarRevisoes');
                 });
             } else {
                     res.redirect('/listarRevisoes');
             }
+         });
+
          });
     });
 
@@ -98,40 +111,39 @@ function map() {
 
     global.app.post('/editarRevisao', global.checkAuth([4]), function(req, res) {
         post = req.body;
-        global.db.query(global.services.revisao.excluirPecasAssociadas(post.id), function (err, rows) {
+        global.db.beginTransaction(function (err) {
             if (err) {
-                console.log(err);
-                res.redirect('/editarRevisao?id='+req.body.id+'&err='+err.errno);
-            } else {
-                global.db.query(global.services.revisao.adicionarPecas(post.id, post.peca, post.qtd), function (err, rows) {
-                    if (err) {
-                        console.log(err);
-                        res.redirect('/editarRevisao?id='+req.body.id+'&err='+err.errno);
-                    } else {
-                        global.db.query(global.services.revisao.update(post.id, post.modelo, post.preco, post.quilometragem), function (err, rows) {
-                            if (err) {
-                                console.log(err);
-                                res.redirect('/editarRevisao?id='+req.body.id+'&err='+err.errno);
-                            } else {
-                                res.redirect('/detalheRevisao?id='+post.id);
-                            }
-                        });
-                    }
-                });
+                throw err;
             }
+            global.db.query(global.services.revisao.excluirPecasAssociadas(post.id), function (err, rows) {
+                if (err) {
+                    console.log(err);
+                    global.db.rollback();
+                    res.redirect('/editarRevisao?id='+req.body.id+'&err='+err.errno);
+                } else {
+                    global.db.query(global.services.revisao.adicionarPecas(post.id, post.peca, post.qtd), function (err, rows) {
+                        if (err) {
+                            console.log(err);
+                            global.db.rollback();
+                            res.redirect('/editarRevisao?id='+req.body.id+'&err='+err.errno);
+                        } else {
+                            global.db.query(global.services.revisao.update(post.id, post.modelo, post.preco, post.quilometragem), function (err, rows) {
+                                if (err) {
+                                    console.log(err);
+                                    global.db.rollback();
+                                    res.redirect('/editarRevisao?id='+req.body.id+'&err='+err.errno);
+                                } else {
+                                    global.db.commit(function (err) {
+                                        global.db.rollback();
+                                    });
+                                    res.redirect('/detalheRevisao?id='+post.id);
+                                }
+                            });
+                        }
+                    });
+                }
+            });
         });
-
-
-
-
-        // global.db.query(global.services.peca.update(post.id, post.nome, post.valor, post.quantidade_em_estoque), function(err, rows) {
-        //     if (err) {
-        //         console.log(err);
-        //         res.redirect('/editarPeca?id='+post.id+'&err='+err.errno);
-        //     } else {
-        //        res.redirect('/listarPecas');
-        //     }
-        // });
     });
 
     global.app.post('/excluirRevisao', global.checkAuth([4]), function(req, res) {
