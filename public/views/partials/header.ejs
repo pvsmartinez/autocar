@@ -1,31 +1,54 @@
-<nav id="header" class="bg-blue">
-    <a class="logo" href="/">
-        AutoCar
-    </a>
-    <form class="pull-right" action="/logout" method="post">
-        <button class="btn btn-primary logout" type="submit">Logout</button>
-    </form>
-    <ul class="pull-right">
-        <li><a href="/agendamento">Agendamento</a></li>
-        <% if (user.permissao > 0) { %>
-            <li><a href="/os">Ordem de Serviço</a></li>
-            <% if (user.permissao < 4) { %>
+<nav class="autocar-header navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">AutoCar</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="/agendamento">Agendamento</a></li>
+                <% if (user.permissao > 0) { %>
+                <li><a href="/os">Ordem de Serviço</a></li>
+                <% if (user.permissao < 4) { %>
                 <li><a href="/detalheFuncionario?id=<%= user.id %>">Perfil</a></li>
-            <% } %>
-            <% if (user.permissao == 4) { %>
+                <% } %>
+                <% if (user.permissao == 4) { %>
                 <li><a href="/listarFuncionarios">Funcionários</a></li>
-                <li><a href="/listarPecas">Peças</a></li>
-                <li><a href="/listarEquipes">Equipes</a></li>
-                <li><a href="/listarTiposDeServico">Tipos de serviço</a></li>
-                <li><a href="/listarRevisoes">Revisões</a></li>
-                <li><a href="/listarEspecialidades">Especialidades</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">Ferramentas<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/listarPecas">Peças</a></li>
+                        <li><a href="/listarEquipes">Equipes</a></li>
+                        <li><a href="/listarEspecialidades">Especialidades</a></li>
+                        <li><a href="/listarTiposDeServico">Tipos de serviço</a></li>
+                        <li><a href="/listarRevisoes">Revisões</a></li>
+                    </ul>
+                </li>
                 <li><a href="/relatorios">Relatórios</a></li>
-            <% } %>
-        <% } else { %>
+                <% } %>
+                <% } else { %>
                 <li><a href="/editarPerfilCliente">Editar Perfil</a></li>
-        <% } %>
-    </ul>
+                <% } %>
+            </ul>
+            <form class="pull-right" action="/logout" method="post">
+                <button class="btn btn-primary logout" type="submit">Logout</button>
+            </form>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
 </nav>
+
 <script>
     $(function () {
         var url = window.location.pathname,
