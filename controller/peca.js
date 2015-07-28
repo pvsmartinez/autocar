@@ -69,4 +69,11 @@ function map() {
         });
     });
 
+    global.app.get('/api/pecas', global.checkAuth([1,2,3,4]), function(req, res) {
+        global.db.query(global.services.peca.listAll(), function(err, rows) {
+            global.error(err);
+            res.send(rows);
+        });
+    });
+
 }

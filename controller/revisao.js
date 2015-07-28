@@ -165,4 +165,12 @@ function map() {
         });
     });
 
+    global.app.get('/api/revisoes', global.checkAuth([1,2,3,4]), function(req, res) {
+        var get = req.query;
+        global.db.query(global.services.revisao.buscar(get.modelo_id), function(err, rows) {
+            global.error(err);
+            res.send(rows);
+        });
+    });
+
 }
