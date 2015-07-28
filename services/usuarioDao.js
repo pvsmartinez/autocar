@@ -9,7 +9,8 @@ module.exports = {
 	findFuncionarioById : findFuncionarioById,
 	editFuncionario : editFuncionario,
 	deleteFuncionario : deleteFuncionario,
-	listMecanicos : listMecanicos
+	listMecanicos : listMecanicos,
+	editarPerfilCliente : editarPerfilCliente
 }
 
 
@@ -56,6 +57,10 @@ function deleteFuncionario(id) {
 
 function listMecanicos() {
 	return "select usuario.*, especialidade.nome as espec from usuario left join especialidade on usuario.especialidade_id = especialidade.id where usuario.permissao = 3";
+}
+
+function editarPerfilCliente(id, nome, email, senha, telefone, endereco) {
+	return "update usuario set nome='"+nome+"', email='"+email+"', senha='"+senha+"', telefone='"+telefone+"', endereco='"+endereco+"' where id="+id+" and permissao = 0";
 }
 
 /*
