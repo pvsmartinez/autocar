@@ -20,9 +20,14 @@ var obj = {
 	__foreignKeys : ["(equipe_id) REFERENCES equipe(id)", "(automovel_id) REFERENCES automovel(id)", "(revisao_id) REFERENCES revisao(id)"]
 }
 
+var today = function(sum) {
+	td = new Date();
+	return td.getFullYear() + '-' + ("0" + (td.getMonth() + 1)).slice(-2) + '-' + (td.getDate() + sum);
+};
+
 var objs = [
-	{equipe_id : '2', automovel_id : '2', data_emissao : '2015-07-14 11:00:00', horario : '2015-07-28 8:00:00', preco :  "2000.00", tipo : "0", status : "0", descricao:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis dui eget metus congue ultricies ac sit amet metus. Etiam a mattis mauris. Maecenas ultrices risus sed viverra dictum.'},
-	{equipe_id : '1', automovel_id : '1', data_emissao : '2015-07-14 13:00:00', horario : '2015-07-29 8:00:00', preco :  "1000.00", tipo : "0", status : "0", descricao:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis dui eget metus congue ultricies ac sit amet metus. Etiam a mattis mauris. Maecenas ultrices risus sed viverra dictum.'}
+	{equipe_id : '2', automovel_id : '2', data_emissao : today(5) + ' 11:00:00', horario : '2015-07-28 8:00:00', preco :  "2000.00", tipo : "0", status : "0", descricao:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis dui eget metus congue ultricies ac sit amet metus. Etiam a mattis mauris. Maecenas ultrices risus sed viverra dictum.'},
+	{equipe_id : '1', automovel_id : '1', data_emissao : today(3) + ' 13:00:00', horario : '2015-07-29 8:00:00', preco :  "1000.00", tipo : "0", status : "0", descricao:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis dui eget metus congue ultricies ac sit amet metus. Etiam a mattis mauris. Maecenas ultrices risus sed viverra dictum.'}
 ];
 
 function ent() {

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <% include ../partials/head %>
+</head>
+<body class="container">
+<header>
+    <% include ../partials/header %>
+</header>
+<main>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="autocard">
+                <form class="form-signin" method="post" action="<%= !locals.carro?"/carro/criar":"/carro/editar" %>">
+                    <% if (locals.carro) { %>
+                    <input type="hidden" name="id" value="<%= locals.carro.id %>">
+                    <% } %>
+                    <label for="placa">Placa:</label>
+                    <input type="text" class="form-control" placeholder="Placa" name="placa" value="<%= locals.carro?carro.placa:'' %>" required autofocus>
+                    <label for="modelo_id">Modelo:</label>
+                    <select class="form-control" name="modelo_id" >
+                        <% modelos.forEach(function(modelo) { %>
+                            <option value="<%= modelo.id %>" <% if (locals.carro) { %>selected="<%= modelo.id === carro.modelo_id%>"<% } %>><%= modelo.marca + ' ' + modelo.modelo %></option>
+                        <% }); %>
+                    </select>
+                    <label for="ano">Ano:</label>
+                    <input type="number" class="form-control" placeholder="Ano" name="ano" value="<%= locals.carro?carro.ano:'' %>" required>
+                    <label for="quilometragem">Quilometragem:</label>
+                    <input type="number" class="form-control" placeholder="Quilometragem" name="quilometragem" value="<%= locals.carro?carro.quilometragem:'' %>" required>
+                    <label for="renavan">Renavan:</label>
+                    <input type="number" class="form-control" placeholder="Renavan" name="renavan" value="<%= locals.carro?carro.renavan:'' %>" required>
+                    <br>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">
+                        <% if (!locals.carro){ %>
+                        Cadastrar
+                        <% } else { %>
+                        Salvar
+                        <% } %>
+                    </button>
+                    <br>
+                    <% if(locals.carro) { %>
+                    <a href="/carro/deletar/<%= locals.carro.id %>">
+                        <button class="btn btn-lg btn-block btn-danger" type="submit">Excluir</button>
+                    </a>
+                    <% } %>
+                </form>
+                <% if (locals.query && locals.query.err) { %>
+                <div>Ocorreu um erro inesperado.</div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

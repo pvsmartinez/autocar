@@ -83,7 +83,7 @@ createTable = function(entity) {
                 match = regEx.exec(entity["__foreignKeys"][fk]);
                 foreingKeys[entity.__name] += "ADD INDEX " + match[0] + ",";
                 foreingKeys[entity.__name] += "ADD FOREIGN KEY ";
-                foreingKeys[entity.__name] += entity["__foreignKeys"][fk] + ',';
+                foreingKeys[entity.__name] += entity["__foreignKeys"][fk] + ' ON DELETE CASCADE,';
             }
         }
         foreingKeys[entity.__name] = foreingKeys[entity.__name].slice(0, -1);

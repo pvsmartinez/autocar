@@ -5,7 +5,7 @@ module.exports = {
 function map() {
     // index page 
     global.app.get('/cliente', global.checkAuth([0]), function(req, res) {
-        global.db.query(global.services.usuario.listCars(req.session.user_id), function(err, rows) {
+        global.db.query(global.services.automovel.listUserCars(req.session.user_id), function(err, rows) {
             res.render('cliente', {
                 locals : {
                     cars : rows
@@ -31,14 +31,5 @@ function map() {
                 res.redirect('/cliente');
             }
         });
-    });
-    global.app.get('/carro/editar/:id', global.checkAuth([0]), function(req, res){
-        // TODO       
-    });
-    global.app.get('/carro/deletar/:id', global.checkAuth([0]), function(req, res){
-        // TODO       
-    });
-    global.app.get('/carro/criar', global.checkAuth([0]), function(req, res){
-        // TODO       
     });
 }

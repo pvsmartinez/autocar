@@ -8,7 +8,7 @@
     <% include ../partials/header %>
 </header>
 <main>
-    <h1><%= user.nome %><a href="/editarPerfilCliente"><button class="btn">Editar</button></a></h1>
+    <h1><%= user.nome %><a href="/editarPerfilCliente"><button class="btn">Editar Perfil</button></a></h1>
     <ul>
       <li>Email: <%= user.email %></li>
       <li>Telefone: <%= user.telefone %></li>
@@ -22,11 +22,11 @@
 	<% cars.forEach(function(car) { %>
     	<ul>
     		<span>
-    			<a href="/carro/editar/"+<%=car.placa%>>
+    			<a href="/carro/editar/<%=car.id%>">
     				<i class="fa fa-pencil-square-o" data-toggle="tooltip" title="Editar"></i>
     			</a>
-    			<a href="/carro/deletar/"+<%=car.placa%>>
-    				<i class="fa fa-minus-square-o" data-toggle="tooltip" title="Editar"></i>
+    			<a href="/carro/deletar/<%=car.id%>">
+    				<i class="fa fa-trash-o" data-toggle="tooltip" title="Deletar"></i>
     			</a>
     		</span>
 		    <li><b>Placa:</b> <%= car.placa %></li>
