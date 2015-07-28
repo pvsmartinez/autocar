@@ -16,11 +16,11 @@ function getAllHours(data) {
 }
 
 function getModeloCarros() {
-	return "select marca,modelo from modelo_carro"
+	return "select id,marca,modelo from modelo_carro"
 }
 
 function insertAutomovel(cliente_id, placa, renavan, modelo, ano, quilometragem) {
-	return "insert into automovel(cliente_id, placa, renavan, modelo, ano, quilometragem) values (" + cliente_id + ",'" + placa + "','" + renavan + "','" + modelo + "','" + ano +"','" + quilometragem + "')"; 
+	return "insert into automovel(cliente_id, placa, renavan, modelo_id, ano, quilometragem) values (" + cliente_id + ",'" + placa + "','" + renavan + "','" + modelo + "','" + ano +"','" + quilometragem + "')"; 
 }
 
 function insertAtendimento(horario, automovel_id) {

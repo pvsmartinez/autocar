@@ -128,7 +128,7 @@
 			        <h4 class="modal-title">Gerar ordem de serviço</h4>
 			      </div>
 			      <div class="modal-body">
-	                <form method="post" id="cadastro-form">
+	                <form method="post" id="os-form">
 	                <!--<form class="form-signin" method="post" action="/signUp">-->
 	                	<input type="hidden" name="automovel" id="form-automovel">
 	                    <input type="date" class="form-control" placeholder="Previsão de conclusão" name="data-conclusao" required autofocus>
@@ -139,18 +139,14 @@
 	                    	<option value="outro">Outro</option>
 	                    </select>
 	                    <br>
-	                    <select name="modelo" class="form-control"  placeholder="Modelo" required>
+	                    <select name="modelo" class="form-control" id="os-equipes"  placeholder="Modelo" required>
 	                    	<option value="">Equipe</option>
-	                    </select>
+	                    </select><div id="equipes-loading" style="display:none"><img src="img/loading_16x16.gif"></div>
 	                    <br>
-						Serviços:<br>
-			                <%
-				                locals.servicos.forEach( function(entry) {
-				                %>
-				                	<input type="checkbox" name="servicos" value="<%= entry.id %>"> <%= entry.nome %><br>
-				                <%
-				                });
-			                %>
+						Serviços:
+						<div id="servicos-loading" style="display:none"><img src="img/loading_16x16.gif"></div>
+						<br>
+						<div id="os-servicos"></div>
 	                    <br>
 	               
 	                </form>
@@ -198,16 +194,9 @@
 			            <input type="text" class="form-control" placeholder="Renavan" name="renavan" required>
 			            <br>
 			            <label for="modelo">Modelo:</label>
-			            <select name="modelo" class="form-control" placeholder="Modelo" required>
+			            <select name="modelo" class="form-control" id="cadastro-modelos" placeholder="Modelo" required>
 			                <option value="">Modelo do carro</option>
-			                <%
-				                locals.modelos.forEach( function(entry) {
-				                %>
-				                	<option value="<%= entry.id %>"><%= entry.marca + " " + entry.modelo %></option>
-				                <%
-				                });
-			                %>
-			            </select>
+			            </select> <div id="modelos-loading" style="display:none"><img src="img/loading_16x16.gif"></div>
 			            <br>
 			            <label for="ano">Ano:</label>
 			            <input type="number" class="form-control" placeholder="Ano" name="ano" required>
@@ -243,6 +232,9 @@
 			%>
 
 			<script>
+
+				var equipes = null;
+				var servicos = null;
 
 				var dias = ["Domingo","Segunda-feira","Terça-feira","Quarta-feira","Quinta-feira","Sexta-feira","Sábado"];
 				var meses = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
@@ -293,8 +285,81 @@
 				$('.td-horario').click( function() {
 					if (!$(this).hasClass('td-horario-indisponivel')) {
 						$("#ordem-div").fadeIn(animTime);
+
+						if (equipes == null) getEquipes();
+						else fillEquipes();
+
+						if (servicos == null) getServicos();
+						else fillServicos();
 					}
 				});
+
+				function getEquipes() {
+
+					$.ajax({
+						type: "POST",
+						url:"api/equipes",
+						beforeSend: function() {
+							$("#equipes-loading").fadeIn(animTime);
+						},
+						success: function(data) {
+							equipes = data;
+							fillEquipes();
+							$("#equipes-loading").fadeOut(animTime);
+						},
+						error: function(err) {
+							alert(err);
+						},
+					});
+
+				}
+
+				function getServicos() {
+
+					$.ajax({
+						type: "POST",
+						url:"api/servicos",
+						beforeSend: function() {
+							$("#servicos-loading").fadeIn(animTime);
+						},
+						success: function(data) {
+							servicos = data;
+							fillServicos();
+							$("#servicos-loading").fadeOut(animTime);
+						},
+						error: function(err) {
+							alert(err);
+						},
+					});
+
+				}
+
+
+				function fillEquipes() {
+
+					$("#os-equipes").html("<option value=''>Equipe</option>");
+
+					$.each(equipes, function(index, value) {
+						opt = $("<option></option>");
+						opt.val(value.id);
+						opt.html(value.nome);
+						$("#os-equipes").append(opt);
+					});
+
+				}
+
+				function fillServicos() {
+
+					$("#os-servicos").html("");
+
+					$.each(servicos, function(index, value) {
+						opt = $("<input type='checkbox' name='servicos'></input>");
+						opt.val(value.id);
+						$("#os-servicos").append(opt);
+						$("#os-servicos").append(" "+value.nome+"<br />");
+					});
+
+				}
 
 
 			</script>
@@ -310,6 +375,8 @@
 				var dias = ["Domingo","Segunda-feira","Terça-feira","Quarta-feira","Quinta-feira","Sexta-feira","Sábado"];
 				var meses = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
 				var animTime = 50;
+
+				var modelos = null;
 
 				var currentDate;
 
@@ -362,6 +429,8 @@
 							var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
 							var localISOTime = (new Date(hourDate - tzoffset)).toISOString().slice(0,-1);
 							console.log(localISOTime);
+							if (modelos == null) getModelos();
+							else fillModelos();
 							$("#form-horario").val(localISOTime);
 							$("#cadastro-data").html(formatedDate);
 							$("#cadastro-hora").html(hor+":00");
@@ -372,6 +441,39 @@
 					}
 				});
 
+
+				function getModelos() {
+
+					$.ajax({
+						type: "POST",
+						url:"api/modelos-carros",
+						beforeSend: function() {
+							$("#modelos-loading").fadeIn(animTime);
+						},
+						success: function(data) {
+							modelos = data;
+							fillModelos();
+							$("#modelos-loading").fadeOut(animTime);
+						},
+						error: function(err) {
+							alert(err);
+						},
+					});
+
+				}
+
+				function fillModelos() {
+
+					$("#cadastro-modelos").html("<option value=''>Modelo do carro</option>");
+
+					$.each(modelos, function(index, value) {
+						opt = $("<option></option>");
+						opt.val(value.id);
+						opt.append(value.marca + " " + value.modelo)
+						$("#cadastro-modelos").append(opt);
+					});
+
+				}
 
 
 			</script>

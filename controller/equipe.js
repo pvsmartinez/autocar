@@ -82,4 +82,12 @@ function map() {
             res.redirect('/listarEquipes');
         });
     });
+
+    global.app.post('/api/equipes', global.checkAuth([1,2,3,4]), function (req, res) {
+        global.db.query(global.services.equipe.listAll(), function (err, rows) {
+            global.error(err);
+            res.send(rows);
+        });
+    });
+
 }
