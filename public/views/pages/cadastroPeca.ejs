@@ -41,13 +41,15 @@
                         Salvar
                         <% } %>
                     </button>
-                </form>
-                <% if(locals.peca) { %>
+                    <br>
+                    <% if(locals.peca) { %>
                     <form action="/excluirPeca" method="post" style="padding: 15px">
                         <input type="hidden" name="id" value="<%= locals.peca.id %>">
                         <button class="btn btn-lg btn-block btn-danger" type="submit">Excluir</button>
                     </form>
-                <% } %>
+                    <% } %>
+                </form>
+
 
                 <% if (locals.query && locals.query.err) { %>
                 <div>Ocorreu um erro inesperado.</div>
