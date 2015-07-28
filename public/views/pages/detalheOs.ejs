@@ -25,14 +25,39 @@
       <li><b>Quilometragem:</b> <%= order.quilometragem %></li>
       <li><b>Renavan:</b> <%= order.renavan %></li>
     </ul>
-    <h3><%= time.e_nome + '-' + time.e_esp%></h3>
+    <h3 style="display: inline"><%= time.e_nome + '-' + time.e_esp%></h3>
+    <a style="cursor: pointer" id="btn-editar-equipe" data-toggle="modal" data-target="#equipe_modal"><i class="fa fa-pencil" data-toggle="tooltip" title="Editar"></i></a>
     <ul>
-      <li><b><%= time.f1_nome %></b></li>
-      <li><%= time.f1_esp %></li>
-      <li><b><%= time.f2_nome %></b></li>
-      <li><%= time.f2_esp %></li>
+      <li><b><%= time.f1_nome %></b><br>Especialidade: <%= time.f1_esp %></li>
+      <li><b><%= time.f2_nome %></b><br>Especialidade: <%= time.f2_esp %></li>
     </ul>
   </div>
+
+  <div class="modal fade" id="equipe_modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Alterar equipe</h4>
+        </div>
+        <div class="modal-body">
+            <h4>Equipe sugerida:</h4>
+            <div id="sugerida-loading" style="display:none"><img src="img/loading_16x16.gif"></div>
+            <span id="equipe-sugerida"></span>
+              <form method="post" id="equipe-form">
+                <option id="equipe-option" name="equipe">
+
+                </option>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+          <button type="submit" class="btn btn-primary">Salvar</button>
+            </form>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
   <div class="col-md-8">
     <%
       switch(order.status) {
@@ -95,5 +120,42 @@
 <footer>
     <% include ../partials/footer %>
 </footer>
+
+<script>
+  
+  $('#btn-editar-equipe').click(function (evt) {
+    var loading = $('#sugerida-loading');
+    $.ajax({
+      type: "GET",
+      url: "api/equipeSugerida",
+      beforeSend: function () {
+        loading.fadeIn(50);
+      },
+      success: function(data) {
+        loading.fadeOut(50);
+        var sugeridaSpan = $('#equipe-sugerida');
+        sugeridaSpan.append(data.nome);
+        sugeridaSpan.append("<br>Mecânicos:<br>");
+        sugeridaSpan.append(data.f1_nome);
+        sugeridaSpan.append("<br>");
+        sugeridaSpan.append(data.f2_nome);
+      },
+      error: function() {
+        $('#equipe-sugerida').append("Ocorreu um erro");
+      }
+    });
+
+    $.ajax({
+      type: "GET",
+      url: "api/equipes",
+      success: function (data) {
+        
+      }
+    });
+
+  });
+
+
+</script>
 </body>
 </html>
