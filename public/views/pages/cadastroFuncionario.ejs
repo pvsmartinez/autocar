@@ -72,7 +72,7 @@
                     <% locals.especialidades.forEach(function(entry) {
                     %>
 
-                    <option value="<%= entry.id %>" <% if (func.especialidade == entry.id) { %>selected
+                    <option value="<%= entry.id %>" <% if (func.especialidade_id == entry.id) { %>selected
                             <% } %>
                             ><%= entry.nome %></option>
                     <%
