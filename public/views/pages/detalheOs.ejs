@@ -25,7 +25,7 @@
       <li><b>Quilometragem:</b> <%= order.quilometragem %></li>
       <li><b>Renavan:</b> <%= order.renavan %></li>
     </ul>
-    <h3><%= time.e_nome + '-' + time.e_esp%></h3>
+    <h3><%= time.e_nome + ' - ' + time.e_esp%></h3>
     <ul>
       <li><b><%= time.f1_nome %></b></li>
       <li><%= time.f1_esp %></li>
@@ -55,7 +55,50 @@
               status = 'ERROR'
       }
    %>
-    <h3>Detalhes do Serviço - <%= status %></h3>
+    <h3>Detalhes do Serviço - <%= status %>
+    <% switch(order.status) {
+          case 0:
+      %>
+      <a href="/os/autorizado/<%= order.id %>">
+          <i class="fa fa-play" data-toggle="tooltip" title="Autorizar"></i>
+      </a>
+      <a href="/os/suspenso/<%= order.id %>">
+          <i class="fa fa-pause" data-toggle="tooltip" title="Suspender"></i>
+      </a>
+      <% if (user.permissao == 4) {%>
+      <a href="/os/cancelado/<%= order.id %>">
+          <i class="fa fa-stop" data-toggle="tooltip" title="Cancelar"></i>
+      </a>
+      <% } %>
+      <a href="/os/feito/<%= order.id %>">
+          <i class="fa fa-check" data-toggle="tooltip" title="Feito"></i>
+      </a>
+      <% break;%>
+          <% case 1:%>
+      <a href="/os/suspenso/<%= order.id %>">
+          <i class="fa fa-pause" data-toggle="tooltip" title="Suspender"></i>
+      </a>
+      <% if (user.permissao == 4) {%>
+      <a href="/os/cancelado/<%= order.id %>">
+          <i class="fa fa-stop" data-toggle="tooltip" title="Cancelar"></i>
+      </a>
+      <% } %>
+      <a href="/os/feito/<%= order.id %>">
+          <i class="fa fa-check" data-toggle="tooltip" title="Feito"></i>
+      </a>
+      <% break;%>
+          <% case 2:%>
+      <a href="/os/autorizado/<%= order.id %>">
+          <i class="fa fa-play" data-toggle="tooltip" title="Autorizar"></i>
+      </a>
+      <% if (user.permissao == 4) {%>
+      <a href="/os/cancelado/<%= order.id %>">
+          <i class="fa fa-stop" data-toggle="tooltip" title="Cancelar"></i>
+      </a>
+      <% } %>
+      <% break;%>
+      <% } %>
+      </h3>
     <ul>
       <%
         hora = order.horario.getDate() +'/'+ ("0" + (order.horario.getMonth() + 1)).slice(-2) +'/'+order.horario.getFullYear();
@@ -87,7 +130,7 @@
     <h4>Peças</h4>
     <ul>
       <% pecas.forEach(function(peca) { %>
-        <li><%= peca.nome + '-' + peca.quantidade%></li>
+        <li><%= peca.nome + ' - ' + peca.quantidade%></li>
       <% }); %>
     </ul>
   </div>

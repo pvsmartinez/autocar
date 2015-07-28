@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <% include ../partials/head %>
+</head>
+<body class="container">
+<header>
+    <% include ../partials/header %>
+</header>
+<main>
+    <h1><%= user.nome %></h1>
+    <ul>
+      <li>Email: <%= user.email %></li>
+      <li>Telefone: <%= user.telefone %></li>
+      <li>Endereço: <%= user.endereco %></li>
+    </ul>
+    <h4>Meus Carros</h4>
+    <ul>
+	   	<% cars.forEach(function(car) { %>
+		    <li><b>Placa:</b> <%= car.placa %></li>
+		    <li><b>Modelo:</b> <%= car.modelo %></li>
+		    <li><b>Marca:</b> <%= car.marca %></li>
+		    <li><b>Ano:</b> <%= car.ano %></li>
+		    <li><b>Quilometragem:</b> <%= car.quilometragem %></li>
+		    <li><b>Renavan:</b> <%= car.renavan %></li>
+	    <% }); %>
+    </ul>
+</main>
+<footer>
+    <% include ../partials/footer %>
+</footer>
+</body>
+</html>

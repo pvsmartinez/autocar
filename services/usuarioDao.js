@@ -10,7 +10,8 @@ module.exports = {
 	editFuncionario : editFuncionario,
 	deleteFuncionario : deleteFuncionario,
 	listMecanicos : listMecanicos,
-	editarPerfilCliente : editarPerfilCliente
+	editarPerfilCliente : editarPerfilCliente,
+	listCars : listCars
 }
 
 
@@ -61,6 +62,15 @@ function listMecanicos() {
 
 function editarPerfilCliente(id, nome, email, senha, telefone, endereco) {
 	return "update usuario set nome='"+nome+"', email='"+email+"', senha='"+senha+"', telefone='"+telefone+"', endereco='"+endereco+"' where id="+id+" and permissao = 0";
+}
+
+function listCars(id) {
+	text = "SELECT a.*, m.*";
+	text += " FROM automovel a";
+	text += " INNER JOIN modelo_carro m";
+	text += " ON a.modelo_id = m.id";
+	text += " WHERE a.cliente_id = " + id;
+	return text;
 }
 
 /*
