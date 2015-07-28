@@ -34,9 +34,6 @@ function map() {
                     global.error(err);
                     global.db.query(global.services.os.showOS(req.params.id, 3), function(err, pcs) {
                         global.error(err);
-                        console.log('--- yey ---')
-                        console.log(srvs);
-                        console.log(pcs);
                         res.render('detalheOs', {
                             locals : {
                                 order : rows[0],

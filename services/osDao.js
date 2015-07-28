@@ -27,10 +27,11 @@ function listCurrent(flag, id) {
     text += " ON os.equipe_id = e.id";
     text += " INNER JOIN automovel a";
     text += " ON os.automovel_id = a.id";
-    text += " WHERE os.horario > NOW()";
+    text += " WHERE os.horario > CURRENT_DATE()";
     text += " AND os.status < 3";
     text += flag ? " AND (e.id_func1 = " + id + " OR e.id_func2 = "+id+")":"";
     text += " ORDER BY os.horario";
+    console.log(text);
     return text;
 }
 

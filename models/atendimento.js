@@ -12,16 +12,21 @@ var obj = {
 	__foreignKeys : ["(automovel_id) REFERENCES automovel(id)"]
 }
 
+var today = function (sum) {
+	td = new Date();
+	return td.getFullYear() + '-' + ("0" + (td.getMonth() + 1)).slice(-2) + '-' + (td.getDate() + sum);
+}
+
 var objs = [
-	{horario : '2015-07-14 10:00:00', automovel_id : '1'},
-	{horario : '2015-07-14 11:00:00', automovel_id : '2'},
-	{horario : '2015-07-14 15:00:00', automovel_id : '1'},
-	{horario : '2015-07-14 17:00:00', automovel_id : '1'},
-	{horario : '2015-07-14 08:00:00', automovel_id : '3'},
-	{horario : '2015-07-14 15:00:00', automovel_id : '1'},
-	{horario : '2015-07-14 14:00:00', automovel_id : '2'},
-	{horario : '2015-07-15 10:00:00', automovel_id : '1'},
-	{horario : '2015-07-15 08:00:00', automovel_id : '2'}
+	{horario : today(0) + ' 10:00:00', automovel_id : 1},
+	{horario : today(0) + ' 11:00:00', automovel_id : 2},
+	{horario : today(0) + ' 15:00:00', automovel_id : 1},
+	{horario : today(0) + ' 17:00:00', automovel_id : 1},
+	{horario : today(1) + ' 08:00:00', automovel_id : 3},
+	{horario : today(1) + ' 15:00:00', automovel_id : 1},
+	{horario : today(2) + ' 08:00:00', automovel_id : 2},
+	{horario : today(2) + ' 10:00:00', automovel_id : 1},
+	{horario : today(2) + ' 14:00:00', automovel_id : 2}
 ];
 
 function ent() {
