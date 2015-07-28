@@ -121,7 +121,25 @@
 
 			<div id="ordem-div" style="float:left; width:30%; display:none">
 
-	            <div align="center">
+	            <div>
+
+		            <h3>Dados do Agendamento:</h3>
+
+		            <b><span>Data:</span></b>
+		            <span id="cadastro-data"></span>
+
+		            <br>
+
+		            <b><span>Horário:<span></b>
+		            <span id="cadastro-hora"></span>
+
+		            <br>
+
+		            <b><span>Cliente:<span></b>
+		            <span id="cadastro-cliente"></span>
+
+		            <br><br>
+
 	            	<button class="btn btn-lg btn-primary btn-block" id="btn_gerar" onclick="showOSForm()">
 	                    Gerar ordem de serviço
 	                </button>
@@ -136,7 +154,11 @@
 				    <form method="post" id="os-form">
 				      <div class="modal-header">
 				        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				        <h4 class="modal-title">Gerar ordem de serviço</h4>
+				        <h4 class="modal-title">
+				        	Gerar ordem de serviço - <span id="os-cliente"></span>
+				        	<br>
+				        	<span id="os-horario"></span>
+				        </h4>
 				      </div>
 				      <div class="modal-body">
 				      	<div id="os-loading" style="display:none; width:100%" align="center">
@@ -293,42 +315,38 @@
 					clickCallback : function(date) {
 						var dateLast = date;
 						dateLast.setHours(17,0,0,0); // Última hora disponível 17:00
-						if (dateLast.getTime() < (new Date()).getTime()) {
-							alert("A data escolhida ja passou!");
-						} else {
-							currentDate = date;
-							var dt = date.getFullYear().toString()+"-"+(date.getMonth()+1)+"-"+date.getDate();
-							var formatedDate = dias[date.getDay()]+", "+date.getDate()+" de "+meses[date.getMonth()]+" de "+date.getFullYear().toString();
-							$.ajax({
-								type: "GET",
-								url:"api/horarios-de-atendimento",
-								data: {date:dt},
-								beforeSend: function() {
-									$("#horarios-loading").fadeIn(animTime);
-									$("#horarios").fadeOut(animTime);
-									$("#ordem-div").fadeOut(animTime);
-								},
-								success: function(data) {
-									$('.td-horario').addClass('td-horario-indisponivel');
-									$('.td-horario').removeAttr('automovel');
-									$.each(data, function(index, value) {
-										var d = new Date(Date.parse(value.horario));
-										if ($('#horario-'+d.getHours())) {
-											$('#horario-'+d.getHours()).removeClass('td-horario-indisponivel');
-											$('#horario-'+d.getHours()).attr('automovel',value.automovel_id);
-											getAutomovelInfo('#horario-'+d.getHours(), value.automovel_id);
-										}
-									});
-									$("#horarios-date").html(formatedDate);
-									$("#horarios").fadeIn(animTime);
-									$("#horarios-loading").fadeOut(animTime);
+						currentDate = date;
+						var dt = date.getFullYear().toString()+"-"+(date.getMonth()+1)+"-"+date.getDate();
+						var formatedDate = dias[date.getDay()]+", "+date.getDate()+" de "+meses[date.getMonth()]+" de "+date.getFullYear().toString();
+						$.ajax({
+							type: "GET",
+							url:"api/horarios-de-atendimento",
+							data: {date:dt},
+							beforeSend: function() {
+								$("#horarios-loading").fadeIn(animTime);
+								$("#horarios").fadeOut(animTime);
+								$("#ordem-div").fadeOut(animTime);
+							},
+							success: function(data) {
+								$('.td-horario').addClass('td-horario-indisponivel');
+								$('.td-horario').removeAttr('automovel');
+								$.each(data, function(index, value) {
+									var d = new Date(Date.parse(value.horario));
+									if ($('#horario-'+d.getHours())) {
+										$('#horario-'+d.getHours()).removeClass('td-horario-indisponivel');
+										$('#horario-'+d.getHours()).attr('automovel',value.automovel_id);
+										getAutomovelInfo('#horario-'+d.getHours(), value.automovel_id);
+									}
+								});
+								$("#horarios-date").html(formatedDate);
+								$("#horarios").fadeIn(animTime);
+								$("#horarios-loading").fadeOut(animTime);
 
-								},
-								error: function(err) {
-									alert(err);
-								}
-							});
-						}
+							},
+							error: function(err) {
+								alert(err);
+							}
+						});
 					}
 				});
 
@@ -337,6 +355,7 @@
 						$("#ordem-div").fadeIn(animTime);
 
 						$("#os-automovel").val($(this).attr("automovel"));
+						$("#os-cliente").html($(this).children(".horario-detalhe").html());
 
 						if (especialidades == null) getEspecialidades();
 						else fillEspecialidades();
@@ -348,6 +367,19 @@
 						else fillPecas();
 
 						getAutomovel();
+
+						hor = $(this).attr('id').split("horario-")[1];
+						var hourDate = new Date(currentDate);
+						hourDate.setHours(hor,0,0,0);
+						formatedDate = currentDate.getDate()+"/"+(currentDate.getMonth()+1)+"/"+currentDate.getFullYear().toString();
+						var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
+						var localISOTime = (new Date(hourDate - tzoffset)).toISOString().slice(0,-1);
+						$("#cadastro-data").html(formatedDate);
+						$("#cadastro-hora").html(hor+":00");
+						$("#cadastro-cliente").html($(this).children(".horario-detalhe").html());
+
+						$("#os-horario").html(formatedDate+" - "+hor+":00");
+
 					}
 				});
 
