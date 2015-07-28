@@ -8,26 +8,43 @@
     <% include ../partials/header %>
 </header>
 <main>
-    <h1><%= user.nome %></h1>
+    <h1><%= user.nome %><a href="/editarPerfilCliente"><button class="btn">Editar</button></a></h1>
     <ul>
       <li>Email: <%= user.email %></li>
       <li>Telefone: <%= user.telefone %></li>
       <li>Endereço: <%= user.endereco %></li>
     </ul>
-    <h4>Meus Carros</h4>
-    <ul>
-	   	<% cars.forEach(function(car) { %>
+    <h4>Meus Carros
+    	<a href="/carro/criar">
+			<i class="fa fa-plus-square-o" data-toggle="tooltip" title="Editar"></i>
+		</a>
+    </h4>
+	<% cars.forEach(function(car) { %>
+    	<ul>
+    		<span>
+    			<a href="/carro/editar/"+<%=car.placa%>>
+    				<i class="fa fa-pencil-square-o" data-toggle="tooltip" title="Editar"></i>
+    			</a>
+    			<a href="/carro/deletar/"+<%=car.placa%>>
+    				<i class="fa fa-minus-square-o" data-toggle="tooltip" title="Editar"></i>
+    			</a>
+    		</span>
 		    <li><b>Placa:</b> <%= car.placa %></li>
 		    <li><b>Modelo:</b> <%= car.modelo %></li>
 		    <li><b>Marca:</b> <%= car.marca %></li>
 		    <li><b>Ano:</b> <%= car.ano %></li>
 		    <li><b>Quilometragem:</b> <%= car.quilometragem %></li>
 		    <li><b>Renavan:</b> <%= car.renavan %></li>
-	    <% }); %>
-    </ul>
+    	</ul>
+    <% }); %>
 </main>
 <footer>
     <% include ../partials/footer %>
 </footer>
+<script type="text/javascript">
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip(); 
+        });
+</script>
 </body>
 </html>

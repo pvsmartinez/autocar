@@ -28,8 +28,17 @@ function map() {
                 console.log(err);
                 res.redirect('/editarPerfilCliente?erro=' + err.errno);
             } else {
-                res.redirect('/editarPerfilCliente');
+                res.redirect('/cliente');
             }
         });
+    });
+    global.app.get('/carro/editar/:id', global.checkAuth([0]), function(req, res){
+        // TODO       
+    });
+    global.app.get('/carro/deletar/:id', global.checkAuth([0]), function(req, res){
+        // TODO       
+    });
+    global.app.get('/carro/criar', global.checkAuth([0]), function(req, res){
+        // TODO       
     });
 }
