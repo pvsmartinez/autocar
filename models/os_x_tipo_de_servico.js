@@ -13,10 +13,10 @@ var obj = {
 }
 
 var objs = [
-	{os_id : '0', tipo_id : '0'},
-	{os_id : '0', tipo_id : '2'},
 	{os_id : '1', tipo_id : '1'},
-	{os_id : '1', tipo_id : '3'}
+	{os_id : '1', tipo_id : '3'},
+	{os_id : '2', tipo_id : '2'},
+	{os_id : '2', tipo_id : '4'}
 ];
 
 function ent() {

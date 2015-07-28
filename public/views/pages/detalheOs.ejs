@@ -25,8 +25,7 @@
       <li><b>Quilometragem:</b> <%= order.quilometragem %></li>
       <li><b>Renavan:</b> <%= order.renavan %></li>
     </ul>
-    <h3>Equipe - <%= time.e_nome %></h3>
-    <h5><%= time.e_esp %></h5>
+    <h3><%= time.e_nome + '-' + time.e_esp%></h3>
     <ul>
       <li><b><%= time.f1_nome %></b></li>
       <li><%= time.f1_esp %></li>
@@ -56,8 +55,7 @@
               status = 'ERROR'
       }
    %>
-    <h3>Detalhes do Serviço</h3>
-    <h4><%= status %></h4>
+    <h3>Detalhes do Serviço - <%= status %></h3>
     <ul>
       <%
         hora = order.horario.getDate() +'/'+ ("0" + (order.horario.getMonth() + 1)).slice(-2) +'/'+order.horario.getFullYear();
@@ -67,15 +65,30 @@
         } else {
           conc = '---';
         }
+        precoIdeal = 0;
+        servicos.forEach(function(servico) { precoIdeal += servico.preco; });
+        pecas.forEach(function(peca) { precoIdeal += peca.valor; });
       %>
       <% if (user.permissao == 4) { %>
         <li>Data de Emissão: <%= emi %></li>
         <li>Data de Conclusão: <%= conc %></li>
-        <li>Preço: <%= order.preco %></li>
+        <li>Preço: <%= order.preco %> de <%= precoIdeal %></li>
       <% } %>
       <li>Horário: <%= hora %></li>
       <li>Tipo: <%= order.tipo == 1 ? 'revisão' : 'normal' %></li>
       <li>Descrição: <%= order.descricao %></li>
+    </ul>
+    <h4>Serviços</h4>
+    <ul>
+      <% servicos.forEach(function(servico) { %>
+        <li><%= servico.nome %></li>
+      <% }); %>
+    </ul>
+    <h4>Peças</h4>
+    <ul>
+      <% pecas.forEach(function(peca) { %>
+        <li><%= peca.nome + '-' + peca.quantidade%></li>
+      <% }); %>
     </ul>
   </div>
 </main>
