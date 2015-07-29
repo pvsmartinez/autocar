@@ -4,7 +4,8 @@ module.exports = {
     showOS: showOS,
     getServicos: getServicos,
     getEquipes: getEquipes,
-    setStatus: setStatus
+    setStatus: setStatus,
+    setEquipe: setEquipe
 }
 var text;
 
@@ -101,4 +102,9 @@ function getEquipes() {
 
 function setStatus(id, status) {
     return "update ordem_de_servico set status=" + status + " where id =" + id;
+}
+
+function setEquipe(id, equipe_id) {
+    // PEDRO, MEXER NISSO AQUI, FIZ ASSIM SÓ PRA NÃO FICAR VAZIO
+    return "update ordem_de_servico set equipe_id="+equipe_id+" where id = " + id;
 }

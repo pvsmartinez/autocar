@@ -41,13 +41,14 @@
           <h4 class="modal-title">Alterar equipe</h4>
         </div>
         <div class="modal-body">
-            <h4>Equipe sugerida:</h4>
+            <h3>Equipe sugerida:</h4>
             <div id="sugerida-loading" style="display:none"><img src="img/loading_16x16.gif"></div>
-            <span id="equipe-sugerida"></span>
-              <form method="post" id="equipe-form">
-                <option id="equipe-option" name="equipe">
+            <div id="equipe-sugerida"></div>
+            <h3>Escolher equipe</h4>
+              <form method="post" id="equipe-form" action="/os/editarEquipe/<%=os_id%>">
+                <select id="equipe-select" class="form-control" name="equipe">
 
-                </option>
+                </select>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
@@ -127,18 +128,16 @@
     var loading = $('#sugerida-loading');
     $.ajax({
       type: "GET",
-      url: "api/equipeSugerida",
+      url: "/api/os/equipeSugerida/<%=os_id%>",
       beforeSend: function () {
         loading.fadeIn(50);
       },
       success: function(data) {
         loading.fadeOut(50);
         var sugeridaSpan = $('#equipe-sugerida');
-        sugeridaSpan.append(data.nome);
-        sugeridaSpan.append("<br>Mecânicos:<br>");
-        sugeridaSpan.append(data.f1_nome);
-        sugeridaSpan.append("<br>");
-        sugeridaSpan.append(data.f2_nome);
+        sugeridaSpan.append('<b>'+data.nome+'</b>');
+        sugeridaSpan.append("<br>Mecânicos:");
+        sugeridaSpan.append("<ul><li>"+data.f1_nome+"</li><li>"+data.f2_nome+"</li></ul>");
       },
       error: function() {
         $('#equipe-sugerida').append("Ocorreu um erro");
@@ -147,9 +146,12 @@
 
     $.ajax({
       type: "GET",
-      url: "api/equipes",
+      url: "/api/os/equipes",
       success: function (data) {
-        
+        var equipe_select = $('#equipe-select');
+        data.forEach(function (equipe) {
+          equipe_select.append('<option value="'+equipe.id+'">'+equipe.nome+' - '+equipe.funcionario1+'/'+equipe.funcionario2+'</option>');
+        });
       }
     });
 
