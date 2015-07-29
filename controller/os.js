@@ -72,4 +72,28 @@ function map() {
             res.redirect('/os');
         })
     });
+
+    global.app.get('/api/os/equipeSugerida/:id', global.checkAuth([2,4]), function (req, res) {
+        // PEDRO - FAZER ISSO AQUI!
+        // vem o id na url
+        res.send({nome: 'equipe x', f1_nome: 'mecanico y', f2_nome: 'mecanico z'});
+    });
+
+    global.app.get('/api/os/equipes', global.checkAuth([2,4]), function (req, res) {
+        global.db.query(global.services.equipe.listAll(), function (err, rows) {
+            if (err) {
+                console.log(err);
+            }
+            res.send(rows);
+        });
+    });
+
+    global.app.post('/os/editarEquipe/:id', checkAuth([2,3,4]), function (req, res) {
+        global.db.query(global.services.os.setEquipe(req.params.id, req.body.equipe), function (err, result) {
+            if (err) {
+                console.log(err);
+            }
+            res.redirect('/os/detalhes/'+req.params.id);
+        });
+    });
 }
