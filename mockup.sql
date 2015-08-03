@@ -15,8 +15,8 @@ insert into automovel (cliente_id,placa,renavan,modelo_id,ano,quilometragem) val
 insert into automovel (cliente_id,placa,renavan,modelo_id,ano,quilometragem) values ('1','MBM 1234','213123123','1','2011','10000');
 insert into automovel (cliente_id,placa,renavan,modelo_id,ano,quilometragem) values ('1','VSF 0000','213123123','2','2004','10000');
 truncate equipe;
-insert into equipe (nome,especialidade_id,id_func1,id_func2) values ('equipe rocket','1','7','4');
-insert into equipe (nome,especialidade_id,id_func1,id_func2) values ('power rangers','2','5','6');
+insert into equipe (nome,especialidade_id,id_func1,id_func2,proximo_horario) values ('equipe rocket','1','7','4','2015-08-5 8:00:00');
+insert into equipe (nome,especialidade_id,id_func1,id_func2,proximo_horario) values ('power rangers','2','5','6','2015-08-4 8:00:00');
 truncate especialidade;
 insert into especialidade (nome) values ('Pneu');
 insert into especialidade (nome) values ('Parachoque');
@@ -29,8 +29,8 @@ insert into modelo_carro (marca,modelo) values ('Hyundai','HB20');
 insert into modelo_carro (marca,modelo) values ('Ford','Focus');
 insert into modelo_carro (marca,modelo) values ('Renault','Logan');
 truncate ordem_de_servico;
-insert into ordem_de_servico (equipe_id,automovel_id,data_emissao,horario,preco,tipo,status,descricao) values ('2','2','2015-08-8 11:00:00','2015-07-28 8:00:00','2000.00','0','0','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis dui eget metus congue ultricies ac sit amet metus. Etiam a mattis mauris. Maecenas ultrices risus sed viverra dictum.');
-insert into ordem_de_servico (equipe_id,automovel_id,data_emissao,horario,preco,tipo,status,descricao) values ('1','1','2015-08-6 13:00:00','2015-07-29 8:00:00','1000.00','0','0','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis dui eget metus congue ultricies ac sit amet metus. Etiam a mattis mauris. Maecenas ultrices risus sed viverra dictum.');
+insert into ordem_de_servico (equipe_id,automovel_id,data_emissao,horario,preco,tipo,status,especialidade_id,descricao) values ('2','2','2015-07-28 11:00:00','2015-08-4 8:00:00','2000','0','0','1','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis dui eget metus congue ultricies ac sit amet metus. Etiam a mattis mauris. Maecenas ultrices risus sed viverra dictum.');
+insert into ordem_de_servico (equipe_id,automovel_id,data_emissao,horario,preco,tipo,status,especialidade_id,descricao) values ('1','1','2015-07-29 13:00:00','2015-08-4 11:00:00','1000','0','0','2','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis dui eget metus congue ultricies ac sit amet metus. Etiam a mattis mauris. Maecenas ultrices risus sed viverra dictum.');git
 truncate os_x_peca;
 insert into os_x_peca (os_id,peca_id,quantidade) values ('1','1','10');
 insert into os_x_peca (os_id,peca_id,quantidade) values ('1','2','1');

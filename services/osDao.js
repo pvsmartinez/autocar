@@ -5,34 +5,38 @@ module.exports = {
     getServicos: getServicos,
     getEquipes: getEquipes,
     setStatus: setStatus,
-    setEquipe: setEquipe
+    setEquipe: setEquipe,
+    getNextEquipe: getNextEquipe
 }
 var text;
 
 function listAll(flag, id) {
-    text = "SELECT os.id, os.horario, os.preco, os.tipo, os.status, e.nome, a.placa";
+    text = "SELECT os.id, os.horario, os.preco, esp.nome as espec, os.status, e.nome, a.placa";
     text += " FROM ordem_de_servico os";
     text += " INNER JOIN equipe e";
     text += " ON os.equipe_id = e.id";
     text += " INNER JOIN automovel a";
     text += " ON os.automovel_id = a.id";
+    text += " INNER JOIN especialidade esp";
+    text += " ON os.especialidade_id = esp.id";
     text += flag ? " WHERE e.id_func1 = " + id + " OR e.id_func2 = "+id:"";
     text += " ORDER BY os.horario";
     return text;
 }
 
 function listCurrent(flag, id) {
-    text = "SELECT os.id, os.horario, os.preco, os.tipo, os.status, e.nome, a.placa";
+    text = "SELECT os.id, os.horario, os.preco, esp.nome as espec, os.status, eq.nome, a.placa";
     text += " FROM ordem_de_servico os";
-    text += " INNER JOIN equipe e";
-    text += " ON os.equipe_id = e.id";
+    text += " INNER JOIN equipe eq";
+    text += " ON os.equipe_id = eq.id";
     text += " INNER JOIN automovel a";
     text += " ON os.automovel_id = a.id";
+    text += " INNER JOIN especialidade esp";
+    text += " ON os.especialidade_id = esp.id";
     text += " WHERE os.horario > CURRENT_DATE()";
     text += " AND os.status < 3";
-    text += flag ? " AND (e.id_func1 = " + id + " OR e.id_func2 = "+id+")":"";
+    text += flag ? " AND (eq.id_func1 = " + id + " OR eq.id_func2 = "+id+")":"";
     text += " ORDER BY os.horario";
-    console.log(text);
     return text;
 }
 
@@ -42,13 +46,15 @@ function showOS(id, step) {
     var flag = true;
     switch(step) {
         case 0:
-            info = 'os.*, a.*, m.*, c.*';
+            info = 'os.*, a.*, m.*, c.*, e.nome as espec';
             join = " INNER JOIN automovel a";
             join += " ON os.automovel_id = a.id";
             join += " INNER JOIN modelo_carro m";
             join += " ON a.modelo_id = m.id";
             join += " INNER JOIN usuario c";
             join += " ON a.cliente_id = c.id";
+            join += " INNER JOIN especialidade e";
+            join += " ON os.especialidade_id = e.id";
             break;
         case 1:
             info = 'f1.nome as f1_nome, ep2.nome as f1_esp,';
@@ -109,3 +115,19 @@ function setEquipe(id, equipe_id) {
     // PEDRO, MEXER NISSO AQUI, FIZ ASSIM SÓ PRA NÃO FICAR VAZIO
     return "update ordem_de_servico set equipe_id="+equipe_id+" where id = " + id;
 }
+
+function getNextEquipe(id) {
+    text = "select e.id as id, e.nome as nome, f1.nome as f1_nome, f2.nome as f2_nome";
+    text += " from equipe e";
+    text += " inner join usuario f1";
+    text += " on e.id_func1 = f1.id";
+    text += " inner join usuario f2";
+    text += " on e.id_func2 = f2.id";
+    text += " where e.especialidade_id = ";
+    text += " (select os.especialidade_id";
+    text += " from ordem_de_servico os";
+    text += " where os.id = " + id + ")";
+    text += " ORDER BY e.proximo_horario";
+    return text;
+}
+

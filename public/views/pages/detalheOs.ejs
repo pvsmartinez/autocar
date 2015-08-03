@@ -127,10 +127,10 @@
       </h3>
     <ul>
       <%
-        hora = order.horario.getDate() +'/'+ ("0" + (order.horario.getMonth() + 1)).slice(-2) +'/'+order.horario.getFullYear();
-        emi = order.data_emissao.getDate() +'/'+ ("0" + (order.data_emissao.getMonth() + 1)).slice(-2) +'/'+order.data_emissao.getFullYear();
+        hora = ("0" + order.horario.getDate()).slice(-2) +'/'+ ("0" + (order.horario.getMonth() + 1)).slice(-2) +'/'+order.horario.getFullYear() + ' às ' + ("0" + order.horario.getHours()).slice(-2) + ':' + ("0" + order.horario.getMinutes()).slice(-2);
+        emi = ("0" + order.data_emissao.getDate()).slice(-2) +'/'+ ("0" + (order.data_emissao.getMonth() + 1)).slice(-2) +'/'+order.data_emissao.getFullYear();
         if (order.data_conclusao) {
-        conc = order.data_conclusao.getDate() +'/'+ ("0" + (order.data_conclusao.getMonth() + 1)).slice(-2) +'/'+order.data_conclusao.getFullYear();
+        conc = ("0" + order.data_conclusao.getDate()).slice(-2) +'/'+ ("0" + (order.data_conclusao.getMonth() + 1)).slice(-2) +'/'+order.data_conclusao.getFullYear();
         } else {
           conc = '---';
         }
@@ -144,6 +144,7 @@
         <li>Preço: <%= order.preco %> de <%= precoIdeal %></li>
       <% } %>
       <li>Horário: <%= hora %></li>
+      <li>Especialidade: <%= order.espec %></li>
       <li>Tipo: <%= order.tipo == 1 ? 'revisão' : 'normal' %></li>
       <li>Descrição: <%= order.descricao %></li>
     </ul>
@@ -179,29 +180,32 @@
       success: function(data) {
         loading.fadeOut(50);
         var sugeridaSpan = $('#equipe-sugerida');
-        sugeridaSpan.append('<b>'+data.nome+'</b>');
+        sugeridaSpan.html('<b>'+data.nome+'</b>');
         sugeridaSpan.append("<br>Mecânicos:");
         sugeridaSpan.append("<ul><li>"+data.f1_nome+"</li><li>"+data.f2_nome+"</li></ul>");
+        var id = data.id;
+        $.ajax({
+          type: "GET",
+          url: "/api/os/equipes",
+          success: function (data) {
+            var equipe_select = $('#equipe-select');
+            equipe_select.html("");
+            data.forEach(function (equipe) {
+              ph = new Date(equipe.proximo_horario);
+              hora = ("0" + ph.getDate()).slice(-2) +'/'+ ("0" + (ph.getMonth() + 1)).slice(-2) + ' às ' + ("0" + ph.getHours()).slice(-2) + ':' + ("0" + ph.getMinutes()).slice(-2);
+              html = '<option ';
+              html += id == equipe.id ? 'selected ':'';
+              html += 'value="'+equipe.id+'">Disponível: '+hora+' - '+equipe.nome+'</option>';
+              equipe_select.append(html);
+            });
+          }
+        });
       },
       error: function() {
         $('#equipe-sugerida').append("Ocorreu um erro");
       }
     });
-
-    $.ajax({
-      type: "GET",
-      url: "/api/os/equipes",
-      success: function (data) {
-        var equipe_select = $('#equipe-select');
-        data.forEach(function (equipe) {
-          equipe_select.append('<option value="'+equipe.id+'">'+equipe.nome+' - '+equipe.funcionario1+'/'+equipe.funcionario2+'</option>');
-        });
-      }
-    });
-
   });
-
-
 </script>
 </body>
 </html>
