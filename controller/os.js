@@ -4,7 +4,8 @@ module.exports = {
 
 function map() {
     global.app.get('/os', global.checkAuth([1, 2, 3, 4]), function(req, res, next) {
-        global.db.query(global.services.os.listCurrent(req.session.user_permission != 4, req.session.user_id), function(err, rows) {
+        var flag = req.session.user_permission != 4 && req.session.user_permission != 2;
+        global.db.query(global.services.os.listCurrent(flag, req.session.user_id), function(err, rows) {
             global.error(err);
             res.render('listarOs', {
                 locals: {
@@ -74,9 +75,12 @@ function map() {
     });
 
     global.app.get('/api/os/equipeSugerida/:id', global.checkAuth([2,4]), function (req, res) {
+        global.db.query(global.services.os.getNextEquipe(req.params.id), function(err, rows) {
+            res.send(rows[0]);
+        });
         // PEDRO - FAZER ISSO AQUI!
         // vem o id na url
-        res.send({nome: 'equipe x', f1_nome: 'mecanico y', f2_nome: 'mecanico z'});
+        //res.send({nome: 'equipe x', f1_nome: 'mecanico y', f2_nome: 'mecanico z'});
     });
 
     global.app.get('/api/os/equipes', global.checkAuth([2,4]), function (req, res) {
