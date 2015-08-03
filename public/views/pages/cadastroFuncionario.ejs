@@ -87,17 +87,18 @@
                     <% } %>
                 </button>
                 <br>
+
+                <% if (locals.query && locals.query.err) { %>
+                <div><%= locals.query.err == 1062? 'Email já cadastrado.' : 'Ocorreu um erro inesperado.' %></div>
+                <% } %>
+                </form>
                 <% if(locals.func) { %>
                 <form action="/excluirFuncionario" method="post" style="padding: 15px">
                     <input type="hidden" name="id" value="<%= locals.func.id %>">
                     <button class="btn btn-lg btn-block btn-danger" type="submit">Excluir</button>
                 </form>
-                </button>
+
                 <% } %>
-                <% if (locals.query && locals.query.err) { %>
-                <div><%= locals.query.err == 1062? 'Email já cadastrado.' : 'Ocorreu um erro inesperado.' %></div>
-                <% } %>
-                </form>
 
             </div>
         </div>
