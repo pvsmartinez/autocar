@@ -28,11 +28,15 @@
                     </tr>
                     </thead>
                     <%    locals.equipes.forEach(function(equipe) {     %>
+                        <%
+                            ph = equipe.proximo_horario;
+                            hora = ("0" + ph.getDate()).slice(-2) +'/'+ ("0" + (ph.getMonth() + 1)).slice(-2) +'/'+ph.getFullYear() + ' às ' + ("0" + ph.getHours()).slice(-2) + ':' + ("0" + ph.getMinutes()).slice(-2);
+                        %>
 
                     <tr>
                         <td><%= equipe.nome %></td>
-                        <td><%= equipe.proximo_horario %></td>
                         <td><%= equipe.nome_especialidade %></td>
+                        <td><%= hora %></td>
                         <td><%= equipe.funcionario1 %></td>
                         <td><%= equipe.funcionario2 %></td>
                         <td><a href="/editarEquipe?id=<%= equipe.id %>">Editar</a>

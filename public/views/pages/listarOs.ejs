@@ -31,7 +31,7 @@
                     <% orders.forEach(function(os){ %>
                         <tr>
                             <%
-                                hora = os.horario.getDate() +'/'+ ("0" + (os.horario.getMonth() + 1)).slice(-2) +'/'+os.horario.getFullYear();
+                                hora = ("0" + os.horario.getDate()).slice(-2) +'/'+ ("0" + (os.horario.getMonth() + 1)).slice(-2) +'/'+os.horario.getFullYear() + ' às ' + ("0" + os.horario.getHours()).slice(-2) + ':' + ("0" + os.horario.getMinutes()).slice(-2);
                                 switch(os.status) {
                                     case 0:
                                         status = 'CRIADO'

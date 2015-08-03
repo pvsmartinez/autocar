@@ -112,7 +112,7 @@ function setStatus(id, status) {
 }
 
 function setEquipe(id, equipe_id) {
-    // PEDRO, MEXER NISSO AQUI, FIZ ASSIM SÓ PRA NÃO FICAR VAZIO
+    // O DU VAI FAZER
     return "update ordem_de_servico set equipe_id="+equipe_id+" where id = " + id;
 }
 
