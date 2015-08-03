@@ -110,11 +110,11 @@
                 </table>
                 <% if (!todos && user.permissao == 4) {%>
                 <a href="/os/todos">
-                    <button class="btn">Listar Todos</button>
+                    <button class="btn btn-primary btn-sm">Listar Todos</button>
                 </a>
                 <% } else if (todos) {%>
                 <a href="/os">
-                    <button class="btn">Ocultar Antigos/Cancelados/Concluídos</button>
+                    <button class="btn btn-primary btn-sm">Ocultar Antigos/Cancelados/Concluídos</button>
                 </a>
                 <% } %>
             </div>
