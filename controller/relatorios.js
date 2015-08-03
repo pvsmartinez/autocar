@@ -7,3 +7,10 @@ function map() {
         res.render('relatorios');
     });
 }
+
+
+//TODO: devolver status de os x quantidade (por mês)
+
+//TODO: devolver quantidade de funcionários x area de atuação
+
+//TODO: devolver valor de os concluidas(receita) x mês
