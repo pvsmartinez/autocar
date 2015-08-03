@@ -16,6 +16,7 @@ var obj = {
 	tipo : "int(1) not null default 0",
 	revisao_id : "int(11) null",
 	status : "int(1)",
+	recover : "int(1) default 0",
 	especialidade_id : "int(11)",
 	descricao : "varchar(2047)",
 	__foreignKeys : ["(equipe_id) REFERENCES equipe(id)", "(automovel_id) REFERENCES automovel(id)", "(revisao_id) REFERENCES revisao(id)", "(especialidade_id) REFERENCES especialidade(id)"]
@@ -27,6 +28,8 @@ var today = function(sum) {
 };
 
 var objs = [
+	{equipe_id : 2, automovel_id : 2, data_emissao : '2015-07-28 11:00:00', horario : today(1) + ' 8:00:00', preco :  2000.00, tipo : 0, status : 0, especialidade_id: 1, descricao:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis dui eget metus congue ultricies ac sit amet metus. Etiam a mattis mauris. Maecenas ultrices risus sed viverra dictum.'},
+	{equipe_id : 1, automovel_id : 1, data_emissao : '2015-07-29 13:00:00', horario : today(1) + ' 11:00:00', preco :  1000.00, tipo : 0, status : 0, especialidade_id: 2, descricao:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis dui eget metus congue ultricies ac sit amet metus. Etiam a mattis mauris. Maecenas ultrices risus sed viverra dictum.'},
 	{equipe_id : 2, automovel_id : 2, data_emissao : '2015-06-28 11:00:00', horario : '2014-10-29 8:00:00', preco :  3000.00, tipo : 0, status : 3, especialidade_id: 1, descricao:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis dui eget metus congue ultricies ac sit amet metus. Etiam a mattis mauris. Maecenas ultrices risus sed viverra dictum.'},
 	{equipe_id : 1, automovel_id : 1, data_emissao : '2015-06-28 11:00:00', horario : '2015-01-29 9:00:00', preco :  2000.00, tipo : 0, status : 4, especialidade_id: 2, descricao:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis dui eget metus congue ultricies ac sit amet metus. Etiam a mattis mauris. Maecenas ultrices risus sed viverra dictum.'},
 	{equipe_id : 2, automovel_id : 2, data_emissao : '2015-06-28 11:00:00', horario : '2015-01-26 8:00:00', preco :  1000.00, tipo : 0, status : 4, especialidade_id: 1, descricao:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis dui eget metus congue ultricies ac sit amet metus. Etiam a mattis mauris. Maecenas ultrices risus sed viverra dictum.'},
@@ -37,9 +40,7 @@ var objs = [
 	{equipe_id : 1, automovel_id : 1, data_emissao : '2015-06-28 11:00:00', horario : '2015-04-29 8:00:00', preco :  2000.00, tipo : 0, status : 4, especialidade_id: 2, descricao:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis dui eget metus congue ultricies ac sit amet metus. Etiam a mattis mauris. Maecenas ultrices risus sed viverra dictum.'},
 	{equipe_id : 2, automovel_id : 2, data_emissao : '2015-06-28 11:00:00', horario : '2015-05-29 9:00:00', preco :  30000.00, tipo : 0, status : 3, especialidade_id: 1, descricao:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis dui eget metus congue ultricies ac sit amet metus. Etiam a mattis mauris. Maecenas ultrices risus sed viverra dictum.'},
 	{equipe_id : 2, automovel_id : 1, data_emissao : '2015-06-28 11:00:00', horario : '2015-06-29 6:00:00', preco :  2000.00, tipo : 0, status : 4, especialidade_id: 2, descricao:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis dui eget metus congue ultricies ac sit amet metus. Etiam a mattis mauris. Maecenas ultrices risus sed viverra dictum.'},
-	{equipe_id : 2, automovel_id : 2, data_emissao : '2015-06-28 11:00:00', horario : '2015-06-29 8:00:00', preco :  2000.00, tipo : 0, status : 4, especialidade_id: 1, descricao:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis dui eget metus congue ultricies ac sit amet metus. Etiam a mattis mauris. Maecenas ultrices risus sed viverra dictum.'},
-	{equipe_id : 2, automovel_id : 2, data_emissao : '2015-07-28 11:00:00', horario : today(1) + ' 8:00:00', preco :  2000.00, tipo : 0, status : 0, especialidade_id: 1, descricao:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis dui eget metus congue ultricies ac sit amet metus. Etiam a mattis mauris. Maecenas ultrices risus sed viverra dictum.'},
-	{equipe_id : 1, automovel_id : 1, data_emissao : '2015-07-29 13:00:00', horario : today(1) + ' 11:00:00', preco :  1000.00, tipo : 0, status : 0, especialidade_id: 2, descricao:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis dui eget metus congue ultricies ac sit amet metus. Etiam a mattis mauris. Maecenas ultrices risus sed viverra dictum.'}
+	{equipe_id : 2, automovel_id : 2, data_emissao : '2015-06-28 11:00:00', horario : '2015-06-29 8:00:00', preco :  2000.00, tipo : 0, status : 4, especialidade_id: 1, descricao:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis dui eget metus congue ultricies ac sit amet metus. Etiam a mattis mauris. Maecenas ultrices risus sed viverra dictum.'}
 ];
 
 function ent() {

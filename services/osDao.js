@@ -6,12 +6,13 @@ module.exports = {
     getEquipes: getEquipes,
     setStatus: setStatus,
     setEquipe: setEquipe,
-    getNextEquipe: getNextEquipe
+    getNextEquipe: getNextEquipe,
+    cantRecover: cantRecover
 }
 var text;
 
 function listAll(flag, id) {
-    text = "SELECT os.id, os.horario, os.preco, esp.nome as espec, os.status, e.nome, a.placa";
+    text = "SELECT os.id, os.horario, os.preco, esp.nome as espec, os.status, e.nome, a.placa, os.recover";
     text += " FROM ordem_de_servico os";
     text += " INNER JOIN equipe e";
     text += " ON os.equipe_id = e.id";
@@ -25,7 +26,7 @@ function listAll(flag, id) {
 }
 
 function listCurrent(flag, id) {
-    text = "SELECT os.id, os.horario, os.preco, esp.nome as espec, os.status, eq.nome, a.placa";
+    text = "SELECT os.id, os.horario, os.preco, esp.nome as espec, os.status, eq.nome, a.placa, os.recover";
     text += " FROM ordem_de_servico os";
     text += " INNER JOIN equipe eq";
     text += " ON os.equipe_id = eq.id";
@@ -108,7 +109,12 @@ function getEquipes() {
 }
 
 function setStatus(id, status) {
-    return "update ordem_de_servico set status=" + status + " where id =" + id;
+    text = "update ordem_de_servico set status = " + status;
+    if (status === 3) {
+        text += ", recover = 1";
+    }
+    text += " where id =" + id;
+    return text;
 }
 
 function setEquipe(id, equipe_id) {
@@ -135,3 +141,6 @@ function getNextEquipe(id, os) {
     return text;
 }
 
+function cantRecover(id) {
+    return "update ordem_de_servico set recover = 0 where id =" + id;
+}

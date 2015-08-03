@@ -64,6 +64,12 @@ function map() {
     global.app.get('/os/cancelado/:id' , global.checkAuth([1,2,3,4]), function(req, res) {
         global.db.query(global.services.os.setStatus(req.params.id, 3), function(err, rows){
             global.error(err);
+            setTimeout(function () {
+              global.db.query(global.services.os.cantRecover(req.params.id), function(err, rows) {
+                global.error(err);
+                console.log('canceled for good');
+              });
+            }, 24 * 60 * 60 * 1000);
             res.redirect('/os');
         })
     });
