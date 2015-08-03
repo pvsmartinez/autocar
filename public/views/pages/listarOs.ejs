@@ -103,6 +103,13 @@
                                 </a>
                                 <% } %>
                                 <% break;%>
+                                    <% case 3:%>
+                                <% if (user.permissao == 4 && os.recover == 1) {%>
+                                <a href="/os/autorizado/<%= os.id %>">
+                                    <i class="fa fa-play" data-toggle="tooltip" title="Autorizar"></i>
+                                </a>
+                                <% } %>
+                                <% break;%>
                                 <% } %>
                             </td>
                         </tr>
