@@ -21,16 +21,17 @@
                     <tr>
                         <th>Nome</th>
                         <th>Especialidade</th>
+                        <th>Próximo horário disponível</th>
                         <th>Mecânico</th>
                         <th>Mecânico</th>
                         <th>Ação</th>
                     </tr>
                     </thead>
-                    <%    locals.equipes.forEach(function(equipe) {
-                    %>
+                    <%    locals.equipes.forEach(function(equipe) {     %>
 
                     <tr>
                         <td><%= equipe.nome %></td>
+                        <td><%= equipe.proximo_horario %></td>
                         <td><%= equipe.nome_especialidade %></td>
                         <td><%= equipe.funcionario1 %></td>
                         <td><%= equipe.funcionario2 %></td>

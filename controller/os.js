@@ -73,16 +73,16 @@ function map() {
             res.redirect('/os');
         })
     });
-
     global.app.get('/api/os/equipeSugerida/:id', global.checkAuth([2,4]), function (req, res) {
-        global.db.query(global.services.os.getNextEquipe(req.params.id), function(err, rows) {
+        global.db.query(global.services.os.getNextEquipe(req.params.id, true), function(err, rows) {
             res.send(rows[0]);
         });
-        // PEDRO - FAZER ISSO AQUI!
-        // vem o id na url
-        //res.send({nome: 'equipe x', f1_nome: 'mecanico y', f2_nome: 'mecanico z'});
     });
-
+    global.app.get('/api/os/equipeSugeridaNaCriacao/:id', global.checkAuth([2,4]), function (req, res) {
+        global.db.query(global.services.os.getNextEquipe(req.params.id, false), function(err, rows) {
+            res.send(rows[0]);
+        });
+    });
     global.app.get('/api/os/equipes', global.checkAuth([2,4]), function (req, res) {
         global.db.query(global.services.equipe.listAll(), function (err, rows) {
             if (err) {
