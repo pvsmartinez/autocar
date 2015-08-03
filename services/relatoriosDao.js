@@ -6,14 +6,14 @@ module.exports = {
 }
 
 function osByMonth() {
-	text = "select status, year(horario), month(horario), count(*)";
+	text = "select status, year(horario) as ano, month(horario) as mes, count(*) as total";
 	text += " from ordem_de_servico";
 	text += " group by year(horario), month(horario), status";
 	return text;
 }
 
 function funcByType() {
-	text = "select permissao, count(*)";
+	text = "select permissao, count(*) as total";
 	text += " from usuario";
 	text += " where permissao != 4 and permissao != 0";
 	text += " group by permissao";
@@ -21,7 +21,7 @@ function funcByType() {
 }
 
 function funcBySpec() {
-	text = "select e.nome, count(f.id)";
+	text = "select e.nome, count(f.id) as total";
 	text += " from usuario f";
 	text += " inner join especialidade e";
 	text += " on f.especialidade_id = e.id";
@@ -31,7 +31,7 @@ function funcBySpec() {
 }
 
 function moneyByMonth() {
-	text = "select year(horario), month(horario), sum(preco)";
+	text = "select year(horario) as ano, month(horario) as mes, sum(preco) as total";
 	text += " from ordem_de_servico";
 	text += " where status = 4";
 	text += " group by year(horario), month(horario)";

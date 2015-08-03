@@ -21,7 +21,6 @@ function map() {
     
     global.app.get('/api/estat/funcBySpec', global.checkAuth([4]), function(req, res) {
     	global.db.query(global.services.relatorios.funcBySpec(), function(err, rows) {
-    		console.log(rows);
     		res.send(rows);
     	});
     });
