@@ -116,7 +116,7 @@ function setEquipe(id, equipe_id) {
     return "update ordem_de_servico set equipe_id="+equipe_id+" where id = " + id;
 }
 
-function getNextEquipe(id) {
+function getNextEquipe(id, os) {
     text = "select e.id as id, e.nome as nome, f1.nome as f1_nome, f2.nome as f2_nome";
     text += " from equipe e";
     text += " inner join usuario f1";
@@ -124,9 +124,13 @@ function getNextEquipe(id) {
     text += " inner join usuario f2";
     text += " on e.id_func2 = f2.id";
     text += " where e.especialidade_id = ";
-    text += " (select os.especialidade_id";
-    text += " from ordem_de_servico os";
-    text += " where os.id = " + id + ")";
+    if (os === true) {
+        text += " (select os.especialidade_id";
+        text += " from ordem_de_servico os";
+        text += " where os.id = " + id + ")";
+    } else {
+        text += id;
+    }
     text += " ORDER BY e.proximo_horario";
     return text;
 }
