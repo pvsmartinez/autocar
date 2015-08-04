@@ -47,13 +47,12 @@
             <figure style="width: 450px; height: 300px; margin:0 auto 0 auto" id="lucromes"></figure>
         </div>
     </div>
-
 </main>
 <footer>
+
+
     <% include ../partials/footer %>
 </footer>
-</body>
-</html>
 <script type="text/javascript">
 
     var data = {
@@ -63,10 +62,10 @@
         "main": [
             {
                 "className": ".pizza",
-                "data": [{
-                    "x": "teste",
-                    "y": 1
-                }
+                "data": [
+                    <% osmes.forEach(function(os){%>
+                        {"x":"<%= ('0' + os.mes).slice(-2) +'/'+ os.ano %>", "y":<%= os.total%>},
+                    <%}); %>
                 ]
             }
         ]
@@ -79,34 +78,9 @@
             {
                 "className": ".pizza",
                 "data": [
-                    {
-                        "x": "2012-11-05",
-                        "y": 1
-                    },
-                    {
-                        "x": "2012-11-06",
-                        "y": 6
-                    },
-                    {
-                        "x": "2012-11-07",
-                        "y": 13
-                    },
-                    {
-                        "x": "2012-11-08",
-                        "y": -3
-                    },
-                    {
-                        "x": "2012-11-09",
-                        "y": -4
-                    },
-                    {
-                        "x": "2012-11-10",
-                        "y": 9
-                    },
-                    {
-                        "x": "2012-11-11",
-                        "y": 6
-                    }
+                    <% functype.forEach(function(fc){%>
+                        {"x":"<%= fc.permissao %>", "y":<%= fc.total%>},
+                    <%}); %>
                 ]
             }
         ]
@@ -132,34 +106,9 @@
             {
                 "className": ".pizza",
                 "data": [
-                    {
-                        "x": "2012-11-05",
-                        "y": 6
-                    },
-                    {
-                        "x": "2012-11-06",
-                        "y": 6
-                    },
-                    {
-                        "x": "2012-11-07",
-                        "y": 8
-                    },
-                    {
-                        "x": "2012-11-08",
-                        "y": 3
-                    },
-                    {
-                        "x": "2012-11-09",
-                        "y": 4
-                    },
-                    {
-                        "x": "2012-11-10",
-                        "y": 9
-                    },
-                    {
-                        "x": "2012-11-11",
-                        "y": 6
-                    }
+                    <% funcspec.forEach(function(fc){%>
+                        {"x":"<%= fc.nome %>", "y":<%= fc.total%>},
+                    <%}); %>
                 ]
             }
         ]
@@ -195,7 +144,6 @@
 //                    osmes.forEach(os){
 //
 //            }
-            <%console.log(locals.osmes[1])%>
                 $('#os-concluida-mes').show();
                 $('#func-tipo').hide();
                 $('#func-espec').hide();
@@ -224,3 +172,5 @@
     $('select[name=tipo]').change(hideOrShow);
     $('document').ready(hideOrShow);
 </script>
+</body>
+</html>
