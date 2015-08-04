@@ -3,7 +3,8 @@ module.exports = {
 	listAll : listAll,
 	cadastro : cadastro,
 	editar : editar,
-	excluir : excluir
+	excluir : excluir,
+	newHour : newHour
 }
 
 
@@ -29,4 +30,24 @@ function editar(id, nome, especialidade, func1, func2) {
 
 function excluir(id) {
 	return "delete from equipe where id = "+id;
+}
+
+function newHour(id, atual, duration) {
+	var dias = Math.floor(duration / (10 * 60));
+    var horas = duration % (10 * 60);
+    var hatual = new Date(atual);
+    var new_hour = (hatual.getHours() * 60) + hatual.getMinutes() + horas;
+    if (new_hour > 18 * 60) {
+        new_hour -= 600;
+        dias += 1;
+    }
+    var weekends = 2 * Math.floor(dias / 7);
+    var wk = hatual.getDay() + (dias % 7);
+    weekends += wk > 4 ? 2: 0;
+    dias += weekends;
+    var new_dia = hatual.getDate() + dias;
+    hatual.setDate(new_dia);
+    hatual.setHours(Math.floor(new_hour / 60),new_hour % 60);
+    var hour = hatual.toISOString();
+	return "update equipe set proximo_horario='"+hour+"' where id = "+id;
 }
