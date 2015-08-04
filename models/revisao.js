@@ -14,7 +14,10 @@ var obj = {
 }
 
 var objs = [
-	{preco: 32, modelo_id : 1, quilometragem: 5000}
+	{preco: 320, modelo_id : 1, quilometragem: 5000},
+	{preco: 500, modelo_id: 2, quilometragem: 6000},
+	{preco: 500, modelo_id: 3, quilometragem: 5000},
+	{preco: 400, modelo_id: 4, quilometragem: 4000}
 ];
 
 function ent() {

@@ -4,7 +4,8 @@ module.exports = {
 	update : update,
 	deletePeca : deletePeca,
 	cadastro : cadastro,
-	listByIds : listByIds
+	listByIds : listByIds,
+	listByRevisaoId : listByRevisaoId
 }
 
 
@@ -30,4 +31,8 @@ function cadastro(nome, valor, quantidade) {
 
 function listByIds(ids) {
 	return "select * from peca where id in (" + ids + ")";
+}
+
+function listByRevisaoId(id) {
+	return "select * from revisao_x_peca where revisao_id = "+id;
 }

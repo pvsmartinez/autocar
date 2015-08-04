@@ -96,6 +96,14 @@ function showOS(id, step) {
             text += " ON oxp.peca_id = p.id";
             text += " WHERE oxp.os_id = " + id;
             break;
+        case 4:
+            flag = false;
+            text = "SELECT revisao.*";
+            text +=" FROM ordem_de_servico";
+            text += " LEFT JOIN revisao";
+            text += " ON ordem_de_servico.revisao_id = revisao.id";
+            text += " WHERE ordem_de_servico.id = " + id;
+            text += " AND ordem_de_servico.revisao_id IS NOT NULL";
     }
     if (flag) {
         text = "SELECT " + info;

@@ -4,7 +4,8 @@ module.exports = {
 	update : update,
 	excluir : excluir,
 	cadastro : cadastro,
-	listByIds : listByIds
+	listByIds : listByIds,
+	findByRevisaoId : findByRevisaoId
 }
 
 
@@ -30,4 +31,8 @@ function cadastro(nome, preco, duracao) {
 
 function listByIds(ids) {
 	return "select * from tipo_de_servico where id in (" + ids + ")";
+}
+
+function findByRevisaoId(id) {
+	return "select * from revisao_x_tipo_de_servico where revisao_id = "+id;
 }

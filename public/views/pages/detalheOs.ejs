@@ -137,6 +137,9 @@
         precoIdeal = 0;
         servicos.forEach(function(servico) { precoIdeal += servico.preco; });
         pecas.forEach(function(peca) { precoIdeal += peca.valor*peca.quantidade; });
+        if (revisao) {
+          precoIdeal += revisao.preco;
+        }
       %>
       <% if (user.permissao == 4) { %>
         <li>Data de Emissão: <%= emi %></li>

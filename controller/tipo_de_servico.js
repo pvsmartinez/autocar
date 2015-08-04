@@ -76,4 +76,12 @@ function map() {
         });
     });
 
+
+    global.app.get('/api/servicos/revisao', global.checkAuth([1,2,3,4]), function(req, res) {
+        global.db.query(global.services.tipo_de_servico.findByRevisaoId(req.query.id), function(err, rows) {
+            global.error(err);
+            res.send(rows);
+        });
+    });
+
 }
