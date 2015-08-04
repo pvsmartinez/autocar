@@ -7,7 +7,7 @@ CREATE TABLE equipe(id int(11) auto_increment, nome varchar(100), especialidade_
 CREATE TABLE especialidade(id int(11) auto_increment, nome varchar(32), primary key (id));
 CREATE TABLE horario_atendimento(id int(11) auto_increment, horario datetime, disponivel bool, primary key (id));
 CREATE TABLE modelo_carro(id int(11) auto_increment, marca varchar(40), modelo varchar(40), primary key (id));
-CREATE TABLE ordem_de_servico(id int(11) auto_increment, equipe_id int(11), automovel_id int(11), atendimento_id int(11), data_emissao datetime, data_conclusao datetime, horario datetime, preco decimal(6,2), tipo int(1) not null default 0, revisao_id int(11) null, status int(1) default 0, especialidade_id int(11), descricao varchar(2047), primary key (id));
+CREATE TABLE ordem_de_servico(id int(11) auto_increment, equipe_id int(11), automovel_id int(11), atendimento_id int(11), data_emissao datetime, data_conclusao datetime, horario datetime, preco decimal(6,2), tipo int(1) not null default 0, revisao_id int(11) null, status int(1) default 0, recover int(1) default 0, especialidade_id int(11), descricao varchar(2047), primary key (id));
 CREATE TABLE os_x_peca(os_id int(11), peca_id int(11), quantidade int(11), primary key (os_id, peca_id));
 CREATE TABLE os_x_tipo_de_servico(os_id int(11), tipo_id int(11), primary key (os_id, tipo_id));
 CREATE TABLE peca(id int(11) auto_increment, valor decimal(6,2), nome varchar(100), quantidade_em_estoque int(10) default 0, primary key (id));

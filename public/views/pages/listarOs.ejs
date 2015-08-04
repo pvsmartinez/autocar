@@ -31,7 +31,7 @@
                     <% orders.forEach(function(os){ %>
                         <tr>
                             <%
-                                hora = os.horario.getDate() +'/'+ ("0" + (os.horario.getMonth() + 1)).slice(-2) +'/'+os.horario.getFullYear();
+                                hora = ("0" + os.horario.getDate()).slice(-2) +'/'+ ("0" + (os.horario.getMonth() + 1)).slice(-2) +'/'+os.horario.getFullYear() + ' às ' + ("0" + os.horario.getHours()).slice(-2) + ':' + ("0" + os.horario.getMinutes()).slice(-2);
                                 switch(os.status) {
                                     case 0:
                                         status = 'CRIADO'
@@ -103,6 +103,13 @@
                                 </a>
                                 <% } %>
                                 <% break;%>
+                                    <% case 3:%>
+                                <% if (user.permissao == 4 && os.recover == 1) {%>
+                                <a href="/os/autorizado/<%= os.id %>">
+                                    <i class="fa fa-play" data-toggle="tooltip" title="Autorizar"></i>
+                                </a>
+                                <% } %>
+                                <% break;%>
                                 <% } %>
                             </td>
                         </tr>
@@ -110,11 +117,11 @@
                 </table>
                 <% if (!todos && user.permissao == 4) {%>
                 <a href="/os/todos">
-                    <button class="btn">Listar Todos</button>
+                    <button class="btn btn-primary btn-sm">Listar Todos</button>
                 </a>
                 <% } else if (todos) {%>
                 <a href="/os">
-                    <button class="btn">Ocultar Antigos/Cancelados/Concluídos</button>
+                    <button class="btn btn-primary btn-sm">Ocultar Antigos/Cancelados/Concluídos</button>
                 </a>
                 <% } %>
             </div>
