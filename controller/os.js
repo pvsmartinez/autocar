@@ -79,6 +79,7 @@ function map() {
         });
     });
     global.app.get('/api/os/equipeSugeridaNaCriacao/:id', global.checkAuth([2,4]), function (req, res) {
+        console.log(req.params.id);
         global.db.query(global.services.os.getNextEquipe(req.params.id, false), function(err, rows) {
             res.send(rows[0]);
         });
@@ -100,4 +101,96 @@ function map() {
             res.redirect('/os/detalhes/'+req.params.id);
         });
     });
+
+    global.app.post('/os/cadastrar/', function (req, res) {
+        var dt = moment().format();
+        var equipe = JSON.parse(req.body.equipe);
+        global.db.query(global.services.os.cadastrar(equipe.id, req.body.automovel, req.body.atendimento, dt, equipe.proximo_horario, req.body.preco, req.body.tipo, req.body.revisao, req.body.especialidade, req.body.descricao), function (err, result) {
+            if (err) {
+                console.log(err);
+                res.render('mensagem',{locals: {
+                    tipo:"danger",
+                    titulo:"Erro ao criar ordem de serviço",
+                    mensagem:err
+                }});
+            } else {
+                if (req.body.pecas != "") {
+                    var jsonPecas = JSON.parse(req.body.pecas);
+                    for (var i in jsonPecas) {
+                        global.db.query(global.services.os.cadastrarPeca(result.insertId, jsonPecas[i].id, jsonPecas[i].qtd), function(err, presult) {
+                            if (err) {
+                                console.log(err);
+                            }  
+                        });
+                    }
+                }
+                for (var i in req.body.servicos) {
+                    console.log("servico:"+req.body.servicos[i]);
+                    global.db.query(global.services.os.cadastrarServico(result.insertId, req.body.servicos[i]), function(err, presult) {
+                        if (err) {
+                            console.log(err);
+                        }  
+                    });
+                }
+            }
+            res.render('mensagem',{locals: {
+                tipo:"success",
+                titulo:"Ordem de serviço criado",
+                mensagem:"Nova ordem de serviço criada com sucesso."
+            }});
+        });
+    });
+
+    global.app.get('/api/os/precoIdeal', function (req, res) {
+
+        var preco = 0;
+        var quantidades = req.query.quantidades.split(",");
+        var pecas = req.query.pecas.split(",");
+        var servicos = req.query.servicos.split(",");
+        var n_requests = pecas.length + servicos.length;
+        var req_counter = 0;
+        var pecas_counter = 0;
+        console.log(n_requests);
+        var queryCallback = function() {
+
+            if (++req_counter == n_requests) {
+                preco = preco.toFixed(2);
+                res.send({"preco":preco});
+            }
+
+        };
+        for (var i in pecas) {
+            global.db.query(global.services.peca.findById(pecas[i]), function(err, rows) {
+                if (err) {
+                    console.log(err);
+                }  
+                console.log(rows[0].valor);
+                console.log(quantidades[pecas_counter]);
+                console.log(parseInt(quantidades[pecas_counter]));
+                preco += rows[0].valor * parseInt(quantidades[pecas_counter]);
+                queryCallback();
+                pecas_counter++;
+            });
+        }
+
+        for (var i in servicos) {
+            global.db.query(global.services.tipo_de_servico.findById(servicos[i]), function(err, rows) {
+                if (err) {
+                    console.log(err);
+                }  
+                console.log(rows[0].preco);
+                preco += rows[0].preco;
+                queryCallback();
+            });
+        }
+
+    });
+
+    global.app.get('/api/os/atendimento', global.checkAuth([1, 2, 3, 4]), function(req, res, next) {
+        global.db.query(global.services.os.findByAtendimentoId(req.query.id), function(err, rows) {
+            global.error(err);
+            res.send(rows);
+        });
+    });
+
 }

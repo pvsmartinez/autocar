@@ -136,12 +136,12 @@
         }
         precoIdeal = 0;
         servicos.forEach(function(servico) { precoIdeal += servico.preco; });
-        pecas.forEach(function(peca) { precoIdeal += peca.valor; });
+        pecas.forEach(function(peca) { precoIdeal += peca.valor*peca.quantidade; });
       %>
       <% if (user.permissao == 4) { %>
         <li>Data de Emissão: <%= emi %></li>
         <li>Data de Conclusão: <%= conc %></li>
-        <li>Preço: <%= order.preco %> de <%= precoIdeal %></li>
+        <li>Preço: <%= order.preco %> de <%= precoIdeal.toFixed(2) %></li>
       <% } %>
       <li>Horário: <%= hora %></li>
       <li>Especialidade: <%= order.espec %></li>

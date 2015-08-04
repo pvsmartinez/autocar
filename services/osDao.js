@@ -6,7 +6,12 @@ module.exports = {
     getEquipes: getEquipes,
     setStatus: setStatus,
     setEquipe: setEquipe,
-    getNextEquipe: getNextEquipe
+    getNextEquipe: getNextEquipe,
+    cadastrar : cadastrar,
+    cadastrarPeca : cadastrarPeca,
+    cadastrarServico : cadastrarServico,
+    getPrecoIdeal : getPrecoIdeal,
+    findByAtendimentoId : findByAtendimentoId
 }
 var text;
 
@@ -135,3 +140,33 @@ function getNextEquipe(id, os) {
     return text;
 }
 
+function cadastrar(equipe, automovel, atendimento, date, horario, preco, tipo, revisao, especialidade, descricao) {
+
+    if (tipo != 1) revisao = "NULL";
+    return "insert into ordem_de_servico (equipe_id, automovel_id, atendimento_id, data_emissao, horario, preco, tipo, revisao_id, especialidade_id, descricao) values ("+equipe+","+automovel+","+atendimento+",'"+date+"','"+horario+"',"+preco+","+tipo+","+revisao+","+especialidade+",'"+descricao+"')";
+
+}
+
+function cadastrarPeca(os_id, peca_id, quantidade) {
+
+    return "insert into os_x_peca (os_id, peca_id, quantidade) values ("+os_id+","+peca_id+","+quantidade+")";
+
+}
+
+function cadastrarServico(os_id, servico_id) {
+
+    return "insert into os_x_tipo_de_servico (os_id, tipo_id) values ("+os_id+","+servico_id+")";
+
+}
+
+function getPrecoIdeal(pecas, servicos) {
+
+    return "SELECT sum(preco) as preco FROM (SELECT sum(valor*quantidade) as preco FROM os_x_peca left JOIN peca on os_x_peca.peca_id = peca.id  WHERE os_x_peca.peca_id in ("+pecas+") UNION SELECT sum(preco) as preco FROM os_x_tipo_de_servico left JOIN tipo_de_servico on os_x_tipo_de_servico.tipo_id = tipo_de_servico.id  WHERE os_x_tipo_de_servico.tipo_id in ("+servicos+")) as precoTable";
+
+}
+
+function findByAtendimentoId(atendimento) {
+
+    return "select * from ordem_de_servico where atendimento_id = "+atendimento;
+
+}

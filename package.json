@@ -23,6 +23,7 @@
     "express-session": "^1.11.0",
     "method-override": "~2.1.2",
     "morgan": "~1.2.2",
-    "mysql": "^2.5.4"
+    "mysql": "^2.5.4",
+    "moment": "^2.10.6"
   }
 }

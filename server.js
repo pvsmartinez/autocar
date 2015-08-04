@@ -9,6 +9,7 @@ var bodyParser = require('body-parser'); // pull information from HTML POST (exp
 var methodOverride = require('method-override'); // simulate DELETE and PUT (express4)
 var mysql = require('mysql');
 var fs = require('fs');
+global.moment = require('moment');
 var pathServices = require("path").join(__dirname, "services");
 var fileServices = fs.readdirSync(pathServices);
 global.services = {};

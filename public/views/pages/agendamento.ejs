@@ -140,9 +140,13 @@
 
 		            <br><br>
 
-	            	<button class="btn btn-lg btn-primary btn-block" id="btn_gerar" onclick="showOSForm()">
-	                    Gerar ordem de serviço
+	            	<button class="btn btn-lg btn-primary btn-block" id="btn_gerar">
+	            		<span class="btn-gerar-span"></span>
+	                    <div id="btn_gerar-loading" style="display:none; width:100%" align="center">
+				      		<img src="img/btn-loading_32x32.gif">
+				    	</div>
 	                </button>
+	                
 	            </div>
 
 			</div>
@@ -151,7 +155,7 @@
 			<div class="modal fade" id="os-modal">
 			  <div class="modal-dialog">
 			    <div class="modal-content">
-				    <form method="post" id="os-form">
+				    <form method="post" id="os-form" action="os/cadastrar">
 				      <div class="modal-header">
 				        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				        <h4 class="modal-title">
@@ -160,27 +164,27 @@
 				        	<span id="os-horario"></span>
 				        </h4>
 				      </div>
-				      <div class="modal-body">
+				      <div class="modal-body" id="modal-cadastro">
 				      	<div id="os-loading" style="display:none; width:100%" align="center">
 				      		<img src="img/loading_64x64.gif">
 				      	</div>
 				      	<div id="os-div">
 			                <!--<form class="form-signin" method="post" action="/signUp">-->
 			                	<input type="hidden" name="automovel" id="os-automovel">
+			                	<input type="hidden" name="atendimento" id="os-atendimento">
 			                	<input type="hidden" name="modelo_id" id="os-modelo_id">
 			                	<input type="hidden" name="pecas" id="os-pecas">
-			                	<input type="hidden" name="pecas-qtd" id="os-pecas-qtd">
-			                	<select name="modelo" class="form-control" id="os-tipo" placeholder="tipo" required onchange="showRevisoes()">
+			                	<select name="tipo" class="form-control" id="os-tipo" placeholder="tipo" required onchange="showRevisoes()">
 			                		<option value="">Tipo de OS</option>
-			                    	<option value="revisao">Revisão periódica</option>
-			                    	<option value="outro">Outro</option>
+			                    	<option value="1">Revisão periódica</option>
+			                    	<option value="0">Outro</option>
 			                    </select><div id="revisoes-loading" style="display:none"><img src="img/loading_16x16.gif"></div>
 			                    <br>
 			                	<select name="revisao" class="form-control" id="os-revisoes" placeholder="revisao" style="display:none">
-			                		<option value="">Selecione revisão</option>
+			                		<option value="NULL">Selecione revisão</option>
 			                    </select>
 			                	<br>
-			                    <select name="modelo" class="form-control" id="os-especialidade"  placeholder="Especialidade" required>
+			                    <select name="especialidade" class="form-control" id="os-especialidade"  placeholder="Especialidade" required>
 			                    	<option value="">Especialidade</option>
 			                    </select><div id="especialidade-loading" style="display:none"><img src="img/loading_16x16.gif"></div>
 			                    <br>
@@ -190,7 +194,7 @@
 											<label>Serviços:</label>
 											<div id="servicos-loading" style="display:none"><img src="img/loading_16x16.gif"></div>
 											<br>
-											<div id="os-servicos"></div>
+											<div id="os-servicos-container"></div>
 						                    <br>
 			                			</td>
 			                			<td width="50%">
@@ -214,12 +218,27 @@
 			                			</td>
 			                		</tr>
 			                	</table>
-			               
+			               		<br>
+			               		<textarea class="form-control" style="width:100%; height:100px" name="descricao" placeholder="Descrição" required></textarea>
 		            	</div>
 				      </div>
+			        <div class="modal-body" id="modal-equipe" style="display:none">
+			            <h3>Equipe sugerida:</h3>
+			            <div id="sugerida-loading" style="display:none"><img src="img/loading_16x16.gif"></div>
+			            <div id="equipe-sugerida"></div>
+			            <h3>Escolher equipe</h3>
+			                <select id="os-equipe" class="form-control" name="equipe">
+
+			                </select>
+			            <br>
+			            <h3>Preço: </h3>
+			            <input type="text" name="preco" id="os-preco" class="form-control">
+			            <div id="os-preco-loading" style="display:none"><img src="img/loading_16x16.gif"></div>
+			        </div>
 				      <div class="modal-footer">
-				        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				        <button type="submit" class="btn btn-primary">Save changes</button>
+				        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+				        <button type="button" class="btn btn-default" id="os-btn-back" style="display:none" onclick="osFormGoBack();">Voltar</button>
+				        <button type="submit" class="btn btn-primary" id="os-btn-next">Continuar</button>
 				      </div>
 			        </form>
 			    </div><!-- /.modal-content -->
@@ -303,6 +322,7 @@
 				var especialidades = null;
 				var servicos = null;
 				var pecas = null;
+				var os_equipe = false;
 
 				var dias = ["Domingo","Segunda-feira","Terça-feira","Quarta-feira","Quinta-feira","Sexta-feira","Sábado"];
 				var meses = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
@@ -330,11 +350,13 @@
 							success: function(data) {
 								$('.td-horario').addClass('td-horario-indisponivel');
 								$('.td-horario').removeAttr('automovel');
+								$('.td-horario').removeAttr('atendimento');
 								$.each(data, function(index, value) {
 									var d = new Date(Date.parse(value.horario));
 									if ($('#horario-'+d.getHours())) {
 										$('#horario-'+d.getHours()).removeClass('td-horario-indisponivel');
 										$('#horario-'+d.getHours()).attr('automovel',value.automovel_id);
+										$('#horario-'+d.getHours()).attr('atendimento',value.id);
 										getAutomovelInfo('#horario-'+d.getHours(), value.automovel_id);
 									}
 								});
@@ -355,6 +377,7 @@
 						$("#ordem-div").fadeIn(animTime);
 
 						$("#os-automovel").val($(this).attr("automovel"));
+						$("#os-atendimento").val($(this).attr("atendimento"));
 						$("#os-cliente").html($(this).children(".horario-detalhe").html());
 
 						if (especialidades == null) getEspecialidades();
@@ -367,6 +390,7 @@
 						else fillPecas();
 
 						getAutomovel();
+						getOS();
 
 						hor = $(this).attr('id').split("horario-")[1];
 						var hourDate = new Date(currentDate);
@@ -394,10 +418,42 @@
 						},
 						success: function(data) {
 
-							console.log(data);
-							console.log($(el).children(".horario-detalhe"));
 							$(el).children(".horario-detalhe").html(data[0].nome+" - "+data[0].marca+" "+data[0].modelo);
 
+						},
+						error: function(err) {
+							alert(err);
+						}
+					});
+
+				}
+
+				function getOS() {
+
+					var atendimento = $("#os-atendimento").val();
+
+					$.ajax({
+						type: "GET",
+						url:"api/os/atendimento",
+						data: {id:atendimento},
+						beforeSend: function() {
+							$("#btn_gerar-loading").show();
+							$(".btn-gerar-span").hide();
+							$('#btn_gerar').off('click');
+						},
+						success: function(data) {
+							$("#btn_gerar-loading").hide();
+							$(".btn-gerar-span").show();
+							if (data.length > 0) {
+								id = data[0].id;
+								$(".btn-gerar-span").html("Ver ordem de serviço");
+								$('#btn_gerar').on('click', function() {
+									window.location.href = "os/detalhes/"+id;
+								});
+							} else {
+								$(".btn-gerar-span").html("Gerar ordem de serviço");
+								$('#btn_gerar').on('click', showOSForm );
+							}
 						},
 						error: function(err) {
 							alert(err);
@@ -482,13 +538,13 @@
 
 				function fillServicos() {
 
-					$("#os-servicos").html("");
+					$("#os-servicos-container").html("");
 
 					$.each(servicos, function(index, value) {
-						opt = $("<input type='checkbox' name='servicos'></input>");
+						opt = $("<input type='checkbox' name='servicos' class='servicos-checkbox'></input>");
 						opt.val(value.id);
-						$("#os-servicos").append(opt);
-						$("#os-servicos").append(" "+value.nome+"<br />");
+						$("#os-servicos-container").append(opt);
+						$("#os-servicos-container").append(" "+value.nome+"<br />");
 					});
 
 				}
@@ -539,7 +595,7 @@
 
 				function showRevisoes() {
 
-					if ($("#os-tipo").val() == "revisao") {
+					if ($("#os-tipo").val() == "1") {
 
 						modelo = $("#os-modelo_id").val();
 
@@ -551,7 +607,6 @@
 								$("#revisoes-loading").fadeIn(animTime);
 							},
 							success: function(data) {
-								console.log(data);
 								$("#os-revisoes").show(animTime);
 								$("#os-revisoes").attr("required","true");
 								$("#revisoes-loading").fadeOut(animTime);
@@ -646,13 +701,110 @@
 
 				function resetOSForm() {
 
+					osFormGoBack();
 					$("#os-revisoes").hide(animTime);
 					$("#os-revisoes").removeAttr("required");
 					$(".pecaTr").remove();
 					$("#pecasTable").hide();
 					$("#os-form")[0].reset();
+		
+				}
+
+				function osFormGoBack() {
+
+					$("#os-preco").removeAttr("required");
+					$("#os-equipe").removeAttr("required");
+					$("#os-btn-next").html("Continuar");
+					$("#os-btn-back").hide();
+					$("#modal-equipe").hide();
+					$("#modal-cadastro").show();
+					os_equipe = false;
 
 				}
+
+				$("#os-form").submit( function(e) {
+					if (!os_equipe) {
+						e.preventDefault();
+						os_equipe = true;
+					    var loading = $('#sugerida-loading');
+					    var espec_id = $("#os-especialidade").val();
+					    $("#modal-cadastro").hide();
+					    $("#modal-equipe").show();
+					    $("#os-btn-next").html("Salvar Ordem de Serviço");
+					    $("#os-btn-back").show();
+					    $.ajax({
+					      type: "GET",
+					      url: "api/os/equipeSugeridaNaCriacao/"+espec_id,
+					      beforeSend: function () {
+					        loading.fadeIn(50);
+					      },
+					      success: function(data) {
+					        loading.fadeOut(50);
+					        var sugeridaSpan = $('#equipe-sugerida');
+					        sugeridaSpan.html('<b>'+data.nome+'</b>');
+					        sugeridaSpan.append("<br>Mecânicos:");
+					        sugeridaSpan.append("<ul><li>"+data.f1_nome+"</li><li>"+data.f2_nome+"</li></ul>");
+					        var id = data.id;
+					        $.ajax({
+					          type: "GET",
+					          url: "/api/os/equipes",
+					          success: function (data) {
+					          	$("#os-equipe").attr("required","true");
+					            var equipe_select = $('#os-equipe');
+					            equipe_select.html("");
+					            data.forEach(function (equipe) {
+					              ph = new Date(equipe.proximo_horario);
+					              hora = ("0" + ph.getDate()).slice(-2) +'/'+ ("0" + (ph.getMonth() + 1)).slice(-2) + ' às ' + ("0" + ph.getHours()).slice(-2) + ':' + ("0" + ph.getMinutes()).slice(-2);
+					              var opt = $("<option></option>");
+					              if (id == equipe.id) opt.attr("selected","true");
+					              opt.val(JSON.stringify(equipe));
+					              opt.html("Disponível: "+hora+" - "+equipe.nome);
+					              equipe_select.append(opt);
+					            });
+					          }
+					        });
+					      },
+					      error: function() {
+					        $('#equipe-sugerida').append("Ocorreu um erro");
+					      }
+					    });
+
+						var serializedPecas = "";
+						var serializedQtd = "";
+						var jsonPecas = JSON.parse($("#os-pecas").val());
+						for (var i in jsonPecas) {
+							serializedPecas += jsonPecas[i].id + ",";
+							serializedQtd += jsonPecas[i].qtd + ",";
+						}
+						serializedPecas = serializedPecas.slice(0,-1);
+						serializedQtd = serializedQtd.slice(0,-1);
+
+						var serializedServicos = "";
+						$(".servicos-checkbox").each( function(index) {
+							if ($(this).is(":checked")) {
+								serializedServicos += $(this).val() + ",";
+							}
+						});
+						serializedServicos = serializedServicos.slice(0,-1);
+
+					    $.ajax({
+					      type: "GET",
+					      url: "api/os/precoIdeal/",
+					      data:{pecas:serializedPecas, quantidades: serializedQtd, servicos:serializedServicos},
+					      beforeSend: function () {
+					        $("#os-preco-loading").fadeIn(50);
+					      },
+					      success: function(data) {
+					        $("#os-preco-loading").fadeOut(50);
+					        $("#os-preco").val(data.preco);
+					        $("#os-preco").attr("required","true");
+					      },
+					      error: function() {
+					        $('#equipe-sugerida').append("Ocorreu um erro");
+					      }
+					    });
+					}
+				});
 
 
 			</script>
@@ -721,7 +873,6 @@
 							formatedDate = currentDate.getDate()+"/"+(currentDate.getMonth()+1)+"/"+currentDate.getFullYear().toString();
 							var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
 							var localISOTime = (new Date(hourDate - tzoffset)).toISOString().slice(0,-1);
-							console.log(localISOTime);
 							if (modelos == null) getModelos();
 							else fillModelos();
 							$("#form-horario").val(localISOTime);

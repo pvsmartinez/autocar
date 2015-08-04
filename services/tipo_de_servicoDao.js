@@ -3,7 +3,8 @@ module.exports = {
 	listAll : listAll,
 	update : update,
 	excluir : excluir,
-	cadastro : cadastro
+	cadastro : cadastro,
+	listByIds : listByIds
 }
 
 
@@ -25,4 +26,8 @@ function excluir(id) {
 
 function cadastro(nome, preco, duracao) {
 	return "insert into tipo_de_servico (nome, preco, duracao) values ('"+nome+"', "+preco+", "+duracao+")";
+}
+
+function listByIds(ids) {
+	return "select * from tipo_de_servico where id in (" + ids + ")";
 }

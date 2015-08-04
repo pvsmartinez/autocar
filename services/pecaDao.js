@@ -3,7 +3,8 @@ module.exports = {
 	listAll : listAll,
 	update : update,
 	deletePeca : deletePeca,
-	cadastro : cadastro
+	cadastro : cadastro,
+	listByIds : listByIds
 }
 
 
@@ -25,4 +26,8 @@ function deletePeca(id) {
 
 function cadastro(nome, valor, quantidade) {
 	return "insert into peca (nome, valor, quantidade_em_estoque) values ('"+nome+"', "+valor+", "+quantidade+")";
+}
+
+function listByIds(ids) {
+	return "select * from peca where id in (" + ids + ")";
 }
