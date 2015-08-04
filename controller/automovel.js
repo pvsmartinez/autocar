@@ -13,11 +13,17 @@ function map() {
     });
 
 
-    global.app.get('/api/automovel/buscarModeloCliente', global.checkAuth([1,2,3,4]), function(req, res) {
+    global.app.get('/api/automovel/buscarModeloCliente', global.checkAuth([0,1,2,3,4]), function(req, res) {
         var get = req.query;
         global.db.query(global.services.automovel.getModeloAndClienteById(get.id), function(err, rows) {
             global.error(err);
-            res.send(rows);
+            if (req.session.user_permission == 0) {
+                console.log(rows);
+                if (req.session.user_id == rows[0].cliente_id) res.send(rows);
+                else res.send({});
+            } else {
+                res.send(rows);
+            }
         });
     });
 
