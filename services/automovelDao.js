@@ -13,7 +13,7 @@ function findById(id) {
 }
 
 function getModeloAndClienteById(id) {
-	return "select modelo_carro.modelo, modelo_carro.marca, usuario.nome, automovel.id from automovel inner join modelo_carro on automovel.modelo_id = modelo_carro.id inner join usuario on automovel.cliente_id = usuario.id where automovel.id = "+id;
+	return "select modelo_carro.modelo, modelo_carro.marca, usuario.id as cliente_id, usuario.nome, automovel.id from automovel inner join modelo_carro on automovel.modelo_id = modelo_carro.id inner join usuario on automovel.cliente_id = usuario.id where automovel.id = "+id;
 }
 
 function listUserCars(id) {

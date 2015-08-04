@@ -14,13 +14,9 @@
             cursor: pointer;
         }
 
-        .td-horario .horario-detalhe {
+        .horario-detalhe {
             display: inline;
             padding-left: 20px;
-        }
-
-        .td-horario .horario-indisponivel {
-            display: none;
         }
 
         .td-horario-indisponivel {
@@ -33,14 +29,6 @@
             background: #fff;
         }
 
-        .td-horario-indisponivel .horario-indisponivel {
-            display: inline;
-            padding-left: 20px;
-        }
-
-        .td-horario-indisponivel .horario-detalhe {
-            display: none;
-        }
 
 		</style>
 
@@ -80,28 +68,28 @@
 	            </thead>
 	            <tbody>
 	            <tr>
-	                <td class="td-horario" id="horario-8">08:00 - 09:00<span class="horario-indisponivel">Indisponível</span><span class="horario-detalhe"></span></td>
+	                <td class="td-horario" id="horario-8">08:00 - 09:00<span class="horario-detalhe"></span></td>
 	            </tr>
 	            <tr>
-	                <td class="td-horario" id="horario-9">09:00 - 10:00<span class="horario-indisponivel">Indisponível</span><span class="horario-detalhe"></span></td>
+	                <td class="td-horario" id="horario-9">09:00 - 10:00<span class="horario-detalhe"></span></td>
 	            </tr>
 	            <tr>
-	                <td class="td-horario" id="horario-10">10:00 - 11:00<span class="horario-indisponivel">Indisponível</span><span class="horario-detalhe"></span></td>
+	                <td class="td-horario" id="horario-10">10:00 - 11:00<span class="horario-detalhe"></span></td>
 	            </tr>
 	            <tr>
-	                <td class="td-horario" id="horario-11">11:00 - 12:00<span class="horario-indisponivel">Indisponível</span><span class="horario-detalhe"></span></td>
+	                <td class="td-horario" id="horario-11">11:00 - 12:00<span class="horario-detalhe"></span></td>
 	            </tr>
 	            <tr>
-	                <td class="td-horario" id="horario-14">14:00 - 15:00<span class="horario-indisponivel">Indisponível</span><span class="horario-detalhe"></span></td>
+	                <td class="td-horario" id="horario-14">14:00 - 15:00<span class="horario-detalhe"></span></td>
 	            </tr>
 	            <tr>
-	                <td class="td-horario" id="horario-15">15:00 - 16:00<span class="horario-indisponivel">Indisponível</span><span class="horario-detalhe"></span></td>
+	                <td class="td-horario" id="horario-15">15:00 - 16:00<span class="horario-detalhe"></span></td>
 	            </tr>
 	            <tr>
-	                <td class="td-horario" id="horario-16">16:00 - 17:00<span class="horario-indisponivel">Indisponível</span><span class="horario-detalhe"></span></td>
+	                <td class="td-horario" id="horario-16">16:00 - 17:00<span class="horario-detalhe"></span></td>
 	            </tr>
 	            <tr>
-	                <td class="td-horario" id="horario-17">17:00 - 18:00<span class="horario-indisponivel">Indisponível</span><span class="horario-detalhe"></span></td>
+	                <td class="td-horario" id="horario-17">17:00 - 18:00<span class="horario-detalhe"></span></td>
 	            </tr>
 	            </tbody>
 	        </table>
@@ -174,6 +162,7 @@
 			                	<input type="hidden" name="atendimento" id="os-atendimento">
 			                	<input type="hidden" name="modelo_id" id="os-modelo_id">
 			                	<input type="hidden" name="pecas" id="os-pecas">
+			                	<input type="hidden" name="duracao" id="os-duracao" value="0">
 			                	<select name="tipo" class="form-control" id="os-tipo" placeholder="tipo" required onchange="showRevisoes()">
 			                		<option value="">Tipo de OS</option>
 			                    	<option value="1">Revisão periódica</option>
@@ -310,6 +299,33 @@
 
 		<script src="libs/supercal/jquery.supercal.js"></script>
 
+		<script>
+
+				function getAutomovelInfo(el, id) {
+
+					$.ajax({
+						type: "GET",
+						url:"api/automovel/buscarModeloCliente",
+						data: {id:id},
+						beforeSend: function() {
+							$(el).closest(".horario-detalhe").html("<img src='img/loading_16x16.gif'>");
+						},
+						success: function(data) {
+
+							if (data.length > 0) {
+								$(el).children(".horario-detalhe").html(data[0].nome+" - "+data[0].marca+" "+data[0].modelo);
+							}
+
+						},
+						error: function(err) {
+							alert(err);
+						}
+					});
+
+				}
+
+		</script>
+
 		<%
 
 		if (user.permissao > 0) {
@@ -349,6 +365,7 @@
 							},
 							success: function(data) {
 								$('.td-horario').addClass('td-horario-indisponivel');
+								$('.horario-detalhe').html('Indisponível');
 								$('.td-horario').removeAttr('automovel');
 								$('.td-horario').removeAttr('atendimento');
 								$.each(data, function(index, value) {
@@ -406,27 +423,6 @@
 
 					}
 				});
-
-				function getAutomovelInfo(el, id) {
-
-					$.ajax({
-						type: "GET",
-						url:"api/automovel/buscarModeloCliente",
-						data: {id:id},
-						beforeSend: function() {
-							$(el).closest(".horario-detalhe").html("<img src='img/loading_16x16.gif'>");
-						},
-						success: function(data) {
-
-							$(el).children(".horario-detalhe").html(data[0].nome+" - "+data[0].marca+" "+data[0].modelo);
-
-						},
-						error: function(err) {
-							alert(err);
-						}
-					});
-
-				}
 
 				function getOS() {
 
@@ -541,7 +537,7 @@
 					$("#os-servicos-container").html("");
 
 					$.each(servicos, function(index, value) {
-						opt = $("<input type='checkbox' name='servicos' class='servicos-checkbox'></input>");
+						opt = $("<input type='checkbox' name='servicos' class='servicos-checkbox' duracao='"+value.duracao+"' onchange='changeDuracao(this)'></input>");
 						opt.val(value.id);
 						$("#os-servicos-container").append(opt);
 						$("#os-servicos-container").append(" "+value.nome+"<br />");
@@ -707,7 +703,19 @@
 					$(".pecaTr").remove();
 					$("#pecasTable").hide();
 					$("#os-form")[0].reset();
+					$("#os-duracao").val(0);
+
 		
+				}
+
+				function changeDuracao(el) {
+
+					if ($(el).is(":checked")) {
+						$("#os-duracao").val(parseInt($("#os-duracao").val()) + parseInt($(el).attr("duracao")));
+					} else {
+						$("#os-duracao").val(parseInt($("#os-duracao").val()) - parseInt($(el).attr("duracao")));
+					}
+
 				}
 
 				function osFormGoBack() {
@@ -847,10 +855,13 @@
 								},
 								success: function(data) {
 									$('.td-horario').removeClass('td-horario-indisponivel');
+									$('.horario-detalhe').html('');
 									$.each(data, function(index, value) {
 										var d = new Date(Date.parse(value.horario));
 										if ($('#horario-'+d.getHours())) {
 											$('#horario-'+d.getHours()).addClass('td-horario-indisponivel');
+											$('#horario-'+d.getHours()).children('.horario-detalhe').html('Indisponível');
+											getAutomovelInfo('#horario-'+d.getHours(), value.automovel_id);
 										}
 									});
 									$("#horarios-date").html(formatedDate);

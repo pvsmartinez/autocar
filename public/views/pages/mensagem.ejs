@@ -5,6 +5,18 @@
 
 		<% include ../partials/head %>
 
+		<%
+
+		if (locals.redir != null) {
+
+			%>
+		<meta http-equiv="refresh" content="5; <%= locals.redir %>">
+			<%
+
+		}
+
+		%>
+
 	</head>
 
 	<body class="container">
@@ -22,6 +34,20 @@
 				</div>
 				<div class="panel-body">
 					<%= locals.mensagem %>
+					<% 
+					if (locals.redir != null) {
+
+						%>
+						<br><br>
+						<div align="center">
+							<img src="/img/loading_16x16.gif">
+							<br>
+							Você está sendo redirecionado. <a href="<%= locals.redir %>">Clique aqui</a> se não quiser esperar
+						</div>
+						<%
+
+					}
+					%>
 				</div>
 		</div>
 

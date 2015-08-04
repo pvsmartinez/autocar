@@ -153,14 +153,15 @@ function map() {
                 var new_dia = hatual.getDate() + dias;
                 hatual.setDate(new_dia);
                 hatual.setHours(Math.floor(new_hour / 60),new_hour % 60);
-                var novo_horario = hatual.getFullYear() +'-'+ (hatual.getMonth() + 1) + '-' hatual.getDate();
+                var novo_horario = hatual.getFullYear() +'-'+ (hatual.getMonth() + 1) +'-'+ hatual.getDate();
                 novo_horario += ' ' + hatual.getHours() +':'+ hatual.getMinutes() +':'+ hatual.getSeconds();
                 console.log(novo_horario);
             }
             res.render('mensagem',{locals: {
                 tipo:"success",
                 titulo:"Ordem de serviço criado",
-                mensagem:"Nova ordem de serviço criada com sucesso."
+                mensagem:"Nova ordem de serviço criada com sucesso.",
+                redir:"/os/detalhes/"+result.insertId
             }});
         });
     });
