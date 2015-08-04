@@ -108,7 +108,7 @@ function map() {
         });
     });
 
-    global.app.post('/os/cadastrar/', function (req, res) {
+    global.app.post('/os/cadastrar/', global.checkAuth([1,2,3,4]), function (req, res) {
         var dt = moment().format();
         var equipe = JSON.parse(req.body.equipe);
         global.db.query(global.services.os.cadastrar(equipe.id, req.body.automovel, req.body.atendimento, dt, equipe.proximo_horario, req.body.preco, req.body.tipo, req.body.revisao, req.body.especialidade, req.body.descricao), function (err, result) {
@@ -148,7 +148,7 @@ function map() {
         });
     });
 
-    global.app.get('/api/os/precoIdeal', function (req, res) {
+    global.app.get('/api/os/precoIdeal', global.checkAuth([1,2,3,4]), function (req, res) {
 
         var preco = 0;
         var quantidades = req.query.quantidades.split(",");
