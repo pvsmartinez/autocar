@@ -138,6 +138,24 @@ function map() {
                         }  
                     });
                 }
+                var dias = Math.floor(req.params.duracao / (10 * 60));
+                var horas = req.params.duracao % (10 * 60);
+                var hatual = new Date(equipe.proximo_horario);
+                var new_hour = (hatual.getHours() * 60) + hatual.getMinutes() + horas;
+                if (new_hour > 18 * 60) {
+                    new_hour -= 600;
+                    dias += 1;
+                }
+                var weekends = 2 * Math.floor(dias / 7);
+                var wk = hatual.getDay() + (dias % 7);
+                weekends += wk > 4 ? 2: 0;
+                dias += weekends;
+                var new_dia = hatual.getDate() + dias;
+                hatual.setDate(new_dia);
+                hatual.setHours(Math.floor(new_hour / 60),new_hour % 60);
+                var novo_horario = hatual.getFullYear() +'-'+ (hatual.getMonth() + 1) + '-' hatual.getDate();
+                novo_horario += ' ' + hatual.getHours() +':'+ hatual.getMinutes() +':'+ hatual.getSeconds();
+                console.log(novo_horario);
             }
             res.render('mensagem',{locals: {
                 tipo:"success",
