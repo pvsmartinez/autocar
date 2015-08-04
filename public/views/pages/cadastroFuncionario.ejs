@@ -44,7 +44,7 @@
                 <input type="text" class="form-control" placeholder="Endereço" name="endereco"
                        value="<%= locals.func?func.endereco:'' %>" required>
                 <br>
-                <label for="tipo">Tipo:</label>
+                <label for="tipo" id="tipoLabel">Tipo:</label>
                 <select class="form-control" name="tipo">
                     <option value="3"
                             <% if (func.permissao == 3){ %>
@@ -114,6 +114,9 @@
         }
         if (<%= user.permissao %> != 4) {
             $('select[name=tipo]').hide();
+            $('#tipoLabel').hide();
+            $('select[name=especialidade]').hide();
+            $('#especialidadeLabel').hide();
         }
     };
     $('select[name=tipo]').change(hideOrShow);

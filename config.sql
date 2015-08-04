@@ -2,7 +2,7 @@ drop database if exists autocar;
 create database autocar;
 use autocar;
 CREATE TABLE atendimento(id int(11) auto_increment, horario datetime, automovel_id int(11), primary key (id));
-CREATE TABLE automovel(id int(11) auto_increment, cliente_id int(11), placa varchar(10), renavan varchar(50), modelo_id int(11), ano int(4) null, quilometragem int(10) null, primary key (id));
+CREATE TABLE automovel(id int(11) auto_increment, cliente_id int(11), placa varchar(10) unique, renavan varchar(50), modelo_id int(11), ano int(4) null, quilometragem int(10) null, primary key (id));
 CREATE TABLE equipe(id int(11) auto_increment, nome varchar(100), especialidade_id int(11), id_func1 int(11), id_func2 int(11), proximo_horario datetime, primary key (id));
 CREATE TABLE especialidade(id int(11) auto_increment, nome varchar(32), primary key (id));
 CREATE TABLE horario_atendimento(id int(11) auto_increment, horario datetime, disponivel bool, primary key (id));

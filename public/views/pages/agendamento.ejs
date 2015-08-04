@@ -258,26 +258,33 @@
 
 			            <h3>Dados do veículo:</h3>
 
+			            <select name="carro" id="cadastro-carros" class="form-control" onchange="changeCarro(this)">
+			            </select> <div id="carros-loading" style="display:none"><img src="img/loading_16x16.gif"></div>
+
+			            <br>
 
 			            <!--<form class="form-signin" method="post" action="/signUp">-->
 			            <input type="hidden" name="horario" id="form-horario">
-			            <label for="placa">Placa:</label>
-			            <input type="text" class="form-control" placeholder="Placa do carro" name="placa" required autofocus>
-			            <!--<input type="password" class="form-control" placeholder="Telefone" name="telefone" required>-->
-			            <br>
-			            <label for="renavan">Renavan:</label>
-			            <input type="text" class="form-control" placeholder="Renavan" name="renavan" required>
-			            <br>
-			            <label for="modelo">Modelo:</label>
-			            <select name="modelo" class="form-control" id="cadastro-modelos" placeholder="Modelo" required>
-			                <option value="">Modelo do carro</option>
-			            </select> <div id="modelos-loading" style="display:none"><img src="img/loading_16x16.gif"></div>
-			            <br>
-			            <label for="ano">Ano:</label>
-			            <input type="number" class="form-control" placeholder="Ano" name="ano" required>
-			            <br>
+			            <input type="hidden" name="id" id="cadastro-id">
+			            <div id="cadastro-detalhe-carro">
+				            <label for="placa">Placa:</label>
+				            <input type="text" class="form-control" placeholder="Placa do carro" name="placa" id="cadastro-placa" required autofocus>
+				            <!--<input type="password" class="form-control" placeholder="Telefone" name="telefone" required>-->
+				            <br>
+				            <label for="renavan">Renavan:</label>
+				            <input type="text" class="form-control" placeholder="Renavan" name="renavan" id="cadastro-renavan" required>
+				            <br>
+				            <label for="modelo">Modelo:</label>
+				            <select name="modelo" class="form-control" id="cadastro-modelos" placeholder="Modelo" required>
+				                <option value="">Modelo do carro</option>
+				            </select> <div id="modelos-loading" style="display:none"><img src="img/loading_16x16.gif"></div>
+				            <br>
+				            <label for="ano">Ano:</label>
+				            <input type="number" class="form-control" placeholder="Ano" name="ano" id="cadastro-ano" required>
+				            <br>
+			        	</div>
 			            <label for="quilometragem">Quilometragem:</label>
-			            <input type="text" class="form-control" placeholder="Quilometragem" name="quilometragem" required>
+			            <input type="text" class="form-control" placeholder="Quilometragem" name="quilometragem" id="cadastro-quilometragem" required>
 			            <br>
 			            <button class="btn btn-lg btn-primary btn-block" type="submit">
 			                Marcar atendimento
@@ -830,6 +837,7 @@
 				var animTime = 50;
 
 				var modelos = null;
+				var carros = null;
 
 				var currentDate;
 
@@ -886,6 +894,8 @@
 							var localISOTime = (new Date(hourDate - tzoffset)).toISOString().slice(0,-1);
 							if (modelos == null) getModelos();
 							else fillModelos();
+							if (carros == null) getCarros();
+							else fillCarros();
 							$("#form-horario").val(localISOTime);
 							$("#cadastro-data").html(formatedDate);
 							$("#cadastro-hora").html(hor+":00");
@@ -927,6 +937,71 @@
 						opt.append(value.marca + " " + value.modelo)
 						$("#cadastro-modelos").append(opt);
 					});
+
+				}
+
+				function getCarros() {
+
+					$.ajax({
+						type: "GET",
+						url:"api/automovel/buscarClienteId",
+						beforeSend: function() {
+							$("#carros-loading").fadeIn(animTime);
+						},
+						success: function(data) {
+							carros = data;
+							fillCarros();
+							$("#carros-loading").fadeOut(animTime);
+						},
+						error: function(err) {
+							alert(err);
+						},
+					});
+
+				}
+
+
+				function fillCarros() {
+
+					$("#cadastro-carros").html("<option value=''>Selecione Carro ou cadastre novo</option>");
+
+					$.each(carros, function(index, value) {
+						opt = $("<option></option>");
+						opt.val(value.id);
+						opt.append(value.marca + " " + value.modelo + " placa "+value.placa);
+						opt.attr("placa",value.placa);
+						opt.attr("renavan",value.renavan);
+						opt.attr("modelo",value.modelo_id);
+						opt.attr("ano",value.ano);
+						opt.attr("quilometragem",value.quilometragem);
+						$("#cadastro-carros").append(opt);
+					});
+
+				}
+
+				function changeCarro(el) {
+
+					if ($(el).val() == "") {
+
+						$("#cadastro-placa").val("");
+						$("#cadastro-renavan").val("");
+						$("#cadastro-modelos").val("");
+						$("#cadastro-ano").val("");
+						$("#cadastro-quilometragem").val("");
+
+						$("#cadastro-detalhe-carro").show();
+
+					} else {
+
+						$("#cadastro-placa").val($(el).find(':selected').attr("placa"));
+						$("#cadastro-renavan").val($(el).find(':selected').attr("renavan"));
+						$("#cadastro-modelos").val($(el).find(':selected').attr("modelo"));
+						$("#cadastro-ano").val($(el).find(':selected').attr("ano"));
+						$("#cadastro-quilometragem").val($(el).find(':selected').attr("quilometragem"));
+
+						$("#cadastro-detalhe-carro").hide();
+
+					}
 
 				}
 

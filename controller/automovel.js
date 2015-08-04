@@ -27,6 +27,14 @@ function map() {
         });
     });
 
+    global.app.get('/api/automovel/buscarClienteId', global.checkAuth([0, 1, 2, 3, 4]), function(req, res) {
+        var get = req.query;
+        global.db.query(global.services.automovel.findByClientId(req.session.user_id), function(err, rows) {
+            global.error(err);
+            res.send(rows);
+        });
+    });
+
 
     global.app.get('/carro/editar/:id', global.checkAuth([0]), function(req, res) {
         global.db.query(global.services.automovel.findById(req.params.id), function(err, rows) {
