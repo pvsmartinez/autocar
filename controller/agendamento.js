@@ -47,4 +47,29 @@ function map() {
         });
     });
 
+    global.app.get('/agendamento/cancelar/:id', global.checkAuth([0,1,2,3,4]), function(req, res) {
+        var id = req.params.id;
+        global.db.query(global.services.atendimento.findClientById(id), function(err, rows) {
+            console.log(id);
+            if (rows.length > 0 && rows[0].cliente_id == req.session.user_id) {
+                    global.db.query(global.services.atendimento.cancelarAtendimento(id), function(err, rows) {
+                        global.error(err);
+                        res.render('mensagem',{locals: {
+                            tipo:"success",
+                            titulo:"Agendamento cancelado",
+                            mensagem:"Seu agendamento foi cancelado com sucesso.",
+                            redir:"/cliente"
+                        }});
+                    });
+            } else {
+                res.render('mensagem',{locals: {
+                    tipo:"danger",
+                    titulo:"Erro",
+                    mensagem:"Erro ao cancelar o agendamento.",
+                    redir:"/cliente"
+                }});
+            }
+        });
+    });
+
 }

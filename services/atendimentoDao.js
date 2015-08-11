@@ -4,7 +4,9 @@ module.exports = {
 	getModeloCarros : getModeloCarros,
 	insertAutomovel : insertAutomovel,
 	insertAtendimento : insertAtendimento,
-	getByClienteId : getByClienteId
+	getByClienteId : getByClienteId,
+	cancelarAtendimento : cancelarAtendimento,
+	findClientById : findClientById
 }
 
 
@@ -31,4 +33,12 @@ function insertAtendimento(horario, automovel_id) {
 
 function getByClienteId(id) {
 	return "SELECT atendimento.* FROM atendimento LEFT JOIN automovel ON atendimento.automovel_id = automovel.id WHERE automovel.cliente_id = " + id;
+}
+
+function cancelarAtendimento(id) {
+	return "DELETE from atendimento WHERE id = "+id;
+}
+
+function findClientById(id) {
+	return "select atendimento.*, automovel.cliente_id FROM atendimento LEFT JOIN automovel ON atendimento.automovel_id = automovel.id WHERE atendimento.id = " + id;
 }

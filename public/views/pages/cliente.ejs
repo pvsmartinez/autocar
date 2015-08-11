@@ -63,6 +63,7 @@
                 <ul>
                     <li><b>Horário:</b> <%= formatedDate %></li>
                     <li><b>Carro:</b> <%= carro.marca + " " + carro.modelo %></li>
+                    <li><a href="javascript:cancelarAgendamento(<%= agendamento.id %>)">Cancelar</a></li>
                 </ul>
                 <%
 
@@ -109,6 +110,11 @@
     $(document).ready(function () {
         $('[data-toggle="tooltip"]').tooltip();
     });
+    function cancelarAgendamento(id) {
+        if (window.confirm("Tem certeza que deseja cancelar este agendamento?")) {
+            window.location.href = "/agendamento/cancelar/"+id;
+        }
+    }
 </script>
 </body>
 </html>
