@@ -88,8 +88,7 @@ function map() {
             res.send(rows[0]);
         });
     });
-    global.app.get('/api/os/equipeSugeridaNaCriacao/:id', global.checkAuth([2, 4]), function(req, res) {
-        console.log(req.params.id);
+    global.app.get('/api/os/equipeSugeridaNaCriacao/:id', global.checkAuth([2, 4]), function (req, res) {
         global.db.query(global.services.os.getNextEquipe(req.params.id, false), function(err, rows) {
             res.send(rows[0]);
         });
@@ -100,7 +99,6 @@ function map() {
             res.send(rows);
         });
     });
-
     global.app.post('/os/alterarEquipe/:id', checkAuth([2, 3, 4]), function(req, res) {
         global.db.query(global.services.os.setEquipe(req.params.id, req.body.equipe), function(err, result) {
             global.error(err);
@@ -114,7 +112,6 @@ function map() {
             });
         });
     });
-
     global.app.post('/os/cadastrar/', global.checkAuth([1,2,3,4]), function (req, res) {
         var dt = moment().format();
         var equipe = JSON.parse(req.body.equipe);
@@ -161,7 +158,6 @@ function map() {
             });
         });
     });
-
     global.app.get('/api/os/precoIdeal', global.checkAuth([1,2,3,4]), function (req, res) {
         var preco = 0;
         var quantidades = req.query.quantidades.split(",");
@@ -170,6 +166,7 @@ function map() {
         if (req.query.servicos == '') var servicos = [];
         else var servicos = req.query.servicos.split(",");
         var revisao = req.query.revisao;
+        console.log(req.query);
         var n_requests = pecas.length + servicos.length + revisao.length;
         var req_counter = 0;
         var pecas_counter = 0;
@@ -202,8 +199,8 @@ function map() {
                 queryCallback();
             });
         }
-        for (var i = 0; i < revisao.length; i++) {
-            global.db.query(global.services.revisao.findById(revisao[i]), function(err, rows) {
+        if (revisao != '') {
+            global.db.query(global.services.revisao.findById(revisao), function(err, rows) {
                 if (err) {
                     console.log(err);
                 }  

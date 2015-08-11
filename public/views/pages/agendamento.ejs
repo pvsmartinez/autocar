@@ -906,7 +906,7 @@
 					    $.ajax({
 					      type: "GET",
 					      url: "api/os/precoIdeal/",
-					      data:{pecas:serializedPecas, quantidades: serializedQtd, servicos:serializedServicos, revisao:[revisao_id]},
+					      data:{pecas:serializedPecas, quantidades: serializedQtd, servicos:serializedServicos, revisao:revisao_id},
 					      beforeSend: function () {
 					        $("#os-preco-loading").fadeIn(50);
 					      },

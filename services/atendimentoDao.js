@@ -27,6 +27,7 @@ function insertAutomovel(cliente_id, placa, renavan, modelo, ano, quilometragem)
 }
 
 function insertAtendimento(horario, automovel_id) {
+	console.log("insert into atendimento(horario, automovel_id) values ('" + horario + "','" + automovel_id + "')");
 	return "insert into atendimento(horario, automovel_id) values ('" + horario + "','" + automovel_id + "')";
 }
 
