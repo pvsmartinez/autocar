@@ -23,7 +23,9 @@ function getModeloCarros() {
 }
 
 function insertAutomovel(cliente_id, placa, renavan, modelo, ano, quilometragem) {
-	return "insert into automovel(cliente_id, placa, renavan, modelo_id, ano, quilometragem) values (" + cliente_id + ",'" + placa + "','" + renavan + "','" + modelo + "','" + ano +"','" + quilometragem + "') on duplicate key update quilometragem = '"+quilometragem+"'"; 
+	text= "insert into automovel(cliente_id, placa, renavan, modelo_id, ano, quilometragem) values (" + cliente_id + ",'" + placa + "','" + renavan + "','" + modelo + "','" + ano +"','" + quilometragem + "') on duplicate key update quilometragem = '"+quilometragem+"'"; 
+	console.log(text);
+	return text;
 }
 
 function insertAtendimento(horario, automovel_id) {

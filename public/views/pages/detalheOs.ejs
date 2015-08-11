@@ -45,7 +45,8 @@
             <div id="sugerida-loading" style="display:none"><img src="img/loading_16x16.gif"></div>
             <div id="equipe-sugerida"></div>
             <h3>Escolher equipe</h4>
-              <form method="post" id="equipe-form" action="/os/editarEquipe/<%=os_id%>">
+              <form method="post" id="equipe-form" action="/os/alterarEquipe/<%=os_id%>">
+                <input type="hidden" name="duracao" value="<%= order.duracao %>">
                 <select id="equipe-select" class="form-control" name="equipe">
 
                 </select>
@@ -147,6 +148,7 @@
         <li>Preço: <%= order.preco %> de <%= precoIdeal.toFixed(2) %></li>
       <% } %>
       <li>Horário: <%= hora %></li>
+      <li>Duração: <%= Math.floor(order.duracao / 60)+':'+('0' + order.duracao % 60).slice(-2) %></li>
       <li>Especialidade: <%= order.espec %></li>
       <li>Tipo: <%= order.tipo == 1 ? 'revisão' : 'normal' %></li>
       <li>Descrição: <%= order.descricao %></li>

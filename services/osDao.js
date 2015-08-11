@@ -132,7 +132,6 @@ function setStatus(id, status) {
 }
 
 function setEquipe(id, equipe_id) {
-    // O DU VAI FAZER
     return "update ordem_de_servico set equipe_id="+equipe_id+" where id = " + id;
 }
 
@@ -155,10 +154,10 @@ function getNextEquipe(id, os) {
     return text;
 }
 
-function cadastrar(equipe, automovel, atendimento, date, horario, preco, tipo, revisao, especialidade, descricao) {
+function cadastrar(equipe, automovel, atendimento, date, horario, preco, tipo, revisao, especialidade, descricao, duracao) {
 
     if (tipo != 1) revisao = "NULL";
-    return "insert into ordem_de_servico (equipe_id, automovel_id, atendimento_id, data_emissao, horario, preco, tipo, revisao_id, especialidade_id, descricao) values ("+equipe+","+automovel+","+atendimento+",'"+date+"','"+horario+"',"+preco+","+tipo+","+revisao+","+especialidade+",'"+descricao+"')";
+    return "insert into ordem_de_servico (equipe_id, automovel_id, atendimento_id, data_emissao, horario, preco, tipo, revisao_id, especialidade_id, descricao, duracao) values ("+equipe+","+automovel+","+atendimento+",'"+date+"','"+horario+"',"+preco+","+tipo+","+revisao+","+especialidade+",'"+descricao+"',"+duracao+")";
 
 }
 
