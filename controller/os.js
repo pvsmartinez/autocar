@@ -89,7 +89,6 @@ function map() {
         });
     });
     global.app.get('/api/os/equipeSugeridaNaCriacao/:id', global.checkAuth([2,4]), function (req, res) {
-        console.log(req.params.id);
         global.db.query(global.services.os.getNextEquipe(req.params.id, false), function(err, rows) {
             res.send(rows[0]);
         });
@@ -161,6 +160,7 @@ function map() {
         if (req.query.servicos == '') var servicos = [];
         else var servicos = req.query.servicos.split(",");
         var revisao = req.query.revisao;
+        console.log(req.query);
         var n_requests = pecas.length + servicos.length + revisao.length;
         var req_counter = 0;
         var pecas_counter = 0;
@@ -193,8 +193,8 @@ function map() {
             });
         }
 
-        for (var i = 0; i < revisao.length; i++) {
-            global.db.query(global.services.revisao.findById(revisao[i]), function(err, rows) {
+        if (revisao != '') {
+            global.db.query(global.services.revisao.findById(revisao), function(err, rows) {
                 if (err) {
                     console.log(err);
                 }  
