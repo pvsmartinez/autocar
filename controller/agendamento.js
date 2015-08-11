@@ -12,7 +12,8 @@ function map() {
         var post = req.body;
         global.db.query(global.services.atendimento.insertAutomovel(req.session.user_id, post.placa, post.renavan, post.modelo, post.ano, post.quilometragem), function(err, info) {
             global.error(err);
-            global.db.query(global.services.atendimento.insertAtendimento(post.horario, info.insertId), function(err, rows) {
+            var carroId = info.insertId ? info.insertId : post.carro;
+            global.db.query(global.services.atendimento.insertAtendimento(post.horario, carroId), function(err, rows) {
                 global.error(err);
                 res.render('mensagem',{locals: {
                     tipo:"success",
