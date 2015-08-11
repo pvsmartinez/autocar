@@ -6,10 +6,16 @@ function map() {
     // index page 
     global.app.get('/cliente', global.checkAuth([0]), function(req, res) {
         global.db.query(global.services.automovel.listUserCars(req.session.user_id), function(err, rows) {
-            res.render('cliente', {
-                locals : {
-                    cars : rows
-                }
+            global.db.query(global.services.atendimento.getByClienteId(req.session.user_id), function(err, arows) {
+                global.db.query(global.services.os.getByClienteId(req.session.user_id), function(err, osrows) {
+                    res.render('cliente', {
+                        locals : {
+                            cars : rows,
+                            agendamentos: arows,
+                            ordens: osrows
+                        }
+                    });
+                });
             });
         });
     });

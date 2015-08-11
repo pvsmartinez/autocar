@@ -4,7 +4,8 @@ module.exports = {
 	listUserCars : listUserCars,
 	excluir : excluir,
 	createCar : createCar,
-	editCar : editCar
+	editCar : editCar,
+	findByClientId : findByClientId
 }
 
 
@@ -45,4 +46,8 @@ function editCar(car) {
 	text += ", quilometragem='"+car.quilometragem+"'";
 	text += " WHERE id ="+car.id;
 	return text;
+}
+
+function findByClientId(id) {
+	return "select automovel.*, modelo_carro.marca, modelo_carro.modelo from automovel left join modelo_carro on automovel.modelo_id = modelo_carro.id where cliente_id = "+id;
 }

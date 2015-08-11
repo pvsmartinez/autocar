@@ -18,29 +18,89 @@
         <li>Telefone: <%= user.telefone %></li>
         <li>Endereço: <%= user.endereco %></li>
     </ul>
-    <h4>Meus Carros
-        <a href="/carro/criar">
-            <i class="fa fa-plus-square-o" data-toggle="tooltip" title="Editar"></i>
-        </a>
-    </h4>
-    <% cars.forEach(function(car) { %>
-    <ul>
-    		<span>
-    			<a href="/carro/editar/<%= car.id %>">
-                    <i class="fa fa-pencil-square-o" data-toggle="tooltip" title="Editar"></i>
-                </a>
-    			<a href="/carro/deletar/<%= car.id %>">
-                    <i class="fa fa-trash-o" data-toggle="tooltip" title="Deletar"></i>
-                </a>
-    		</span>
-        <li><b>Placa:</b> <%= car.placa %></li>
-        <li><b>Modelo:</b> <%= car.modelo %></li>
-        <li><b>Marca:</b> <%= car.marca %></li>
-        <li><b>Ano:</b> <%= car.ano %></li>
-        <li><b>Quilometragem:</b> <%= car.quilometragem %></li>
-        <li><b>Renavan:</b> <%= car.renavan %></li>
-    </ul>
-    <% }); %>
+    <div style="float:left">
+        <h4>Meus Carros
+            <a href="/carro/criar">
+                <i class="fa fa-plus-square-o" data-toggle="tooltip" title="Editar"></i>
+            </a>
+        </h4>
+        <% cars.forEach(function(car) { %>
+        <ul>
+        		<span>
+        			<a href="/carro/editar/<%= car.id %>">
+                        <i class="fa fa-pencil-square-o" data-toggle="tooltip" title="Editar"></i>
+                    </a>
+        			<a href="/carro/deletar/<%= car.id %>">
+                        <i class="fa fa-trash-o" data-toggle="tooltip" title="Deletar"></i>
+                    </a>
+        		</span>
+            <li><b>Placa:</b> <%= car.placa %></li>
+            <li><b>Modelo:</b> <%= car.modelo %></li>
+            <li><b>Marca:</b> <%= car.marca %></li>
+            <li><b>Ano:</b> <%= car.ano %></li>
+            <li><b>Quilometragem:</b> <%= car.quilometragem %></li>
+            <li><b>Renavan:</b> <%= car.renavan %></li>
+        </ul>
+        <% }); %>
+    </div>
+    <div style="float:left; padding-left:100px">
+        <h4>Meus futuros agendamentos</h4>
+        <% agendamentos.forEach(function(agendamento) { 
+
+            cars.forEach(function(car) {
+
+                if (car.id == agendamento.automovel_id) {
+                    carro = car;
+                }
+
+            });
+
+            var formatedDate = moment(agendamento.horario).format("DD-MM-YYYY \\à\\s HH:mm");
+
+            if (agendamento.horario.getTime() > (new Date()).getTime()) {
+
+                %>
+                <ul>
+                    <li><b>Horário:</b> <%= formatedDate %></li>
+                    <li><b>Carro:</b> <%= carro.marca + " " + carro.modelo %></li>
+                </ul>
+                <%
+
+            }
+
+         }); %>
+    </div>
+    <div style="float:left; padding-left:100px">
+        <h4>Serviços em andamento:</h4>
+        <% 
+
+        var status = ["CRIADO","AUTORIZADO"];
+
+        ordens.forEach(function(os) { 
+
+            cars.forEach(function(car) {
+
+                if (car.id == os.automovel_id) {
+                    carro = car;
+                }
+
+            });
+
+            if (os.status < 2) {
+
+                %>
+                <ul>
+                    <li><b>Carro:</b> <%= carro.marca + " " + carro.modelo %></li>
+                    <li><b>Preço:</b> R$<%= os.preco.toFixed(2) %></li>
+                    <li><b>Status:</b> <%= status[os.status] %></li>
+                </ul>
+                <%
+
+            }
+
+         }); %>
+    </div>
+    <div style="clear:both"></div>
 </main>
 <footer>
     <% include ../partials/footer %>

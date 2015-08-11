@@ -35,14 +35,18 @@ function map() {
                     global.error(err);
                     global.db.query(global.services.os.showOS(req.params.id, 3), function(err, pcs) {
                         global.error(err);
-                        res.render('detalheOs', {
-                            locals: {
-                                order: rows[0],
-                                time: rws[0],
-                                servicos: srvs,
-                                pecas: pcs,
-                                os_id: req.params.id
-                            }
+                        global.db.query(global.services.os.showOS(req.params.id, 4), function(err, rev) {
+                            global.error(err);
+                            res.render('detalheOs', {
+                                locals : {
+                                    order : rows[0],
+                                    time : rws[0],
+                                    servicos : srvs,
+                                    pecas : pcs,
+                                    revisao: rev[0],
+                                    os_id : req.params.id
+                                }
+                            });
                         });
                     });
                 });
@@ -111,7 +115,7 @@ function map() {
         });
     });
 
-    global.app.post('/os/cadastrar/', function(req, res) {
+    global.app.post('/os/cadastrar/', global.checkAuth([1,2,3,4]), function (req, res) {
         var dt = moment().format();
         var equipe = JSON.parse(req.body.equipe);
         global.db.query(global.services.os.cadastrar(equipe.id, req.body.automovel, req.body.atendimento, dt, equipe.proximo_horario, req.body.preco, req.body.tipo, req.body.revisao, req.body.especialidade, req.body.descricao, req.body.duracao), function(err, result) {
@@ -158,15 +162,17 @@ function map() {
         });
     });
 
-    global.app.get('/api/os/precoIdeal', function(req, res) {
+    global.app.get('/api/os/precoIdeal', global.checkAuth([1,2,3,4]), function (req, res) {
         var preco = 0;
         var quantidades = req.query.quantidades.split(",");
-        var pecas = req.query.pecas.split(",");
-        var servicos = req.query.servicos.split(",");
-        var n_requests = pecas.length + servicos.length;
+        if (req.query.pecas == '') var pecas = [];
+        else var pecas = req.query.pecas.split(",");
+        if (req.query.servicos == '') var servicos = [];
+        else var servicos = req.query.servicos.split(",");
+        var revisao = req.query.revisao;
+        var n_requests = pecas.length + servicos.length + revisao.length;
         var req_counter = 0;
         var pecas_counter = 0;
-        console.log(n_requests);
         var queryCallback = function() {
 
             if (++req_counter == n_requests) {
@@ -177,38 +183,39 @@ function map() {
             }
 
         };
-        for (var i in pecas) {
+        for (var i = 0; i < pecas.length; i++) {
             global.db.query(global.services.peca.findById(pecas[i]), function(err, rows) {
                 if (err) {
                     console.log(err);
-                }
-                console.log(rows[0].valor);
-                console.log(quantidades[pecas_counter]);
-                console.log(parseInt(quantidades[pecas_counter]));
+                }  
                 preco += rows[0].valor * parseInt(quantidades[pecas_counter]);
                 queryCallback();
                 pecas_counter++;
             });
         }
-
-        for (var i in servicos) {
+        for (var i = 0; i < servicos.length; i++) {
             global.db.query(global.services.tipo_de_servico.findById(servicos[i]), function(err, rows) {
                 if (err) {
                     console.log(err);
-                }
-                console.log(rows[0].preco);
+                }  
                 preco += rows[0].preco;
                 queryCallback();
             });
         }
-
+        for (var i = 0; i < revisao.length; i++) {
+            global.db.query(global.services.revisao.findById(revisao[i]), function(err, rows) {
+                if (err) {
+                    console.log(err);
+                }  
+                preco += rows[0].preco;
+                queryCallback();
+            });
+        }
     });
-
     global.app.get('/api/os/atendimento', global.checkAuth([1, 2, 3, 4]), function(req, res, next) {
         global.db.query(global.services.os.findByAtendimentoId(req.query.id), function(err, rows) {
             global.error(err);
             res.send(rows);
         });
     });
-
 }

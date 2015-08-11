@@ -29,6 +29,10 @@
             background: #fff;
         }
 
+        .excluirPeca:hover {
+        	color:#999;
+        }
+
 
 		</style>
 
@@ -169,7 +173,7 @@
 			                    	<option value="0">Outro</option>
 			                    </select><div id="revisoes-loading" style="display:none"><img src="img/loading_16x16.gif"></div>
 			                    <br>
-			                	<select name="revisao" class="form-control" id="os-revisoes" placeholder="revisao" style="display:none">
+			                	<select name="revisao" class="form-control" id="os-revisoes" placeholder="revisao" style="display:none" onchange="selectRevisao(this);">
 			                		<option value="NULL">Selecione revisão</option>
 			                    </select>
 			                	<br>
@@ -195,12 +199,18 @@
 					                        <label>Quantidade</label>
 					                        <input type="number" id="pecas-qtd" class="form-control">
 					                        <br>
+					                        <div class="alert alert-danger" id="pecas-error" role="alert" style="display:none">
+											  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+											  <span class="sr-only">Error:</span>
+											  <span class="alert-message"></span>
+											</div>
 					                        <button type="button" class="btn btn-primary" onclick="adicionarPeca()">Adicionar</button>
 						                    <br><br>
 						                    <table class="table" id="pecasTable" style="display:none">
 						                        <thead>
 						                            <th>Peça</th>
-						                            <th>Quantidade</th>
+						                            <th>Qtd</th>
+						                            <th>Preço</th>
 						                            <th></th>
 						                        </thead>
 						                    </table>
@@ -258,26 +268,33 @@
 
 			            <h3>Dados do veículo:</h3>
 
+			            <select name="carro" id="cadastro-carros" class="form-control" onchange="changeCarro(this)">
+			            </select> <div id="carros-loading" style="display:none"><img src="img/loading_16x16.gif"></div>
+
+			            <br>
 
 			            <!--<form class="form-signin" method="post" action="/signUp">-->
 			            <input type="hidden" name="horario" id="form-horario">
-			            <label for="placa">Placa:</label>
-			            <input type="text" class="form-control" placeholder="Placa do carro" name="placa" required autofocus>
-			            <!--<input type="password" class="form-control" placeholder="Telefone" name="telefone" required>-->
-			            <br>
-			            <label for="renavan">Renavan:</label>
-			            <input type="text" class="form-control" placeholder="Renavan" name="renavan" required>
-			            <br>
-			            <label for="modelo">Modelo:</label>
-			            <select name="modelo" class="form-control" id="cadastro-modelos" placeholder="Modelo" required>
-			                <option value="">Modelo do carro</option>
-			            </select> <div id="modelos-loading" style="display:none"><img src="img/loading_16x16.gif"></div>
-			            <br>
-			            <label for="ano">Ano:</label>
-			            <input type="number" class="form-control" placeholder="Ano" name="ano" required>
-			            <br>
+			            <input type="hidden" name="id" id="cadastro-id">
+			            <div id="cadastro-detalhe-carro">
+				            <label for="placa">Placa:</label>
+				            <input type="text" class="form-control" placeholder="Placa do carro" name="placa" id="cadastro-placa" required autofocus>
+				            <!--<input type="password" class="form-control" placeholder="Telefone" name="telefone" required>-->
+				            <br>
+				            <label for="renavan">Renavan:</label>
+				            <input type="text" class="form-control" placeholder="Renavan" name="renavan" id="cadastro-renavan" required>
+				            <br>
+				            <label for="modelo">Modelo:</label>
+				            <select name="modelo" class="form-control" id="cadastro-modelos" placeholder="Modelo" required>
+				                <option value="">Modelo do carro</option>
+				            </select> <div id="modelos-loading" style="display:none"><img src="img/loading_16x16.gif"></div>
+				            <br>
+				            <label for="ano">Ano:</label>
+				            <input type="number" class="form-control" placeholder="Ano" name="ano" id="cadastro-ano" required>
+				            <br>
+			        	</div>
 			            <label for="quilometragem">Quilometragem:</label>
-			            <input type="text" class="form-control" placeholder="Quilometragem" name="quilometragem" required>
+			            <input type="text" class="form-control" placeholder="Quilometragem" name="quilometragem" id="cadastro-quilometragem" required>
 			            <br>
 			            <button class="btn btn-lg btn-primary btn-block" type="submit">
 			                Marcar atendimento
@@ -540,7 +557,7 @@
 						opt = $("<input type='checkbox' name='servicos' class='servicos-checkbox' duracao='"+value.duracao+"' onchange='changeDuracao(this)'></input>");
 						opt.val(value.id);
 						$("#os-servicos-container").append(opt);
-						$("#os-servicos-container").append(" "+value.nome+"<br />");
+						$("#os-servicos-container").append(" "+value.nome+" - R$"+value.preco.toFixed(2)+"<br />");
 					});
 
 				}
@@ -552,7 +569,9 @@
 					$.each(pecas, function(index, value) {
 						opt = $("<option></option>");
 						opt.val(value.id);
-						opt.html(value.nome);
+						opt.attr("nome",value.nome);
+						opt.attr("preco",value.valor);
+						opt.html(value.nome+" - R$"+value.valor.toFixed(2));
 						$("#pecas-list").append(opt);
 					});
 
@@ -610,7 +629,8 @@
 								$.each(data, function(index, value) {
 									opt = $("<option></option>");
 									opt.val(value.id);
-									opt.append(value.marca + " " + value.modelo + " - " + value.quilometragem + "km");
+									opt.attr("preco",value.preco);
+									opt.append(value.marca + " " + value.modelo + " - " + value.quilometragem + "km" + " - R$" + value.preco.toFixed(2));
 									$("#os-revisoes").append(opt);
 								});
 							},
@@ -623,7 +643,7 @@
 
 						$("#os-revisoes").hide(animTime);
 						$("#os-revisoes").removeAttr("required");
-
+						$("#os-revisoes").val("");
 					}
 
 				}
@@ -631,11 +651,18 @@
 				function adicionarPeca() {
 					
 					var id = $("#pecas-list").val();
-					var nome = $("#pecas-list option:selected").text();
+					var nome = $("#pecas-list option:selected").attr("nome");
 					var qtd = Number.parseInt($("#pecas-qtd").val());
+					var preco = $("#pecas-list option:selected").attr("preco");
+
+
+        			if (id == "") {
+            			showPecasError('Selecione uma peça');
+            			return;
+            		}
 
         			if (!qtd || qtd < 1) {
-            			alert('Coloque uma quantidade maior que 1');
+            			showPecasError('Coloque uma quantidade maior que 1');
             			return;
             		}
 
@@ -648,12 +675,14 @@
 
         			for (i = 0; i < pecas.length; i++) {
         				if (pecas[i].id == id) {
-        					alert('Peça já adicionada');
+        					showPecasError('Peça já adicionada');
         					return;
         				}
         			}
 
-        			$('#pecasTable').append('<tr class="pecaTr"><td>'+nome+'</td><td>'+qtd+'</td><td><span class="excluirPeca" style="cursor: pointer;" pecaId="'+id+'">Excluir</span></td></tr>');
+        			$("#pecas-error").hide();
+
+        			$('#pecasTable').append('<tr class="pecaTr"><td>'+nome+'</td><td>'+qtd+'</td><td>R$'+(preco*qtd).toFixed(2)+'</td><td><span class="excluirPeca glyphicon glyphicon-remove" style="cursor: pointer;" pecaId="'+id+'"></span></td></tr>');
         			$('#pecasTable').show();
 
         			var pecas;
@@ -669,6 +698,26 @@
 
 
 				}
+
+				function showPecasError(message) {
+
+					$("#pecas-error").children(".alert-message").html(message);
+					$("#pecas-error").fadeIn(500);
+					setTimeout( function() {
+						$("#pecas-error").fadeOut(500);
+					},3000);
+
+				}
+
+				$('#pecas-qtd').keydown(function(e){
+					$("#os-form").attr("novalidate","true");
+				    if(e.keyCode == 13 || e.keyCode == 169)
+				    {
+				    	e.preventDefault();
+				        adicionarPeca();
+				        $("#os-form").removeAttr("novalidate");
+				    }
+				});
 
 				$(document).on('click', '.excluirPeca', function(evt) {
 
@@ -698,10 +747,9 @@
 				function resetOSForm() {
 
 					osFormGoBack();
+					resetPecas();
 					$("#os-revisoes").hide(animTime);
 					$("#os-revisoes").removeAttr("required");
-					$(".pecaTr").remove();
-					$("#pecasTable").hide();
 					$("#os-form")[0].reset();
 					$("#os-duracao").val(0);
 
@@ -727,6 +775,65 @@
 					$("#modal-equipe").hide();
 					$("#modal-cadastro").show();
 					os_equipe = false;
+
+				}
+
+				function resetPecas() {
+
+					$(".pecaTr").remove();
+					$("#pecasTable").hide();
+					$("#os-pecas").val("");
+
+				}
+
+				function selectRevisao(el) {
+
+					if ($(el).val() != "") {
+
+						$.ajax({
+							type: "GET",
+							url:"api/pecas/revisao",
+							data: {id:$(el).val()},
+							beforeSend: function() {
+								resetPecas();
+								$("#revisoes-loading").fadeIn(animTime);
+							},
+							success: function(data) {
+								$("#revisoes-loading").fadeOut(animTime);
+								$.each(data, function(index, value) {
+									$("#pecas-list").val(value.peca_id);
+									$("#pecas-qtd").val(value.quantidade);
+									adicionarPeca();
+								});
+							},
+							error: function(err) {
+								alert(err);
+							}
+						});
+
+
+						$.ajax({
+							type: "GET",
+							url:"api/servicos/revisao",
+							data: {id:$(el).val()},
+							beforeSend: function() {
+								$(".servicos-checkbox").each( function() {
+										$(this).prop("checked",false);
+								});
+								$("#revisoes-loading").fadeIn(animTime);
+							},
+							success: function(data) {
+								$("#revisoes-loading").fadeOut(animTime);
+								$.each(data, function(index, value) {
+									$(".servicos-checkbox[value="+value.tipo_id+"]").prop("checked",true);
+								});
+							},
+							error: function(err) {
+								alert(err);
+							}
+						});
+
+					}
 
 				}
 
@@ -777,6 +884,7 @@
 					      }
 					    });
 
+						var revisao_id = $("#os-revisoes").val();
 						var serializedPecas = "";
 						var serializedQtd = "";
 						var jsonPecas = JSON.parse($("#os-pecas").val());
@@ -798,7 +906,7 @@
 					    $.ajax({
 					      type: "GET",
 					      url: "api/os/precoIdeal/",
-					      data:{pecas:serializedPecas, quantidades: serializedQtd, servicos:serializedServicos},
+					      data:{pecas:serializedPecas, quantidades: serializedQtd, servicos:serializedServicos, revisao:[revisao_id]},
 					      beforeSend: function () {
 					        $("#os-preco-loading").fadeIn(50);
 					      },
@@ -830,6 +938,7 @@
 				var animTime = 50;
 
 				var modelos = null;
+				var carros = null;
 
 				var currentDate;
 
@@ -886,6 +995,8 @@
 							var localISOTime = (new Date(hourDate - tzoffset)).toISOString().slice(0,-1);
 							if (modelos == null) getModelos();
 							else fillModelos();
+							if (carros == null) getCarros();
+							else fillCarros();
 							$("#form-horario").val(localISOTime);
 							$("#cadastro-data").html(formatedDate);
 							$("#cadastro-hora").html(hor+":00");
@@ -927,6 +1038,71 @@
 						opt.append(value.marca + " " + value.modelo)
 						$("#cadastro-modelos").append(opt);
 					});
+
+				}
+
+				function getCarros() {
+
+					$.ajax({
+						type: "GET",
+						url:"api/automovel/buscarClienteId",
+						beforeSend: function() {
+							$("#carros-loading").fadeIn(animTime);
+						},
+						success: function(data) {
+							carros = data;
+							fillCarros();
+							$("#carros-loading").fadeOut(animTime);
+						},
+						error: function(err) {
+							alert(err);
+						},
+					});
+
+				}
+
+
+				function fillCarros() {
+
+					$("#cadastro-carros").html("<option value=''>Selecione Carro ou cadastre novo</option>");
+
+					$.each(carros, function(index, value) {
+						opt = $("<option></option>");
+						opt.val(value.id);
+						opt.append(value.marca + " " + value.modelo + " placa "+value.placa);
+						opt.attr("placa",value.placa);
+						opt.attr("renavan",value.renavan);
+						opt.attr("modelo",value.modelo_id);
+						opt.attr("ano",value.ano);
+						opt.attr("quilometragem",value.quilometragem);
+						$("#cadastro-carros").append(opt);
+					});
+
+				}
+
+				function changeCarro(el) {
+
+					if ($(el).val() == "") {
+
+						$("#cadastro-placa").val("");
+						$("#cadastro-renavan").val("");
+						$("#cadastro-modelos").val("");
+						$("#cadastro-ano").val("");
+						$("#cadastro-quilometragem").val("");
+
+						$("#cadastro-detalhe-carro").show();
+
+					} else {
+
+						$("#cadastro-placa").val($(el).find(':selected').attr("placa"));
+						$("#cadastro-renavan").val($(el).find(':selected').attr("renavan"));
+						$("#cadastro-modelos").val($(el).find(':selected').attr("modelo"));
+						$("#cadastro-ano").val($(el).find(':selected').attr("ano"));
+						$("#cadastro-quilometragem").val($(el).find(':selected').attr("quilometragem"));
+
+						$("#cadastro-detalhe-carro").hide();
+
+					}
 
 				}
 

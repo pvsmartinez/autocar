@@ -10,41 +10,39 @@
 <main>
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <div class="autocard">
-                <h1 class="text-center login-title">Bem-vindo ao POC de relatórios estatísticos!</h1>
-            </div>
+            <h1 class="text-center login-title">Relatórios estatísticos</h1>
         </div>
     </div>
     <br>
     <div class="row">
-        <h4>Escolha o gráfico que deseja visualizar:</h4>
+        <h4 class="text-center">Escolha o gráfico que deseja visualizar:</h4>
 
-        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <div class="col-xs-6 col-xs-offset-3">
 
             <select class="form-control" name="tipo">
                 <option value="1">OS concluídas x Mês</option>
                 <option value="2">Funcionários x Tipo</option>
                 <option value="3">Funcionários x Especialidade</option>
-                <option value="4">Lucro x Mês</option>
+                <option value="4">Faturamento x Mês</option>
             </select>
         </div>
     </div>
     <div class="row">
         <div id="os-concluida-mes" class="graph-container">
-            <h2 class="text-center">Gráfico de OS concluídas x Mês</h2>
-            <figure style="width: 450px; height: 300px; margin:0 auto 0 auto" id="osmes"></figure>
+            <h2 class="text-center">OS concluídas x Mês</h2>
+            <figure style="width: 80%; height: 300px; margin:0 auto 0 auto" id="osmes"></figure>
         </div>
         <div id="func-tipo" class="graph-container">
-            <h2 class="text-center">Gráfico de Funcionários x Tipo</h2>
-            <figure style="width: 450px; height: 300px; margin:0 auto 0 auto" id="functipo"></figure>
+            <h2 class="text-center">Quantidade de Funcionários x Tipo</h2>
+            <figure style="width: 80%; height: 300px; margin:0 auto 0 auto" id="functipo"></figure>
         </div>
         <div id="func-espec" class="graph-container">
-            <h2 class="text-center">Gráfico de Funcionários x Especialidade</h2>
-            <figure style="width: 450px; height: 300px; margin:0 auto 0 auto" id="funcespec"></figure>
+            <h2 class="text-center">Quantidade de Funcionários x Especialidade</h2>
+            <figure style="width: 80%; height: 300px; margin:0 auto 0 auto" id="funcespec"></figure>
         </div>
         <div id="lucro-mes" class="graph-container">
-            <h2 class="text-center">Gráfico de Lucro x Mês</h2>
-            <figure style="width: 450px; height: 300px; margin:0 auto 0 auto" id="lucromes"></figure>
+            <h2 class="text-center">Faturamento (R$) x Mês</h2>
+            <figure style="width: 80%; height: 300px; margin:0 auto 0 auto" id="lucromes"></figure>
         </div>
     </div>
 </main>
@@ -64,86 +62,69 @@
                 "className": ".pizza",
                 "data": [
                     <% osmes.forEach(function(os){%>
-                        {"x":"<%= ('0' + os.mes).slice(-2) +'/'+ os.ano %>", "y":<%= os.total%>},
-                    <%}); %>
+                        <% if(os.status == 4){ %>
+                        {"x":"<%=os.ano + '/' + ('0' + os.mes).slice(-2)%>", "y":<%= os.total%>},
+                    <%}}); %>
                 ]
             }
         ]
     };
     var data2 = {
-        "xScale": "time",
+        "xScale": "ordinal",
         "yScale": "linear",
-        "type": "line",
+        "type": "bar",
         "main": [
             {
                 "className": ".pizza",
                 "data": [
                     <% functype.forEach(function(fc){%>
-                        {"x":"<%= fc.permissao %>", "y":<%= fc.total%>},
+                        {"x":"<%= fc.permissao == 1? "atendente":fc.permissao == 2? "técnico": "mecânico" %>", "y":<%= fc.total%>},
                     <%}); %>
                 ]
             }
         ]
     };
-    var opts = {
-        "dataFormatX": function (x) {
-            return d3.time.format('%Y-%m-%d').parse(x);
-        },
-        "tickFormatX": function (x) {
-            return d3.time.format('%A')(x);
-        }
-    };
-    var tt = document.createElement('div'),
-            leftOffset = -(~~$('html').css('padding-left').replace('px', '') + ~~$('body').css('margin-left').replace('px', '')),
-            topOffset = -32;
-    tt.className = 'ex-tooltip';
-    document.body.appendChild(tt);
-
     var data3 = {
-        "xScale": "time",
+        "xScale": "ordinal",
         "yScale": "linear",
+        "type": "bar",
         "main": [
             {
                 "className": ".pizza",
                 "data": [
                     <% funcspec.forEach(function(fc){%>
-                        {"x":"<%= fc.nome %>", "y":<%= fc.total%>},
+                    {"x":"<%= fc.nome %>", "y":<%= fc.total%>},
                     <%}); %>
                 ]
             }
         ]
     };
-    var opts2 = {
-        "dataFormatX": function (x) {
-            return d3.time.format('%Y-%m-%d').parse(x);
-        },
-        "tickFormatX": function (x) {
-            return d3.time.format('%A')(x);
-        },
-        "mouseover": function (d, i) {
-            var pos = $(this).offset();
-            $(tt).text(d3.time.format('%A')(d.x) + ': ' + d.y)
-                    .css({top: topOffset + pos.top, left: pos.left + leftOffset})
-                    .show();
-        },
-        "mouseout": function (x) {
-            $(tt).hide();
-        }
+    var data4 = {
+        "xScale": "ordinal",
+        "yScale": "linear",
+        "type": "line-dotted",
+        "main": [
+            {
+                "className": ".pizza",
+                "data": [
+                    <% moneymonth.forEach(function(money){%>
+                    {"x":"<%=money.ano +'/'+ money.mes %>", "y":<%= money.total%>},
+                    <%}); %>
+                ]
+            }
+        ]
     };
 
-
     var myChart = new xChart('bar', data, '#osmes');
-    var myChart = new xChart('line', data, '#functipo');
-    var myChart = new xChart('line-dotted', data3, '#funcespec', opts2);
-    var myChart = new xChart('line-dotted', data3, '#lucromes', opts2);
+    var myChart = new xChart('bar', data2, '#functipo');
+    var myChart = new xChart('bar', data3, '#funcespec');
+    var myChart = new xChart('line-dotted', data4, '#lucromes');
 
 
     var hideOrShow = function () {
         switch (Number($('select[name=tipo]').val())) {
             case 1:
-//                    osmes.forEach(os){
-//
-//            }
+                <%console.log(osmes)%>
                 $('#os-concluida-mes').show();
                 $('#func-tipo').hide();
                 $('#func-espec').hide();

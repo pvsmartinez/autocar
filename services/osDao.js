@@ -12,7 +12,8 @@ module.exports = {
     cadastrarServico : cadastrarServico,
     getPrecoIdeal : getPrecoIdeal,
     findByAtendimentoId : findByAtendimentoId,
-    cantRecover: cantRecover
+    cantRecover: cantRecover,
+    getByClienteId : getByClienteId
 }
 var text;
 
@@ -95,6 +96,14 @@ function showOS(id, step) {
             text += " ON oxp.peca_id = p.id";
             text += " WHERE oxp.os_id = " + id;
             break;
+        case 4:
+            flag = false;
+            text = "SELECT revisao.*";
+            text +=" FROM ordem_de_servico";
+            text += " LEFT JOIN revisao";
+            text += " ON ordem_de_servico.revisao_id = revisao.id";
+            text += " WHERE ordem_de_servico.id = " + id;
+            text += " AND ordem_de_servico.revisao_id IS NOT NULL";
     }
     if (flag) {
         text = "SELECT " + info;
@@ -178,4 +187,8 @@ function findByAtendimentoId(atendimento) {
 
 function cantRecover(id) {
     return "update ordem_de_servico set recover = 0 where id =" + id;
+}
+
+function getByClienteId(id) {
+    return "SELECT ordem_de_servico.* FROM ordem_de_servico LEFT JOIN automovel ON ordem_de_servico.automovel_id = automovel.id WHERE automovel.cliente_id = " + id;
 }

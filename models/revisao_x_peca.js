@@ -16,7 +16,16 @@ var obj = {
 var objs = [
 	{revisao_id : 1, peca_id: 1, quantidade: 2},
 	{revisao_id : 1, peca_id: 3, quantidade: 1},
-	{revisao_id : 1, peca_id: 2, quantidade: 4}
+	{revisao_id : 1, peca_id: 2, quantidade: 4},
+	{revisao_id : 2, peca_id: 1, quantidade: 2},
+	{revisao_id : 2, peca_id: 3, quantidade: 1},
+	{revisao_id : 2, peca_id: 2, quantidade: 4},
+	{revisao_id : 3, peca_id: 1, quantidade: 2},
+	{revisao_id : 3, peca_id: 3, quantidade: 1},
+	{revisao_id : 3, peca_id: 2, quantidade: 4},
+	{revisao_id : 4, peca_id: 1, quantidade: 2},
+	{revisao_id : 4, peca_id: 3, quantidade: 1},
+	{revisao_id : 4, peca_id: 2, quantidade: 4}
 ];
 
 function ent() {

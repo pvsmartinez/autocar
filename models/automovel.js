@@ -8,7 +8,7 @@ var obj = {
 	__primaryKey : "id",
 	id : "int(11) auto_increment",
 	cliente_id : "int(11)",
-	placa : "varchar(10)",
+	placa : "varchar(10) unique",
 	renavan : "varchar(50)",
 	modelo_id : "int(11)",
 	ano : "int(4) null",
