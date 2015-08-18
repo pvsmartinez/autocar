@@ -95,7 +95,6 @@ insert into revisao_x_tipo_de_servico (revisao_id,tipo_id) values ('4','2');
 truncate teste;
 insert into teste (id,client_id) values ('1','23');
 truncate tipo_de_servico;
-insert into tipo_de_servico (nome,preco,duracao) values ('tirar amaços','799.99','450');
 insert into tipo_de_servico (nome,preco,duracao) values ('pintura','299.99','300');
 insert into tipo_de_servico (nome,preco,duracao) values ('restauração','2499.99','1200');
 insert into tipo_de_servico (nome,preco,duracao) values ('troca de oleo','49.99','30');

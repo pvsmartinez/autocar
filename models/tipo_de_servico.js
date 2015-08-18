@@ -13,7 +13,6 @@ var obj = {
 }
 
 var objs = [
-	{nome : 'tirar amaços', preco : '799.99', duracao : 450},
 	{nome : 'pintura', preco : '299.99', duracao : 300},
 	{nome : 'restauração', preco : '2499.99', duracao : 1200},
 	{nome : 'troca de oleo', preco : '49.99', duracao : 30},
