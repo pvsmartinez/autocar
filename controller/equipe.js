@@ -28,7 +28,8 @@ function map() {
 
     global.app.post('/cadastroEquipe', global.checkAuth([4]), function (req, res) {
         post = req.body;
-        global.db.query(global.services.equipe.cadastro(post.nome, post.especialidade, post.funcionario1, post.funcionario2), function (err, rows) {
+        d = moment();
+        global.db.query(global.services.equipe.cadastro(post.nome, post.especialidade, post.funcionario1, post.funcionario2, d.format()), function (err, rows) {
             if (err) {
                 console.log(err);
                 res.redirect('/cadastroEquipe?err='+err.errno);
