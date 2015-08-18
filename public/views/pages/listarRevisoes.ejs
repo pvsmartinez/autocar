@@ -22,6 +22,7 @@
                         <th>Revisão</th>
                         <th>Modelo do automóvel</th>
                         <th>Quilometragem</th>
+                        <th>Especialidade</th>
                         <th>Preço</th>
                         <th>Ação</th>
                     </tr>
@@ -33,6 +34,7 @@
                         <td><a href="/detalheRevisao?id=<%=revisao.id%>"><%= revisao.marca %> <%=revisao.modelo%> - <%= revisao.quilometragem %> km</a></td>
                         <td><%= revisao.marca %> <%=revisao.modelo%></td>
                         <td><%= revisao.quilometragem %> km</td>
+                        <td><%= revisao.especialidade %></td>
                         <td>R$ <%= revisao.preco.toFixed(2) %></td>
                         <td><a href="/editarRevisao?id=<%= revisao.id %>">Editar</a>
                     </tr>

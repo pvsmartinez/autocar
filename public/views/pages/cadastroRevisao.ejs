@@ -31,6 +31,15 @@
                     <label for="quilometragem">Quilometragem:</label>
                     <input type="number" class="form-control" placeholder="Quilometragem" name="quilometragem" <%=locals.revisao?'value='+locals.revisao.quilometragem:''%> required>
                     <br>
+                    <label for="especialidade">Especialidade:</label>
+                    <select class="form-control" name="especialidade">
+                        <% locals.especialidades.forEach(function (espec) {
+                            %>
+                            <option value="<%=espec.id%>" <%=locals.revisao && locals.revisao.especialidade_id == espec.id?'selected':''%>><%=espec.nome%></option>
+                            <%
+                        });%>
+                    </select>
+                    <br>
                     <label for="preco">Preço:</label>
                     <input type="number" class="form-control" placeholder="Preço" name="preco" <%=locals.revisao?'value='+locals.revisao.preco:''%> required>
                     <br>

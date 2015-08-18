@@ -106,7 +106,7 @@
 
 		<%
 
-		if (user.permissao > 0) {
+		if (user.permissao > 1) {
 
 
 			%>
@@ -265,6 +265,27 @@
 			            <b><span>Horário:<span></b>
 			            <span id="cadastro-hora"></span>
 
+						<%
+
+						if (user.permissao == 1) {
+
+
+							%>
+
+
+			            <h3>Cliente:</h3>
+
+			            <select name="user_id" id="cadastro-cliente" class="form-control" onchange="getCarrosCliente(this.value)">
+			            </select> <div id="clientes-loading" style="display:none"><img src="img/loading_16x16.gif"></div>
+
+			            <br>
+
+			            	<%
+
+			            }
+
+			            %>
+
 
 			            <h3>Dados do veículo:</h3>
 
@@ -345,7 +366,7 @@
 
 		<%
 
-		if (user.permissao > 0) {
+		if (user.permissao > 1) {
 
 
 			%>
@@ -630,6 +651,7 @@
 									opt = $("<option></option>");
 									opt.val(value.id);
 									opt.attr("preco",value.preco);
+									opt.attr("especialidade",value.especialidade_id);
 									opt.append(value.marca + " " + value.modelo + " - " + value.quilometragem + "km" + " - R$" + value.preco.toFixed(2));
 									$("#os-revisoes").append(opt);
 								});
@@ -833,6 +855,8 @@
 							}
 						});
 
+						$("#os-especialidade").val($("#os-revisoes :selected").attr("especialidade"));
+
 					}
 
 				}
@@ -856,10 +880,15 @@
 					      success: function(data) {
 					        loading.fadeOut(50);
 					        var sugeridaSpan = $('#equipe-sugerida');
-					        sugeridaSpan.html('<b>'+data.nome+'</b>');
-					        sugeridaSpan.append("<br>Mecânicos:");
-					        sugeridaSpan.append("<ul><li>"+data.f1_nome+"</li><li>"+data.f2_nome+"</li></ul>");
-					        var id = data.id;
+					        var id;
+					        if (data == "") {
+					        	sugeridaSpan.html('Nenhuma sugestão disponível.');
+					        } else {
+						        sugeridaSpan.html('<b>'+data.nome+'</b>');
+						        sugeridaSpan.append("<br>Mecânicos:");
+						        sugeridaSpan.append("<ul><li>"+data.f1_nome+"</li><li>"+data.f2_nome+"</li></ul>");
+						        id = data.id;
+					    	}
 					        $.ajax({
 					          type: "GET",
 					          url: "/api/os/equipes",
@@ -942,6 +971,16 @@
 
 				var currentDate;
 
+				<%
+
+				if (user.permissao == 1) {
+
+					%>
+					var clientes;
+					<%
+				}
+				%>
+
 				$('.calendar').supercal({
 					transition: 'carousel-horizontal',
 					clickCallback : function(date) {
@@ -997,6 +1036,15 @@
 							else fillModelos();
 							if (carros == null) getCarros();
 							else fillCarros();
+							<%
+							if (user.permissao == 1) {
+
+								%>
+							if (clientes == null) getClientes();
+							else fillClientes();
+								<%
+							}
+							%>
 							$("#form-horario").val(localISOTime);
 							$("#cadastro-data").html(formatedDate);
 							$("#cadastro-hora").html(hor+":00");
@@ -1105,6 +1153,79 @@
 					}
 
 				}
+
+				<%
+
+				if (user.permissao == 1) {
+
+					%>
+
+				function getClientes() {
+
+					$.ajax({
+						type: "GET",
+						url:"api/cliente/listar",
+						beforeSend: function() {
+							$("#clientes-loading").fadeIn(animTime);
+						},
+						success: function(data) {
+							clientes = data;
+							fillClientes();
+							$("#clientes-loading").fadeOut(animTime);
+						},
+						error: function(err) {
+							alert(err);
+						},
+					});
+
+				}
+
+
+				function fillClientes() {
+
+					$("#cadastro-cliente").html("<option value=''>Selecione cliente</option>");
+
+					$.each(clientes, function(index, value) {
+						opt = $("<option></option>");
+						opt.val(value.id);
+						opt.append(value.nome);
+						$("#cadastro-cliente").append(opt);
+					});
+
+				}
+
+
+				function getCarrosCliente(id) {
+
+					$.ajax({
+						type: "GET",
+						url:"api/automovel/buscarClienteId/"+id,
+						beforeSend: function() {
+							$("#cadastro-placa").val("");
+							$("#cadastro-renavan").val("");
+							$("#cadastro-modelos").val("");
+							$("#cadastro-ano").val("");
+							$("#cadastro-quilometragem").val("");
+							$("#cadastro-detalhe-carro").show();
+							$("#carros-loading").fadeIn(animTime);
+						},
+						success: function(data) {
+							carros = data;
+							fillCarros();
+							$("#carros-loading").fadeOut(animTime);
+						},
+						error: function(err) {
+							alert(err);
+						},
+					});
+
+				}
+
+					<%
+
+				}
+
+				%>
 
 
 			</script>

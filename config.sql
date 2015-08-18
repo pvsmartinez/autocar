@@ -11,7 +11,7 @@ CREATE TABLE ordem_de_servico(id int(11) auto_increment, equipe_id int(11), auto
 CREATE TABLE os_x_peca(os_id int(11), peca_id int(11), quantidade int(11), primary key (os_id, peca_id));
 CREATE TABLE os_x_tipo_de_servico(os_id int(11), tipo_id int(11), primary key (os_id, tipo_id));
 CREATE TABLE peca(id int(11) auto_increment, valor decimal(6,2), nome varchar(100), quantidade_em_estoque int(10) default 0, primary key (id));
-CREATE TABLE revisao(id int(11) auto_increment, preco decimal(10,2), modelo_id int(11) not null, quilometragem int(10) default 0, primary key (id));
+CREATE TABLE revisao(id int(11) auto_increment, preco decimal(10,2), modelo_id int(11) not null, quilometragem int(10) default 0, especialidade_id int(11) not null, primary key (id));
 CREATE TABLE revisao_x_peca(revisao_id int(11), peca_id int(11), quantidade int(5) default 1, primary key (revisao_id, peca_id));
 CREATE TABLE revisao_x_tipo_de_servico(revisao_id int(11), tipo_id int(11), primary key (revisao_id, tipo_id));
 CREATE TABLE teste(id int (11), client_id int (11), primary key (id));
@@ -23,7 +23,7 @@ ALTER TABLE equipe ADD INDEX (especialidade_id) ,ADD FOREIGN KEY (especialidade_
 ALTER TABLE ordem_de_servico ADD INDEX (equipe_id) ,ADD FOREIGN KEY (equipe_id) REFERENCES equipe(id) ON DELETE CASCADE,ADD INDEX (automovel_id) ,ADD FOREIGN KEY (automovel_id) REFERENCES automovel(id) ON DELETE CASCADE,ADD INDEX (atendimento_id) ,ADD FOREIGN KEY (atendimento_id) REFERENCES atendimento(id) ON DELETE CASCADE,ADD INDEX (revisao_id) ,ADD FOREIGN KEY (revisao_id) REFERENCES revisao(id) ON DELETE CASCADE,ADD INDEX (especialidade_id) ,ADD FOREIGN KEY (especialidade_id) REFERENCES especialidade(id) ON DELETE CASCADE;
 ALTER TABLE os_x_peca ADD INDEX (os_id) ,ADD FOREIGN KEY (os_id) REFERENCES ordem_de_servico(id) ON DELETE CASCADE,ADD INDEX (peca_id) ,ADD FOREIGN KEY (peca_id) REFERENCES peca(id) ON DELETE CASCADE;
 ALTER TABLE os_x_tipo_de_servico ADD INDEX (os_id) ,ADD FOREIGN KEY (os_id) REFERENCES ordem_de_servico(id) ON DELETE CASCADE,ADD INDEX (tipo_id) ,ADD FOREIGN KEY (tipo_id) REFERENCES tipo_de_servico(id) ON DELETE CASCADE;
-ALTER TABLE revisao ADD INDEX (modelo_id) ,ADD FOREIGN KEY (modelo_id) REFERENCES modelo_carro(id) ON DELETE CASCADE;
+ALTER TABLE revisao ADD INDEX (modelo_id) ,ADD FOREIGN KEY (modelo_id) REFERENCES modelo_carro(id) ON DELETE CASCADE,ADD INDEX (especialidade_id) ,ADD FOREIGN KEY (especialidade_id) REFERENCES especialidade(id) ON DELETE CASCADE;
 ALTER TABLE revisao_x_peca ADD INDEX (revisao_id) ,ADD FOREIGN KEY (revisao_id) REFERENCES revisao(id) ON DELETE CASCADE,ADD INDEX (peca_id) ,ADD FOREIGN KEY (peca_id) REFERENCES peca(id) ON DELETE CASCADE;
 ALTER TABLE revisao_x_tipo_de_servico ADD INDEX (revisao_id) ,ADD FOREIGN KEY (revisao_id) REFERENCES revisao(id) ON DELETE CASCADE,ADD INDEX (tipo_id) ,ADD FOREIGN KEY (tipo_id) REFERENCES tipo_de_servico(id) ON DELETE CASCADE;
 ALTER TABLE usuario ADD INDEX (especialidade_id) ,ADD FOREIGN KEY (especialidade_id) REFERENCES especialidade(id) ON DELETE CASCADE;

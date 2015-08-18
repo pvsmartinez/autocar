@@ -20,7 +20,12 @@ function map() {
                 console.log(err);
             }
             global.db.query(global.services.peca.listAll(), function (err, rows_pecas) {
-                res.render('cadastroRevisao', {locals:{carros: rows_carros, pecas: rows_pecas}});
+                if (err) {
+                    console.log(err);
+                }
+                global.db.query(global.services.especialidade.listAll(), function (err, rows_espec) {
+                    res.render('cadastroRevisao', {locals:{carros: rows_carros, pecas: rows_pecas, especialidades:rows_espec}});
+                });
             });
         });
     });
@@ -28,7 +33,7 @@ function map() {
     global.app.post('/cadastroRevisao', global.checkAuth([4]), function(req, res) {
          post = req.body;
          global.db.beginTransaction(function (err) {
-            global.db.query(global.services.revisao.cadastro(post.modelo, post.quilometragem, post.preco), function (err, sqlres) {
+            global.db.query(global.services.revisao.cadastro(post.modelo, post.quilometragem, post.especialidade, post.preco), function (err, sqlres) {
             if (err) {
                 console.log(err);
                 global.db.rollback();
@@ -97,7 +102,12 @@ function map() {
                                 console.log(err);
                             }
                             global.db.query(global.services.peca.listAll(), function (err, rows_pecas) {
-                                res.render('cadastroRevisao',{locals: {revisao: revisao, query : req.query, pecas: rows_pecas, carros: rows_carros}});
+                                if (err) {
+                                    console.log(err);
+                                }
+                                global.db.query(global.services.especialidade.listAll(), function (err, rows_espec) {
+                                    res.render('cadastroRevisao',{locals: {revisao: revisao, query : req.query, pecas: rows_pecas, carros: rows_carros, especialidades:rows_espec}});
+                                });
                             });
                         });
 
@@ -127,7 +137,7 @@ function map() {
                             global.db.rollback();
                             res.redirect('/editarRevisao?id='+req.body.id+'&err='+err.errno);
                         } else {
-                            global.db.query(global.services.revisao.update(post.id, post.modelo, post.preco, post.quilometragem), function (err, rows) {
+                            global.db.query(global.services.revisao.update(post.id, post.modelo, post.preco, post.quilometragem, post.especialidade), function (err, rows) {
                                 if (err) {
                                     console.log(err);
                                     global.db.rollback();

@@ -10,7 +10,8 @@ function map() {
 
     global.app.post('/agendamento', global.checkAuth([0, 1, 2, 3, 4]), function(req, res) {
         var post = req.body;
-        global.db.query(global.services.atendimento.insertAutomovel(req.session.user_id, post.placa, post.renavan, post.modelo, post.ano, post.quilometragem), function(err, info) {
+        var user = post.user_id ? post.user_id : req.session.user_id;
+        global.db.query(global.services.atendimento.insertAutomovel(user, post.placa, post.renavan, post.modelo, post.ano, post.quilometragem), function(err, info) {
             global.error(err);
             var carroId = info.insertId ? info.insertId : post.carro;
             global.db.query(global.services.atendimento.insertAtendimento(post.horario, carroId), function(err, rows) {

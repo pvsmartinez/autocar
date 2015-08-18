@@ -66,10 +66,10 @@ insert into peca (valor,nome,quantidade_em_estoque) values ('600','Parachoque','
 insert into peca (valor,nome,quantidade_em_estoque) values ('400','Direção','20');
 insert into peca (valor,nome,quantidade_em_estoque) values ('50','Óleo','300');
 truncate revisao;
-insert into revisao (preco,modelo_id,quilometragem) values ('320','1','5000');
-insert into revisao (preco,modelo_id,quilometragem) values ('500','2','6000');
-insert into revisao (preco,modelo_id,quilometragem) values ('500','3','5000');
-insert into revisao (preco,modelo_id,quilometragem) values ('400','4','4000');
+insert into revisao (preco,modelo_id,quilometragem,especialidade_id) values ('320','1','5000','1');
+insert into revisao (preco,modelo_id,quilometragem,especialidade_id) values ('500','2','6000','1');
+insert into revisao (preco,modelo_id,quilometragem,especialidade_id) values ('500','3','5000','3');
+insert into revisao (preco,modelo_id,quilometragem,especialidade_id) values ('400','4','4000','2');
 truncate revisao_x_peca;
 insert into revisao_x_peca (revisao_id,peca_id,quantidade) values ('1','1','2');
 insert into revisao_x_peca (revisao_id,peca_id,quantidade) values ('1','3','1');

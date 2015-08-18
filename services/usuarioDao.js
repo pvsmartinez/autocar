@@ -10,7 +10,8 @@ module.exports = {
 	editFuncionario : editFuncionario,
 	deleteFuncionario : deleteFuncionario,
 	listMecanicos : listMecanicos,
-	editarPerfilCliente : editarPerfilCliente
+	editarPerfilCliente : editarPerfilCliente,
+	listClientes : listClientes
 }
 
 
@@ -61,6 +62,10 @@ function listMecanicos() {
 
 function editarPerfilCliente(id, nome, email, senha, telefone, endereco) {
 	return "update usuario set nome='"+nome+"', email='"+email+"', senha='"+senha+"', telefone='"+telefone+"', endereco='"+endereco+"' where id="+id+" and permissao = 0";
+}
+
+function listClientes() {
+	return "select id,nome,telefone,email from usuario where permissao = 0";
 }
 
 /*

@@ -17,19 +17,19 @@ function findById(id) {
 }
 
 function listAll() {
-	return "select revisao.*, modelo_carro.marca, modelo_carro.modelo from revisao left join modelo_carro on revisao.modelo_id = modelo_carro.id";
+	return "select revisao.*, modelo_carro.marca, modelo_carro.modelo, especialidade.nome as 'especialidade' from revisao left join modelo_carro on revisao.modelo_id = modelo_carro.id left join especialidade on revisao.especialidade_id = especialidade.id";
 }
 
 function details(id) {
-	return "select revisao.*, modelo_carro.marca, modelo_carro.modelo from revisao left join modelo_carro on revisao.modelo_id = modelo_carro.id where revisao.id = "+id;
+	return "select revisao.*, modelo_carro.marca, modelo_carro.modelo, especialidade.nome as 'especialidade' from revisao left join modelo_carro on revisao.modelo_id = modelo_carro.id left join especialidade on revisao.especialidade_id = especialidade.id where revisao.id = "+id;
 }
 
 function pecasAssociadas(id) {
 	return "select peca.*, rel.quantidade from revisao_x_peca rel left join peca on rel.peca_id = peca.id where rel.revisao_id = "+id;
 }
 
-function cadastro(modelo, quilometragem, preco) {
-	return "insert into revisao (modelo_id, quilometragem, preco) values ("+modelo+", "+quilometragem+", "+preco+")";
+function cadastro(modelo, quilometragem, especialidade, preco) {
+	return "insert into revisao (modelo_id, quilometragem, especialidade_id, preco) values ("+modelo+", "+quilometragem+", "+especialidade+", "+preco+")";
 }
 
 function adicionarPecas(id, pecas, qtds) {
@@ -50,10 +50,10 @@ function excluir (id) {
 	return "delete from revisao where id = "+id;
 }
 
-function update (id, modelo_id, preco, quilometragem) {
-	return "update revisao set modelo_id="+modelo_id+", preco="+preco+", quilometragem="+quilometragem+" where id="+id;
+function update (id, modelo_id, preco, quilometragem, especialidade_id) {
+	return "update revisao set modelo_id="+modelo_id+", preco="+preco+", quilometragem="+quilometragem+", especialidade_id="+especialidade_id+" where id="+id;
 }
 
 function buscar(modelo_id) {
-	return "select revisao.*,modelo_carro.modelo, modelo_carro.marca from revisao inner join modelo_carro on revisao.modelo_id = modelo_carro.id where revisao.modelo_id = "+modelo_id;
+	return "select revisao.*,modelo_carro.modelo, modelo_carro.marca, especialidade.nome as 'especialidade' from revisao inner join modelo_carro on revisao.modelo_id = modelo_carro.id left join especialidade on revisao.especialidade_id = especialidade.id where revisao.modelo_id = "+modelo_id;
 }
