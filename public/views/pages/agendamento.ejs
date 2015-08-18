@@ -167,7 +167,7 @@
 			                	<input type="hidden" name="modelo_id" id="os-modelo_id">
 			                	<input type="hidden" name="pecas" id="os-pecas">
 			                	<input type="hidden" name="duracao" id="os-duracao" value="0">
-			                	<select name="tipo" class="form-control" id="os-tipo" placeholder="tipo" required onchange="showRevisoes()">
+			                	<select name="tipo" class="form-control" id="os-tipo" placeholder="tipo" required="required" onchange="showRevisoes()">
 			                		<option value="">Tipo de OS</option>
 			                    	<option value="1">Revisão periódica</option>
 			                    	<option value="0">Outro</option>
@@ -177,7 +177,7 @@
 			                		<option value="NULL">Selecione revisão</option>
 			                    </select>
 			                	<br>
-			                    <select name="especialidade" class="form-control" id="os-especialidade"  placeholder="Especialidade" required>
+			                    <select name="especialidade" class="form-control" id="os-especialidade"  placeholder="Especialidade" required="required">
 			                    	<option value="">Especialidade</option>
 			                    </select><div id="especialidade-loading" style="display:none"><img src="img/loading_16x16.gif"></div>
 			                    <br>
@@ -218,7 +218,7 @@
 			                		</tr>
 			                	</table>
 			               		<br>
-			               		<textarea class="form-control" style="width:100%; height:100px" name="descricao" placeholder="Descrição" required></textarea>
+			               		<textarea class="form-control" style="width:100%; height:100px" name="descricao" placeholder="Descrição" required="required"></textarea>
 		            	</div>
 				      </div>
 			        <div class="modal-body" id="modal-equipe" style="display:none">

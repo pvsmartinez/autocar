@@ -42,7 +42,7 @@ function map() {
                 console.log(err);
                 res.redirect('/cadastroFuncionario?err=' + err.errno);
             } else if (rows.length !== 0) {
-                res.redirect('/cadastroFuncionario');
+                res.redirect('/listarFuncionarios');
             }
         });
     });
