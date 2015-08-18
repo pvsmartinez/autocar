@@ -70,14 +70,16 @@ function map() {
                             res.render('cadastroFuncionario', {
                                 locals: {
                                     especialidades: rows,
-                                    func: funcs[0]
+                                    func: funcs[0],
+                                    query: req.query
                                 }
                             });
                         } else {
                             res.render('cadastroFuncionario', {
                                 locals: {
                                     especialidades: rows,
-                                    func: funcs[0]
+                                    func: funcs[0],
+                                    query: req.query
                                 },
                                 err: {
                                     errno: req.query.err

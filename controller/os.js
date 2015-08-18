@@ -144,7 +144,8 @@ function map() {
                         }
                     });
                 }
-                global.db.query(global.servicos.equipe.newHour(equipe.id, equipe.proximo_horario, req.body.duracao), function(err, rows) {
+
+                global.db.query(global.services.equipe.newHour(equipe.id, equipe.proximo_horario, req.body.duracao), function(err, rows) {
                     global.error(err);
                 });
             }
